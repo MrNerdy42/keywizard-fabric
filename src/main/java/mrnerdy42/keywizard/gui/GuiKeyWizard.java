@@ -15,20 +15,23 @@ import mrnerdy42.keywizard.util.KeyboardFactory;
 import mrnerdy42.keywizard.util.KeyboardLayout;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
-import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.client.gui.GuiTextField;
-import net.minecraft.client.resources.I18n;
+import net.minecraft.client.gui.widget.*;
+import net.minecraft.client.resource.language.I18n;
+import net.minecraft.client.gui.screen.Screen;
+net.minecraft.client.resource.language.I18n;
 import net.minecraft.client.settings.KeyBinding;
+import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.client.settings.KeyModifier;
+import net.minecraft.text.Text;
 
-public class GuiKeyWizard extends GuiScreen {
+public class GuiKeyWizard extends Screen {
 	
 	private enum SortType implements Comparator<KeyBinding> {
-		NAME { @Override public int compare(KeyBinding arg0, KeyBinding arg1){ return I18n.format(arg0.getKeyDescription()).compareTo(I18n.format(arg1.getKeyDescription())); }},
-		CATEGORY { @Override public int compare(KeyBinding arg0, KeyBinding arg1){ return I18n.format(arg0.getKeyCategory()).compareTo(I18n.format(arg1.getKeyCategory())); }},
-		KEY { @Override public int compare(KeyBinding arg0, KeyBinding arg1){ return I18n.format(arg0.getDisplayName()).compareTo(I18n.format(arg1.getDisplayName())); }};
+		NAME { @Override public int compare(KeyBinding arg0, KeyBinding arg1){ return I18n.translate(arg0.getKeyDescription()).compareTo(I18n.translate(arg1.getKeyDescription())); }},
+		CATEGORY { @Override public int compare(KeyBinding arg0, KeyBinding arg1){ return I18n.translate(arg0.getKeyCategory()).compareTo(I18n.translate(arg1.getKeyCategory())); }},
+		KEY { @Override public int compare(KeyBinding arg0, KeyBinding arg1){ return I18n.translate(arg0.getDisplayName()).compareTo(I18n.translate(arg1.getDisplayName())); }};
 		
 	}
 	
@@ -37,7 +40,7 @@ public class GuiKeyWizard extends GuiScreen {
 	protected GuiKeyboard keyboard;
 	protected SortType sortType = SortType.NAME;
 	
-	private final GuiScreen parentScreen;
+	private final Screen parentScreen;
 	
     private KeyboardLayout[] pages = {KeyWizardConfig.layout, KeyboardLayout.NUMPAD, KeyboardLayout.AUXILIARY};
     private int pageNum = 0;
@@ -52,17 +55,17 @@ public class GuiKeyWizard extends GuiScreen {
 
 
 	private GuiCategorySelector categoryList;
-	private GuiTextField searchBar;
+	private TextFieldWidget searchBar;
 	private GuiBindingList bindingList;
-	private GuiButton buttonPage;
-	private GuiButton buttonReset;
-	private GuiButton buttonClear;
-	private GuiButton buttonDone;
-	private GuiButton buttonActiveModifier;
-	private GuiButton buttonMouse;
-	private GuiButton buttonMousePlus;
-	private GuiButton buttonMouseMinus;
-	private GuiButton buttonSortBy;
+	private ButtonWidget buttonPage;
+	private ButtonWidget buttonReset;
+	private ButtonWidget buttonClear;
+	private ButtonWidget buttonDone;
+	private ButtonWidget buttonActiveModifier;
+	private ButtonWidget buttonMouse;
+	private ButtonWidget buttonMousePlus;
+	private ButtonWidget buttonMouseMinus;
+	private ButtonWidget buttonSortBy;
 
 	
 
@@ -72,7 +75,7 @@ public class GuiKeyWizard extends GuiScreen {
 	}
 
 	@Override
-	public void initGui() {
+	public void init() {
 		
 		int maxBindingLength = 0;
 	
@@ -86,9 +89,8 @@ public class GuiKeyWizard extends GuiScreen {
 		this.bindingList = new GuiBindingList(this, 10, this.height - 30, bindingListWidth, this.height - 40,
 				fontRenderer.FONT_HEIGHT * 3 + 10);
 		
-		this.searchBar = new GuiTextField(0, this.fontRenderer, 10, this.height - 20, bindingListWidth, 14);
-		this.searchBar.setFocused(true);
-		this.searchBar.setCanLoseFocus(false);
+		this.searchBar = new TextFieldWidget(this.textRenderer, 10, this.height - 20, bindingListWidth, 14, Text.of("PLACEHOLDER"));
+		this.searchBar.setTextFieldFocused(true);
 	
 		this.guiStartX = bindingListWidth + 15;
 		this.guiWidth = this.width - this.guiStartX;
@@ -100,7 +102,7 @@ public class GuiKeyWizard extends GuiScreen {
 		
 		int maxCategoryLength = 0;
 		for(String s:categories) {
-			if (I18n.format(s).length() > maxCategoryLength)
+			if (I18n.translate(s).length() > maxCategoryLength)
 				maxCategoryLength = s.length();
 		}
 		
@@ -109,40 +111,40 @@ public class GuiKeyWizard extends GuiScreen {
 		
 		this.keyboard = KeyboardFactory.makeKeyboard(this.pages[this.pageNum], this, this.guiStartX, this.height / 2 - 90, this.guiWidth - 5, this.height);
 		
-		this.buttonPage = new GuiButton(0, this.width - 110, 5, 100, 20, I18n.format("gui.page") + ": " + this.pages[this.pageNum].getDisplayName());
-		this.buttonReset = new GuiButton(0, this.guiStartX, this.height - 40, 75, 20, I18n.format("gui.resetBinding"));
-		this.buttonClear = new GuiButton(0, this.guiStartX + 76, this.height - 40, 75, 20, I18n.format("gui.clearBinding"));
-		this.buttonDone = new GuiButton(0, this.width - 90, this.height - 40, 87, 20, I18n.format("gui.done"));
-		this.buttonActiveModifier = new GuiButton(1, this.guiStartX, this.height - 63, 150, 20,
-				I18n.format("gui.activeModifier")+ ": " + activeModifier.toString());
-		this.buttonMouse = new GuiButton(0, this.guiStartX + 25, this.height - 85, 100, 20, I18n.format("gui.mouse") + ": " + getButtonName(this.mouse) );
-		this.buttonMousePlus = new GuiButton(0, this.guiStartX + 126, this.height - 85, 25, 20, "+");
-	    this.buttonMouseMinus = new GuiButton(0, this.guiStartX, this.height - 85, 25, 20, "-");
-	    //this.buttonSortBy = new GuiButton(0, this.searchBar.x + 10, this.height - 20, 20, 14, "Cat");
+		this.buttonPage = new ButtonWidget(this.width - 110, 5, 100, 20, Text.of(I18n.translate("gui.page") + ": " + this.pages[this.pageNum].getDisplayName()), null);
+		this.buttonReset = new ButtonWidget(this.guiStartX, this.height - 40, 75, 20, Text.of(I18n.translate("gui.resetBinding")), null);
+		this.buttonClear = new ButtonWidget(this.guiStartX + 76, this.height - 40, 75, 20, Text.of(I18n.translate("gui.clearBinding")), null);
+		this.buttonDone = new ButtonWidget(this.width - 90, this.height - 40, 87, 20, Text.of(I18n.translate("gui.done")), null);
+		this.buttonActiveModifier = new ButtonWidget(1, this.guiStartX, this.height - 63, 150, 20,
+				Text.of(I18n.translate("gui.activeModifier")+ ": " + activeModifier.toString()), null);
+		this.buttonMouse = new ButtonWidget(this.guiStartX + 25, this.height - 85, 100, 20, Text.of(I18n.translate("gui.mouse") + ": " + getButtonName(this.mouse)), null);
+		this.buttonMousePlus = new ButtonWidget(this.guiStartX + 126, this.height - 85, 25, 20, Text.of("+"), null);
+	    this.buttonMouseMinus = new ButtonWidget(this.guiStartX, this.height - 85, 25, 20, Text.of("-"), null);
+	    //this.buttonSortBy = new ButtonWidget(0, this.searchBar.x + 10, this.height - 20, 20, 14, "Cat");
 		
 		this.setSelectedKeybind(this.bindingList.getSelectedKeybind());
 		
-	    this.buttonList.add(this.buttonPage);
-		this.buttonList.add(this.buttonReset);
-		this.buttonList.add(this.buttonClear);
-		this.buttonList.add(this.buttonDone);
-		this.buttonList.add(this.buttonActiveModifier);
-		this.buttonList.add(this.buttonMouse);
-		this.buttonList.add(this.buttonMousePlus);
-		this.buttonList.add(this.buttonMouseMinus);
+		this.addButton(this.buttonPage);
+		this.addButton(this.buttonReset);
+		this.addButton(this.buttonClear);
+		this.addButton(this.buttonDone);
+		this.addButton(this.buttonActiveModifier);
+		this.addButton(this.buttonMouse);
+		this.addButton(this.buttonMousePlus);
+		this.addButton(this.buttonMouseMinus);
 		//this.buttonList.add(this.buttonSortBy);
 
 	}
 
 	@Override
-	public void drawScreen(int mouseX, int mouseY, float partialTicks) {
-		this.drawDefaultBackground();
-		super.drawScreen(mouseX, mouseY, partialTicks);
-		this.bindingList.drawScreen(mouseX, mouseY, partialTicks);
-		this.searchBar.drawTextBox();
+	public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
+		this.renderBackground(matrices);
+		super.render(matrices, mouseX, mouseY, delta);
+		this.bindingList.drawScreen(mouseX, mouseY, delta);
+		this.searchBar.render(matrices, mouseX, mouseY, delta);
 		
-		this.keyboard.draw(this.mc, mouseX, mouseY, partialTicks);
-		this.categoryList.drawButton(this.mc, mouseX, mouseY, partialTicks);
+		this.keyboard.draw(this.mc, mouseX, mouseY, delta);
+		this.categoryList.drawButton(this.mc, mouseX, mouseY, delta);
 	}
 
 	@Override
@@ -203,22 +205,22 @@ public class GuiKeyWizard extends GuiScreen {
 	    
 	    switch (KeybindUtils.getNumBindings(-100 + this.mouse, this.activeModifier)) {
 	    case 0:
-	    	this.buttonMouse.displayString = I18n.format("gui.mouse") + ": " + getButtonName(this.mouse);
+	    	this.buttonMouse.displayString = I18n.translate("gui.mouse") + ": " + getButtonName(this.mouse);
 	    	break;
 	    case 1:
-	    	this.buttonMouse.displayString = I18n.format("gui.mouse") + ": " + TextFormatting.GREEN + getButtonName(this.mouse);
+	    	this.buttonMouse.displayString = I18n.translate("gui.mouse") + ": " + TextFormatting.GREEN + getButtonName(this.mouse);
 	    	break;
 	    default:
-	    	this.buttonMouse.displayString = I18n.format("gui.mouse") + ": " + TextFormatting.RED + getButtonName(this.mouse);
+	    	this.buttonMouse.displayString = I18n.translate("gui.mouse") + ": " + TextFormatting.RED + getButtonName(this.mouse);
 	    	break;
 	    }
 	    
-	    this.buttonPage.displayString = I18n.format("gui.page") + ": " + this.pages[this.pageNum].getDisplayName();
+	    this.buttonPage.displayString = I18n.translate("gui.page") + ": " + this.pages[this.pageNum].getDisplayName();
 	    this.bindingList.updateList();
 	}
 
 	@Override
-	protected void actionPerformed(GuiButton button) {
+	protected void actionPerformed(ButtonWidget button) {
 		
 		if (!this.categoryList.getExtended()) {
 			if (button == this.buttonReset) {
@@ -323,7 +325,7 @@ public class GuiKeyWizard extends GuiScreen {
 			this.activeModifier = KeyModifier.NONE;
 		}
 
-		this.buttonActiveModifier.displayString = I18n.format("gui.activeModifier" )+ ": " + activeModifier.toString();
+		this.buttonActiveModifier.displayString = I18n.translate("gui.activeModifier" )+ ": " + activeModifier.toString();
 	}
 	
     public Minecraft getClient() {
