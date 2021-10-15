@@ -14,6 +14,7 @@ import mrnerdy42.keywizard.util.KeybindUtils;
 import mrnerdy42.keywizard.util.KeyboardFactory;
 import mrnerdy42.keywizard.util.KeyboardLayout;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.widget.*;
@@ -42,10 +43,10 @@ public class GuiKeyWizard extends Screen {
 	
 	private final Screen parentScreen;
 	
-    private KeyboardLayout[] pages = {KeyWizardConfig.layout, KeyboardLayout.NUMPAD, KeyboardLayout.AUXILIARY};
+    private KeyboardLayout[] pages = {KeyboardLayout.QWERTY, KeyboardLayout.NUMPAD, KeyboardLayout.AUXILIARY};
     private int pageNum = 0;
 	private int mouse = 0;
-	private int maxMouse = KeyWizardConfig.maxMouseButtons - 1;
+	private int maxMouse = 5;
 	private KeyBinding selectedKeybind;
 	private KeyModifier activeModifier = KeyModifier.NONE;
 	private String selectedCategory = "categories.all";
@@ -69,8 +70,9 @@ public class GuiKeyWizard extends Screen {
 
 	
 
-	public GuiKeyWizard(Minecraft mcIn, GuiScreen parentScreen) {
-		this.mc = mcIn;
+	public GuiKeyWizard(MinecraftClient client, Screen parentScreen, Text title) {
+		super(title);
+		this.client = client;
 		this.parentScreen = parentScreen;
 	}
 
@@ -143,8 +145,8 @@ public class GuiKeyWizard extends Screen {
 		this.bindingList.drawScreen(mouseX, mouseY, delta);
 		this.searchBar.render(matrices, mouseX, mouseY, delta);
 		
-		this.keyboard.draw(this.mc, mouseX, mouseY, delta);
-		this.categoryList.drawButton(this.mc, mouseX, mouseY, delta);
+		this.keyboard.draw(this.client, mouseX, mouseY, delta);
+		this.categoryList.drawButton(this.client, mouseX, mouseY, delta);
 	}
 
 	@Override
@@ -238,9 +240,9 @@ public class GuiKeyWizard extends Screen {
 
 			if (button == this.buttonDone) {
 				if (this.parentScreen != null)
-					this.mc.displayGuiScreen(this.parentScreen);
+					this.client.displayGuiScreen(this.parentScreen);
 				else 
-					this.mc.displayGuiScreen((GuiScreen)null);
+					this.client.displayGuiScreen((GuiScreen)null);
 			}
 
 			if (button == this.buttonActiveModifier) {
@@ -286,8 +288,8 @@ public class GuiKeyWizard extends Screen {
 	public void handleMouseInput() throws IOException {
 		super.handleMouseInput();
 		
-		int mouseX = Mouse.getEventX() * this.width / this.mc.displayWidth;
-		int mouseY = this.height - Mouse.getEventY() * this.height / this.mc.displayHeight - 1;
+		int mouseX = Mouse.getEventX() * this.width / this.client.displayWidth;
+		int mouseY = this.height - Mouse.getEventY() * this.height / this.client.displayHeight - 1;
 		
 		this.bindingList.handleMouseInput(mouseX, mouseY);
 		this.categoryList.handleMouseInput(mouseX, mouseY);
@@ -302,7 +304,7 @@ public class GuiKeyWizard extends Screen {
 	        this.searchBar.setText("");
 	        System.out.println("hi");
 	    */    
-	    this.categoryList.mouseClicked(this.mc, x, y, button);
+	    this.categoryList.mouseClicked(this.client, x, y, button);
 	    this.keyboard.mouseClicked(mc, x, y, button);
 	}
 
@@ -329,7 +331,7 @@ public class GuiKeyWizard extends Screen {
 	}
 	
     public Minecraft getClient() {
-		return this.mc;
+		return this.client;
 	}
 
 	public FontRenderer getFontRenderer() {
