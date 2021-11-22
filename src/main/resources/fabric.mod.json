@@ -1,0 +1,38 @@
+{
+  "schemaVersion": 1,
+  "id": "keywizard",
+  "version": "${version}",
+
+  "name": "Keyboard Wizard",
+  "description": "Keyboard Wizard is simple that makes finding and fixing key bind conflicts a lot easier",
+  "authors": [
+    "MrNerdy42"
+  ],
+  "contact": {
+    "homepage": "https://www.curseforge.com/minecraft/mc-mods/keyboard-wizard",
+    "sources": "https://github.com/MrNerdy42/keywizard-fabric"
+  },
+
+  "license": "CC0-1.0",
+  "icon": "assets/modid/icon.png",
+
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "net.fabricmc.example.KeyWizard"
+    ]
+  },
+  "mixins": [
+    "keywizard.mixins.json"
+  ],
+
+  "depends": {
+    "fabricloader": ">=0.11.3",
+    "fabric": "*",
+    "minecraft": "1.16.x",
+    "java": ">=16"
+  },
+  "suggests": {
+    "another-mod": "*"
+  }
+}

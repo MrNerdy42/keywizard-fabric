@@ -46,7 +46,7 @@ public class GuiKeyWizard extends Screen {
     private KeyboardLayout[] pages = {KeyboardLayout.QWERTY, KeyboardLayout.NUMPAD, KeyboardLayout.AUXILIARY};
     private int pageNum = 0;
 	private int mouse = 0;
-	private int maxMouse = 5;
+	private int maxMouse = 5-;
 	private KeyBinding selectedKeybind;
 	private KeyModifier activeModifier = KeyModifier.NONE;
 	private String selectedCategory = "categories.all";
@@ -308,11 +308,11 @@ public class GuiKeyWizard extends Screen {
 	    this.keyboard.mouseClicked(mc, x, y, button);
 	}
 
-	@Override
+	/*@Override
 	protected void keyTyped(char c, int keyCode) throws IOException {
-	    super.keyTyped(c, keyCode);
-	    this.searchBar.textboxKeyTyped(c, keyCode);
-	}
+	    super.charTyped(c, keyCode);
+	    this.searchBar.charTyped(c, keyCode)
+	}*/
 
 	/** Change the active modifier */
 	private void changeActiveModifier() {
