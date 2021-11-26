@@ -19,7 +19,7 @@
   "environment": "*",
   "entrypoints": {
     "main": [
-      "net.fabricmc.example.KeyWizard"
+      "mrnerdy42.keywizard.KeyWizard"
     ]
   },
   "mixins": [

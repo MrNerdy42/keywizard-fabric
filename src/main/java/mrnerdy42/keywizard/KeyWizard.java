@@ -8,13 +8,14 @@ import net.fabricmc.api.ClientModInitializer;
 
 public class KeyWizard implements ClientModInitializer {
 	
-	public static final String MODID = "keywizard-fabric";
+	public static final String MODID = "keywizard";
 	
 	public static final Logger LOGGER = LogManager.getLogger(MODID);
-	
+
 	@Override
 	public void onInitializeClient() {
 		LOGGER.log(Level.DEBUG, MODID);
 		
 	}
+	
 }
