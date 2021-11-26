@@ -3,12 +3,15 @@ package mrnerdy42.keywizard;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.lwjgl.glfw.GLFW;
 
+import mrnerdy42.keywizard.gui.KeyWizardScreen;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.util.InputUtil;
+import net.minecraft.text.Text;
 
 public class KeyWizard implements ClientModInitializer {
 	
@@ -22,11 +25,11 @@ public class KeyWizard implements ClientModInitializer {
 		LOGGER.log(Level.DEBUG, MODID);
 		
 		keyOpenKeyWizard = KeyBindingHelper.registerKeyBinding(new KeyBinding("key." + MODID + ".openKeyWizard", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_F7, "category." + MODID + ".bindings"));
-		ClientTickEvents.register(client -> {
-			client.player.sendMessage(new LiteralText("Key 1 was pressed!"), false);
-		});
-	}
-	
-	
-	
+		ClientTickEvents.END_CLIENT_TICK.register(client -> {
+		        while (keyOpenKeyWizard.wasPressed()) {
+		    	    client.openScreen(new KeyWizardScreen(client.currentScreen, client.options, Text.of(MODID)));
+		        }
+			});
+		}
+
 }
