@@ -1,7 +1,7 @@
 {
   "required": true,
   "minVersion": "0.8",
-  "package": "",
+  "package": "mrnerdy42.keywizard.mixin",
   "compatibilityLevel": "JAVA_16",
   "mixins": [
   ],
