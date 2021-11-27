@@ -2,124 +2,53 @@ package mrnerdy42.keywizard.gui;
 
 import java.util.HashMap;
 
+import mrnerdy42.keywizard.gui.KeyWizardScreen;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.widget.ClickableWidget;
+import net.minecraft.client.gui.widget.PressableWidget;
+import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.Text;
 
 public class KeyboardWidget extends ClickableWidget{
 
-	public KeyWizardScreen parent;
-	
-	protected HashMap<Integer, GuiKeyboardKey> keyList = new HashMap<>();
-	
-	private double scaleFactor;
-
 	public KeyboardWidget(int x, int y, int width, int height, Text message) {
 		super(x, y, width, height, message);
+		// TODO Auto-generated constructor stub
 	}
 
-	public void draw(Minecraft mc, int mouseX, int mouseY, float partialTicks) {  
-		for(GuiKeyboardKey k:this.keyList.values()) {
-			k.drawKey(mc, mouseX, mouseY, partialTicks);
-		}
-		for(GuiKeyboardKey k:this.keyList.values()) {
-			if(k.hovered && !parent.getCategoryListExtended()) {
-			    net.minecraftforge.fml.client.config.GuiUtils.drawHoveringText(KeybindUtils.getBindingNamesAndCategories(k.keyCode, this.parent.getActiveModifier()), mouseX, mouseY, this.parent.width, this.parent.height, -1, this.parent.getFontRenderer());
-			    GlStateManager.disableLighting();
-	            GlStateManager.disableDepth();
-			}
-		}
-	}
+	public KeyWizardScreen parent;
 	
-	public void mouseClicked(Minecraft mc, int mouseX, int mouseY, int button) {
-		for(GuiKeyboardKey k:this.keyList.values()) {
-			k.mouseClicked(mc, mouseX, mouseY, button);
-		}
-	}
-
-	public void addKey(double xIn, double yIn, double width, double height, int keyCode) {
-		this.keyList.put(new Integer(keyCode), new GuiKeyboardKey(this, xIn, yIn, width, height, keyCode));
-	}
+	protected HashMap<Integer, KeyboardKeyWidget> keyList = new HashMap<>();
 	
-	public void disableKey(int keyCode) {
-		if (this.HasKey(keyCode))
-			this.keyList.get(keyCode).enabled = false;
-	}
+	private double scaleFactor;
 	
-	public void enableKey(int keyCode) {
-		if (this.HasKey(keyCode)) 
-		    this.keyList.get(keyCode).enabled = true;
-	}
-	
-	/**
-	 * Returns the width of the keyboard. Currently unused.
-	 * @return the width of the keyboard
-	 */
-	public double width() {
-		double width = 0;
-		for(GuiKeyboardKey k:this.keyList.values()) {
-			if (k.absX() + k.width > width) {
-				width = k.absX() + k.width;
-			}
-		}
-		return width;
-	}
-	
-	public double getScaleFactor () {
-		return this.scaleFactor;
-	}
-	
-	public void setScaleFactor(double scaleFactor) {
-		this.scaleFactor = scaleFactor;
-		for(GuiKeyboardKey k:this.keyList.values()) {
-			k.width = k.width*scaleFactor;
-			k.height = k.height*scaleFactor;
-			k.x = k.x*scaleFactor;
-			k.y = k.y*scaleFactor;
-		}
-	}
-	
-	public void setZLevel(float zLevel) {
-		this.zLevel = zLevel;
-		for(GuiKeyboardKey k:this.keyList.values()) {
-			k.zLevel = this.zLevel;
-		}
-	}
-	
-	public boolean HasKey(int keyCode) {
-		return this.keyList.containsKey(keyCode);
-	}
-
-	private class GuiKeyboardKey extends FloatGui{
-		public KeyboardWidget keyboard;
-		public double x;
-		public double y;
-		public double width;
-		public double height;
-		public boolean enabled = true;
-
+	private class KeyboardKeyWidget extends PressableWidget{
+		
 		public int keyCode;
 		public String displayString;
 
 		protected boolean hovered;
 		
-
-		public GuiKeyboardKey(KeyboardWidget keyboard, double x, double y, double width, double height, int keyCode) {
+		private KeyboardWidget keyboard;
+		
+		public KeyboardKeyWidget(int x, int y, int width, int height, KeyboardWidget keyboard) {
+			super(x, y, width, height, Text.of(""));
 			this.keyboard = keyboard;
-			this.x = x;
-			this.y = y;
-			this.width = width;
-			this.height = height;
-			this.keyCode = keyCode;
-			this.displayString = KeyHelper.translateKey(this.keyCode);
 		}
+		
+		@Override
+		public void renderButton(MatrixStack matrices, int mouseX, int mouseY, float delta) {
+			
+		}
+		
 
 		public void drawKey(Minecraft mc, double mouseX, double mouseY, float partialTicks) {
 			this.hovered = mouseX >= this.absX() && mouseY >= this.absY() && mouseX < this.absX() + this.width && mouseY < this.absY() + this.height;
-			int modifiedBindings = KeybindUtils.getNumBindings(this.keyCode, parent.getActiveModifier());
-			//int unmodifiedBindings = KeybindUtils.getNumBindings(this.keyCode, KeyModifier.NONE);
+			int modifiedBindings = 0;
+			int unmodifiedBindings = 0;
 			int color = 0;
-			if (this.enabled) {
-				if (this.hovered && !parent.getCategoryListExtended()) {
+			if (this.active) {
+				if (this.hovered) {
 					color = 0xFFAAAAAA;
 					if(modifiedBindings == 1) {
 						color = 0xFF00AA00;
@@ -137,30 +66,33 @@ public class KeyboardWidget extends ClickableWidget{
 			} else {
 				color = 0xFF555555;
 			}
+			
+			this.draw
 
 			drawNoFillRect(this.absX(), this.absY(), this.absX() + this.width, this.absY() + this.height, color);
 			drawCenteredString(this.keyboard.parent.getFontRenderer(), this.displayString, (float)(this.absX()+(this.width+2)/2.0F), (float)(this.absY()+(this.height-6)/2.0F), color & 0x00FFFFFF);
 		}
-		
-		public void mouseClicked(Minecraft mc, int mouseX, int mouseY, int button) {
-			if(this.hovered && this.enabled && !parent.getCategoryListExtended() && button == 0) {
-				mc.getSoundHandler().playSound(PositionedSoundRecord.getMasterRecord(SoundEvents.UI_BUTTON_CLICK, 1.0F));
-				if (GuiScreen.isShiftKeyDown()) {
-					parent.setSearchText("@"+getKeyName(this.keyCode));
-				} else {
-					parent.getSelectedKeybind().setKeyModifierAndCode(parent.getActiveModifier(), this.keyCode);
-					mc.gameSettings.setOptionKeyBinding(parent.getSelectedKeybind(), this.keyCode);
-					KeyBinding.resetKeyBindingArrayAndHash();
-				}
+
+		@Override
+		public void onPress() {
+			if(this.isHovered() && this.active) {
+				this.playDownSound(MinecraftClient.getInstance().getSoundManager());
 			}
 		}
 		
+		protected void drawNoFillRect(double left, double top, double right, double bottom, int color) {
+			drawHorizontalLine(left, right, top, color);
+			drawHorizontalLine(left, right, bottom, color);
+			drawVerticalLine(left, top, bottom, color);
+			drawVerticalLine(right, top, bottom, color);
+		}
+		
 		public double absX() {
-			return this.keyboard.anchorX + this.x;
+			return this.keyboard.x + this.x;
 		}
 		public double absY() {
-			return this.keyboard.anchorY + this.y;
+			return this.keyboard.y + this.y;
 		}
 	}
-	
+
 }
