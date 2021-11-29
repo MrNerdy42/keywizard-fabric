@@ -24,13 +24,12 @@ public class KeyboardWidget extends AbstractParentElement{
 	public int y;
 	
 	public KeyboardWidget(int x, int y, int width, int height) {
-		this.keyList.put(0, new KeyboardKeyWidget(this.x, this.y, 20, 20, this));
 		this.x = x;
 		this.y = y;
+		this.keyList.put(0, new KeyboardKeyWidget(this.x, this.y, 20, 20, this));
 	}
 	
 	public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
-		System.out.println(this.x);
 		for (KeyboardKeyWidget k : keyList.values()) {
 			k.render(matrices, mouseX, mouseY, delta);
 		}
@@ -81,16 +80,14 @@ public class KeyboardWidget extends AbstractParentElement{
 			} else {
 				color = 0xFF555555;
 			}
-			System.out.println(this.x);
 			drawNoFillRect(matrices, this.x, this.y, this.x + this.width, this.y + this.height, color);
-			//draw(matrices, getMessage(), (float)(this.x+(this.width+2)/2.0F), (float)(this.y+(this.height-6)/2.0F), color);
-			DrawableHelper.drawCenteredText(matrices, MinecraftClient.getInstance().textRenderer, "F", this.x, this.y, 0xFFFFFFFF);
-			//drawCenteredString(this.keyboard.parent.getFontRenderer(), this.displayString, (float)(this.absX()+(this.width+2)/2.0F), (float)(this.absY()+(this.height-6)/2.0F), color & 0x00FFFFFF);
-		}
+			DrawableHelper.drawCenteredText(matrices, MinecraftClient.getInstance().textRenderer, "F", this.x + (this.width + 2)/2, this.y + (this.height-6)/2, color);		
+        }
 
 		@Override
 		public void onPress() {
-			if(this.isHovered() && this.active) {
+			System.out.println("press!");
+			if(this.hovered && this.active) {
 				this.playDownSound(MinecraftClient.getInstance().getSoundManager());
 			}
 		}
