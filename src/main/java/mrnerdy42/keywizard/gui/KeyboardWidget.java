@@ -1,11 +1,13 @@
 package mrnerdy42.keywizard.gui;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 
 import mrnerdy42.keywizard.gui.KeyWizardScreen;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.AbstractParentElement;
+import net.minecraft.client.gui.Drawable;
 import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.gui.Element;
 import net.minecraft.client.gui.widget.ClickableWidget;
@@ -13,7 +15,7 @@ import net.minecraft.client.gui.widget.PressableWidget;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.Text;
 
-public class KeyboardWidget extends AbstractParentElement{
+public class KeyboardWidget extends AbstractParentElement implements Drawable{
 	public KeyWizardScreen parent;
 	
 	protected HashMap<Integer, KeyboardKeyWidget> keyList = new HashMap<>();
@@ -29,6 +31,7 @@ public class KeyboardWidget extends AbstractParentElement{
 		this.keyList.put(0, new KeyboardKeyWidget(this.x, this.y, 20, 20, this));
 	}
 	
+	@Override
 	public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
 		for (KeyboardKeyWidget k : keyList.values()) {
 			k.render(matrices, mouseX, mouseY, delta);
@@ -36,8 +39,21 @@ public class KeyboardWidget extends AbstractParentElement{
 	}
 	
 	@Override
+	public boolean mouseClicked(double mouseX, double mouseY, int button) {
+		for (Element e : this.children()) {
+			if ( ((KeyboardKeyWidget) e).mouseClicked(mouseX, mouseY, button) ) {
+				return true;
+			}
+		}
+		
+		return false;
+	}
+	
+	//TODO: Add mouseClicked handler :) The parent element interface is casting children to (element) which screws up this guy
+	
+	@Override
 	public List<? extends Element> children() {
-		return (List<? extends Element>) List.of(this.keyList.values());
+		return List.of(this.keyList.values());
 	}
 	
 	private class KeyboardKeyWidget extends PressableWidget implements Element{
@@ -50,7 +66,7 @@ public class KeyboardWidget extends AbstractParentElement{
 		private KeyboardWidget keyboard;
 		
 		public KeyboardKeyWidget(int x, int y, int width, int height, KeyboardWidget keyboard) {
-			super(x, y, width, height, Text.of("F")); // super might not be setting x and y
+			super(x, y, width, height, Text.of("F"));
 			this.keyboard = keyboard;
 			this.visible = true;
 		}

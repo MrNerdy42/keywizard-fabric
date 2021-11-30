@@ -23,6 +23,12 @@ public class KeyWizardScreen extends GameOptionsScreen{
 		this.addChild(keyboard);
 	}
 	
+	@Override
+	public boolean mouseClicked(double mouseX, double mouseY, int button) {
+		return this.keyboard.mouseClicked(mouseX, mouseY, button);
+	}
+	
+	@Override
 	public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
 		this.renderBackground(matrices);
 		this.keyboard.render(matrices, mouseX, mouseY, delta);
