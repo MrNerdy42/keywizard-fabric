@@ -1,6 +1,8 @@
 package mrnerdy42.keywizard.gui;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -16,25 +18,24 @@ import net.minecraft.client.gui.widget.PressableWidget;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.Text;
 
-public class KeyboardWidget extends AbstractParentElement implements Drawable{
-	public KeyWizardScreen parent;
-	
-	protected HashMap<Integer[], KeyboardKeyWidget> keyList = new HashMap<>();
-	
-	private double scaleFactor;
-
+public class KeyboardWidget extends AbstractParentElement implements Drawable {
 	public int x;
 	public int y;
+	public KeyWizardScreen parent;
 	
-	public KeyboardWidget(int x, int y, int width, int height) {
+	private ArrayList<ArrayList<KeyboardKeyWidget>> rows = new ArrayList<>();
+	private double scaleFactor;
+	
+	public KeyboardWidget(int x, int y) {
 		this.x = x;
 		this.y = y;
-		this.keyList.put(0, new KeyboardKeyWidget(this.x, this.y, 20, 20, this));
+		this.addRow();
+		this.addKey(x, 0, 20, 20);
 	}
 	
 	@Override
 	public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
-		for (KeyboardKeyWidget k : keyList.values()) {
+		for (KeyboardKeyWidget k : this.children()) {
 			k.render(matrices, mouseX, mouseY, delta);
 		}
 	}
@@ -49,18 +50,20 @@ public class KeyboardWidget extends AbstractParentElement implements Drawable{
 		return false;
 	}
 	
-	protected void addChild(KeyboardKeyWidget child) {
-		//this.children.add(child);
-		return child;
-	}
-
-	
 	@Override
-	public List<KeyboardKeyWidget> children() {
-		return new ArrayList<KeyboardKeyWidget>();
+	public List<? extends KeyboardKeyWidget> children() {
+		return this.rows.stream().flatMap(ArrayList::stream).toList();
 	}
 	
-	private class KeyboardKeyWidget extends PressableWidget implements Element{
+	public void addKey(int x, int row, int width, int height) throws IndexOutOfBoundsException {
+		this.rows.get(row).add(new KeyboardKeyWidget(x, 0, width, height, this));
+	}
+	
+	protected void addRow() {
+		this.rows.add(new ArrayList<KeyboardKeyWidget>());
+	}
+	
+	protected class KeyboardKeyWidget extends PressableWidget implements Element{
 		
 		public int keyCode;
 		//public String displayString;
@@ -77,12 +80,12 @@ public class KeyboardWidget extends AbstractParentElement implements Drawable{
 		
 		@Override
 		public void renderButton(MatrixStack matrices, int mouseX, int mouseY, float delta) {
-			this.hovered = mouseX >= this.x && mouseY >= this.y && mouseX < this.x + this.width && mouseY < this.y + this.height;
+			//this.hovered = mouseX >= this.x && mouseY >= this.y && mouseX < this.x + this.width && mouseY < this.y + this.height;
 			int modifiedBindings = 0;
 			int unmodifiedBindings = 0;
 			int color = 0;
 			if (this.active) {
-				if (this.hovered) {
+				if (this.isHovered()) {
 					color = 0xFFAAAAAA;
 					if(modifiedBindings == 1) {
 						color = 0xFF00AA00;
@@ -106,10 +109,8 @@ public class KeyboardWidget extends AbstractParentElement implements Drawable{
 
 		@Override
 		public void onPress() {
-			System.out.println("press!");
-			if(this.hovered && this.active) {
-				this.playDownSound(MinecraftClient.getInstance().getSoundManager());
-			}
+			System.out.println("test!");
+			this.playDownSound(MinecraftClient.getInstance().getSoundManager());
 		}
 		
 		protected void drawNoFillRect(MatrixStack matrices, int left, int top, int right, int bottom, int color) {

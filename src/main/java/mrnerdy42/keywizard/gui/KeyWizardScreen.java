@@ -19,7 +19,7 @@ public class KeyWizardScreen extends GameOptionsScreen{
 
 	public KeyWizardScreen(Screen parent, GameOptions gameOptions, Text title) {
 		super(parent, gameOptions, title);
-		this.keyboard = new KeyboardWidget(100, 100, 100, 100);
+		this.keyboard = new KeyboardWidget(100, 100);
 		this.addChild(keyboard);
 	}
 	
