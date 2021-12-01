@@ -1,5 +1,6 @@
 package mrnerdy42.keywizard.gui;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -18,7 +19,7 @@ import net.minecraft.text.Text;
 public class KeyboardWidget extends AbstractParentElement implements Drawable{
 	public KeyWizardScreen parent;
 	
-	protected HashMap<Integer, KeyboardKeyWidget> keyList = new HashMap<>();
+	protected HashMap<Integer[], KeyboardKeyWidget> keyList = new HashMap<>();
 	
 	private double scaleFactor;
 
@@ -40,20 +41,23 @@ public class KeyboardWidget extends AbstractParentElement implements Drawable{
 	
 	@Override
 	public boolean mouseClicked(double mouseX, double mouseY, int button) {
-		for (Element e : this.children()) {
-			if ( ((KeyboardKeyWidget) e).mouseClicked(mouseX, mouseY, button) ) {
+		for (KeyboardKeyWidget e : this.children()) {
+			if ( e.mouseClicked(mouseX, mouseY, button) ) {
 				return true;
 			}
 		}
-		
 		return false;
 	}
 	
-	//TODO: Add mouseClicked handler :) The parent element interface is casting children to (element) which screws up this guy
+	protected void addChild(KeyboardKeyWidget child) {
+		//this.children.add(child);
+		return child;
+	}
+
 	
 	@Override
-	public List<? extends Element> children() {
-		return List.of(this.keyList.values());
+	public List<KeyboardKeyWidget> children() {
+		return new ArrayList<KeyboardKeyWidget>();
 	}
 	
 	private class KeyboardKeyWidget extends PressableWidget implements Element{
