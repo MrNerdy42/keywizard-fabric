@@ -23,7 +23,7 @@ public class KeyboardWidget extends AbstractParentElement implements Drawable {
 	public int y;
 	public KeyWizardScreen parent;
 	
-	private ArrayList<ArrayList<KeyboardKeyWidget>> rows = new ArrayList<>();
+	private ArrayList<KeyboardRow> rows = new ArrayList<>();
 	private double scaleFactor;
 	
 	public KeyboardWidget(int x, int y) {
@@ -52,27 +52,31 @@ public class KeyboardWidget extends AbstractParentElement implements Drawable {
 	
 	@Override
 	public List<? extends KeyboardKeyWidget> children() {
-		return this.rows.stream().flatMap(ArrayList::stream).toList();
+		return this.rows.stream().flatMap(r -> r.keys.stream()).toList();
 	}
 	
-	public void addKey(int x, int row, int width, int height) throws IndexOutOfBoundsException {
-		this.rows.get(row).add(new KeyboardKeyWidget(x, 0, width, height, this));
+	public void addKey(int row, int width, int height) throws IndexOutOfBoundsException {
+		this.rows.get(row).keys.add(new KeyboardKeyWidget(x, 0, width, height, this));
+	}
+	
+	public void addKeyWithHeight(int row, int width, int height) throws IndexOutOfBoundsException {
+		this.rows.get(row).keys.add(new KeyboardKeyWidget(x, 0, width, height, this));
 	}
 	
 	protected void addRow() {
 		this.rows.add(new ArrayList<KeyboardKeyWidget>());
 	}
 	
-	protected class KeyboardKeyWidget extends PressableWidget implements Element{
+	public class KeyboardKeyWidget extends PressableWidget implements Element{
 		
-		public int keyCode;
+		private int keyCode;
 		//public String displayString;
 
 		//protected boolean hovered;
 		
 		private KeyboardWidget keyboard;
 		
-		public KeyboardKeyWidget(int x, int y, int width, int height, KeyboardWidget keyboard) {
+		protected KeyboardKeyWidget(KeyboardWidget keyboard, int x, int y, int width, int height) {
 			super(x, y, width, height, Text.of("F"));
 			this.keyboard = keyboard;
 			this.visible = true;
@@ -118,6 +122,33 @@ public class KeyboardWidget extends AbstractParentElement implements Drawable {
 			drawHorizontalLine(matrices, left, right, bottom, color);
 			drawVerticalLine(matrices, left, top, bottom, color);
 			drawVerticalLine(matrices, right, top, bottom, color);
+		}
+	}
+	
+	public class KeyboardRow {
+		private KeyboardWidget keyboard;
+		private ArrayList<KeyboardKeyWidget> keys = new ArrayList<>();
+		private int height;
+		
+		protected KeyboardRow(KeyboardWidget keyboard, int height) {
+			this.keyboard = keyboard;
+			this.height = height;
+		}
+		
+		protected void addKey(int x, int row, int width) {
+			
+		}
+		
+		protected void addKeyWithHeight(int x, int row, int width, int height) {
+			this.keys.add(new KeyboardKeyWidget(this.keyboard, 0, 0, width, height));
+		}
+		
+		public int getHeight() {
+			return this.height;
+		}
+		
+		public int getWidth() {
+			return 0;
 		}
 	}
 
