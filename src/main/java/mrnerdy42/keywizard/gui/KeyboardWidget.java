@@ -25,12 +25,16 @@ public class KeyboardWidget extends AbstractParentElement implements Drawable {
 	
 	private ArrayList<KeyboardRow> rows = new ArrayList<>();
 	private double scaleFactor;
+	private int keySpacing = 5;
+	private int currentY;
 	
 	public KeyboardWidget(int x, int y) {
 		this.x = x;
 		this.y = y;
-		this.addRow();
-		this.addKey(x, 0, 20, 20);
+		this.currentY = y;
+		this.addRow(20);
+		this.rows.get(0).addKey(20);
+		this.rows.get(0).addKey(20);
 	}
 	
 	@Override
@@ -54,17 +58,20 @@ public class KeyboardWidget extends AbstractParentElement implements Drawable {
 	public List<? extends KeyboardKeyWidget> children() {
 		return this.rows.stream().flatMap(r -> r.keys.stream()).toList();
 	}
-	
-	public void addKey(int row, int width, int height) throws IndexOutOfBoundsException {
-		this.rows.get(row).keys.add(new KeyboardKeyWidget(x, 0, width, height, this));
+
+	/*
+	public void addKey(int row, int width) throws IndexOutOfBoundsException {
+		this.rows.get(row).addKey(row, width);
 	}
 	
 	public void addKeyWithHeight(int row, int width, int height) throws IndexOutOfBoundsException {
-		this.rows.get(row).keys.add(new KeyboardKeyWidget(x, 0, width, height, this));
+		this.rows.get(row).addKeyWithHeight(row, width);
 	}
+	*/
 	
-	protected void addRow() {
-		this.rows.add(new ArrayList<KeyboardKeyWidget>());
+	protected void addRow(int defaultHeight) {
+		this.rows.add(new KeyboardRow(this, this.currentY, defaultHeight));
+		this.currentY += defaultHeight + this.keySpacing;
 	}
 	
 	public class KeyboardKeyWidget extends PressableWidget implements Element{
@@ -128,23 +135,28 @@ public class KeyboardWidget extends AbstractParentElement implements Drawable {
 	public class KeyboardRow {
 		private KeyboardWidget keyboard;
 		private ArrayList<KeyboardKeyWidget> keys = new ArrayList<>();
-		private int height;
+		private int defaultHeight;
+		private int y;
+		private int currentX;
 		
-		protected KeyboardRow(KeyboardWidget keyboard, int height) {
+		protected KeyboardRow(KeyboardWidget keyboard, int y, int defaultHeight) {
 			this.keyboard = keyboard;
-			this.height = height;
+			this.defaultHeight = defaultHeight;
+			this.y = y;
+			this.currentX = keyboard.x;
 		}
 		
-		protected void addKey(int x, int row, int width) {
-			
+		protected void addKey(int width) {
+			addKeyWithHeight(width, this.defaultHeight);
 		}
 		
-		protected void addKeyWithHeight(int x, int row, int width, int height) {
-			this.keys.add(new KeyboardKeyWidget(this.keyboard, 0, 0, width, height));
+		protected void addKeyWithHeight(int width, int height) {
+			this.keys.add(new KeyboardKeyWidget(this.keyboard, currentX, y, width, height));
+			this.currentX += width + this.keyboard.keySpacing; 
 		}
 		
 		public int getHeight() {
-			return this.height;
+			return this.defaultHeight;
 		}
 		
 		public int getWidth() {
