@@ -7,6 +7,8 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
+import org.lwjgl.glfw.GLFW;
+
 import mrnerdy42.keywizard.gui.KeyWizardScreen;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.AbstractParentElement;
@@ -24,7 +26,7 @@ public class KeyboardWidget extends AbstractParentElement implements Drawable {
 	public KeyWizardScreen parent;
 	
 	private ArrayList<KeyboardRow> rows = new ArrayList<>();
-	private double scaleFactor;
+	private float scaleFactor = 1.0F;
 	private int keySpacing = 5;
 	private int currentY;
 	
@@ -34,7 +36,7 @@ public class KeyboardWidget extends AbstractParentElement implements Drawable {
 		this.currentY = y;
 		this.addRow(20);
 		this.rows.get(0).addKey(20);
-		this.rows.get(0).addKey(20);
+		this.rows.get(0).addKeyWithHeight(20, 40);
 	}
 	
 	@Override
@@ -46,8 +48,8 @@ public class KeyboardWidget extends AbstractParentElement implements Drawable {
 	
 	@Override
 	public boolean mouseClicked(double mouseX, double mouseY, int button) {
-		for (KeyboardKeyWidget e : this.children()) {
-			if ( e.mouseClicked(mouseX, mouseY, button) ) {
+		for (KeyboardKeyWidget k : this.children()) {
+			if ( k.mouseClicked(mouseX, mouseY, button) ) {
 				return true;
 			}
 		}
@@ -58,16 +60,15 @@ public class KeyboardWidget extends AbstractParentElement implements Drawable {
 	public List<? extends KeyboardKeyWidget> children() {
 		return this.rows.stream().flatMap(r -> r.keys.stream()).toList();
 	}
-
-	/*
-	public void addKey(int row, int width) throws IndexOutOfBoundsException {
-		this.rows.get(row).addKey(row, width);
-	}
 	
-	public void addKeyWithHeight(int row, int width, int height) throws IndexOutOfBoundsException {
-		this.rows.get(row).addKeyWithHeight(row, width);
+	public void setScaleFactor(float scaleFactor) {
+		this.scaleFactor = scaleFactor;
+		for (KeyboardRow r : this.rows) {
+			r.currentX = Math.round(r.currentX*scaleFactor);
+			r.y = Math.round(r.y*scaleFactor);
+			r.defaultHeight = Math.round(r.defaultHeight*this.scaleFactor);
+	    }
 	}
-	*/
 	
 	protected void addRow(int defaultHeight) {
 		this.rows.add(new KeyboardRow(this, this.currentY, defaultHeight));
@@ -76,11 +77,7 @@ public class KeyboardWidget extends AbstractParentElement implements Drawable {
 	
 	public class KeyboardKeyWidget extends PressableWidget implements Element{
 		
-		private int keyCode;
-		//public String displayString;
-
-		//protected boolean hovered;
-		
+		private int keyCode = GLFW.GLFW_KEY_ESCAPE;
 		private KeyboardWidget keyboard;
 		
 		protected KeyboardKeyWidget(KeyboardWidget keyboard, int x, int y, int width, int height) {
