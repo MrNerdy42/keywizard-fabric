@@ -26,7 +26,6 @@ public class KeyboardWidget extends AbstractParentElement implements Drawable {
 	public KeyWizardScreen parent;
 	
 	private ArrayList<KeyboardRow> rows = new ArrayList<>();
-	private float scaleFactor = 1.0F;
 	private int keySpacing = 5;
 	private int currentY;
 	
@@ -59,15 +58,6 @@ public class KeyboardWidget extends AbstractParentElement implements Drawable {
 	@Override
 	public List<? extends KeyboardKeyWidget> children() {
 		return this.rows.stream().flatMap(r -> r.keys.stream()).toList();
-	}
-	
-	public void setScaleFactor(float scaleFactor) {
-		this.scaleFactor = scaleFactor;
-		for (KeyboardRow r : this.rows) {
-			r.currentX = Math.round(r.currentX*scaleFactor);
-			r.y = Math.round(r.y*scaleFactor);
-			r.defaultHeight = Math.round(r.defaultHeight*this.scaleFactor);
-	    }
 	}
 	
 	protected void addRow(int defaultHeight) {
