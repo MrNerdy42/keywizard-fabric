@@ -29,13 +29,10 @@ public class KeyboardWidget extends AbstractParentElement implements Drawable {
 	private int keySpacing = 5;
 	private int currentY;
 	
-	public KeyboardWidget(int x, int y) {
+	protected KeyboardWidget(int x, int y) {
 		this.x = x;
 		this.y = y;
 		this.currentY = y;
-		this.addRow(20);
-		this.rows.get(0).addKey(20);
-		this.rows.get(0).addKeyWithHeight(20, 40);
 	}
 	
 	@Override
@@ -67,13 +64,13 @@ public class KeyboardWidget extends AbstractParentElement implements Drawable {
 	
 	public class KeyboardKeyWidget extends PressableWidget implements Element{
 		
-		private int keyCode = GLFW.GLFW_KEY_ESCAPE;
+		private int keyCode;
 		private KeyboardWidget keyboard;
 		
-		protected KeyboardKeyWidget(KeyboardWidget keyboard, int x, int y, int width, int height) {
-			super(x, y, width, height, Text.of("F"));
+		protected KeyboardKeyWidget(KeyboardWidget keyboard, int keyCode, int x, int y, int width, int height) {
+			super(x, y, width, height, Text.of(GLFW.glfwGetKeyName(keyCode, 0)));
 			this.keyboard = keyboard;
-			this.visible = true;
+			this.keyCode = keyCode;
 		}
 		
 		@Override
@@ -133,12 +130,12 @@ public class KeyboardWidget extends AbstractParentElement implements Drawable {
 			this.currentX = keyboard.x;
 		}
 		
-		protected void addKey(int width) {
-			addKeyWithHeight(width, this.defaultHeight);
+		protected void addKey(int keyCode, int width) {
+			addKeyWithHeight(keyCode, width, this.defaultHeight);
 		}
 		
-		protected void addKeyWithHeight(int width, int height) {
-			this.keys.add(new KeyboardKeyWidget(this.keyboard, currentX, y, width, height));
+		protected void addKeyWithHeight(int keyCode, int width, int height) {
+			this.keys.add(new KeyboardKeyWidget(this.keyboard, keyCode, currentX, y, width, height));
 			this.currentX += width + this.keyboard.keySpacing; 
 		}
 		
