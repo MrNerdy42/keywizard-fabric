@@ -1,38 +1,31 @@
 package mrnerdy42.keywizard.gui;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 
-import org.lwjgl.glfw.GLFW;
-
-import mrnerdy42.keywizard.gui.KeyWizardScreen;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.AbstractParentElement;
 import net.minecraft.client.gui.Drawable;
 import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.gui.Element;
-import net.minecraft.client.gui.widget.ClickableWidget;
 import net.minecraft.client.gui.widget.PressableWidget;
+import net.minecraft.client.util.InputUtil;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.Text;
 
 public class KeyboardWidget extends AbstractParentElement implements Drawable {
 	public int x;
 	public int y;
-	public KeyWizardScreen parent;
+	//public KeyWizardScreen parent;
 	
 	private ArrayList<KeyboardRow> rows = new ArrayList<>();
 	private int keySpacing = 5;
-	private int currentY;
+	private int nextRowY;
 	
 	protected KeyboardWidget(int x, int y) {
 		this.x = x;
 		this.y = y;
-		this.currentY = y;
+		this.nextRowY = y;
 	}
 	
 	@Override
@@ -58,19 +51,24 @@ public class KeyboardWidget extends AbstractParentElement implements Drawable {
 	}
 	
 	protected void addRow(int defaultHeight) {
-		this.rows.add(new KeyboardRow(this, this.currentY, defaultHeight));
-		this.currentY += defaultHeight + this.keySpacing;
+		this.rows.add(new KeyboardRow(this, this.nextRowY, defaultHeight));
+		this.nextRowY += defaultHeight + this.keySpacing;
+	}
+	
+	public KeyboardRow getRow(int index) {
+		return this.rows.get(index);
 	}
 	
 	public class KeyboardKeyWidget extends PressableWidget implements Element{
 		
-		private int keyCode;
+		private InputUtil.Key key;
 		private KeyboardWidget keyboard;
 		
 		protected KeyboardKeyWidget(KeyboardWidget keyboard, int keyCode, int x, int y, int width, int height) {
-			super(x, y, width, height, Text.of(GLFW.glfwGetKeyName(keyCode, 0)));
+			super(x, y, width, height, Text.of(""));
 			this.keyboard = keyboard;
-			this.keyCode = keyCode;
+			this.key = InputUtil.Type.KEYSYM.createFromCode(keyCode);
+			this.setMessage(this.key.getLocalizedText());
 		}
 		
 		@Override
@@ -99,7 +97,7 @@ public class KeyboardWidget extends AbstractParentElement implements Drawable {
 				color = 0xFF555555;
 			}
 			drawNoFillRect(matrices, this.x, this.y, this.x + this.width, this.y + this.height, color);
-			DrawableHelper.drawCenteredText(matrices, MinecraftClient.getInstance().textRenderer, "F", this.x + (this.width + 2)/2, this.y + (this.height-6)/2, color);		
+			DrawableHelper.drawCenteredText(matrices, MinecraftClient.getInstance().textRenderer, this.getMessage(), this.x + (this.width + 2)/2, this.y + (this.height-6)/2, color);		
         }
 
 		@Override
@@ -121,13 +119,13 @@ public class KeyboardWidget extends AbstractParentElement implements Drawable {
 		private ArrayList<KeyboardKeyWidget> keys = new ArrayList<>();
 		private int defaultHeight;
 		private int y;
-		private int currentX;
+		private int nextKeyX;
 		
 		protected KeyboardRow(KeyboardWidget keyboard, int y, int defaultHeight) {
 			this.keyboard = keyboard;
 			this.defaultHeight = defaultHeight;
 			this.y = y;
-			this.currentX = keyboard.x;
+			this.nextKeyX = keyboard.x;
 		}
 		
 		protected void addKey(int keyCode, int width) {
@@ -135,8 +133,8 @@ public class KeyboardWidget extends AbstractParentElement implements Drawable {
 		}
 		
 		protected void addKeyWithHeight(int keyCode, int width, int height) {
-			this.keys.add(new KeyboardKeyWidget(this.keyboard, keyCode, currentX, y, width, height));
-			this.currentX += width + this.keyboard.keySpacing; 
+			this.keys.add(new KeyboardKeyWidget(this.keyboard, keyCode, nextKeyX, y, width, height));
+			this.nextKeyX += width + this.keyboard.keySpacing; 
 		}
 		
 		public int getHeight() {

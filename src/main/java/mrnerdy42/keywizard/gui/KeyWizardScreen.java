@@ -2,6 +2,8 @@ package mrnerdy42.keywizard.gui;
 
 import java.util.List;
 
+import org.lwjgl.glfw.GLFW;
+
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.gui.Element;
@@ -19,13 +21,12 @@ public class KeyWizardScreen extends GameOptionsScreen{
 
 	public KeyWizardScreen(Screen parent, GameOptions gameOptions, Text title) {
 		super(parent, gameOptions, title);
-		this.keyboard = new KeyboardWidget(100, 100);
-		this.addChild(keyboard);
 	}
 	
 	@Override
-	public boolean mouseClicked(double mouseX, double mouseY, int button) {
-		return this.keyboard.mouseClicked(mouseX, mouseY, button);
+	protected void init() {
+		this.keyboard = KeyboardWidgetBuilder.testKeyboard(this.width/2, this.height/2);
+		this.addChild(keyboard);
 	}
 	
 	@Override
