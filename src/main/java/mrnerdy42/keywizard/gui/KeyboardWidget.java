@@ -59,7 +59,7 @@ public class KeyboardWidget extends AbstractParentElement implements Drawable {
 		return this.rows.get(index);
 	}
 	
-	public class KeyboardKeyWidget extends PressableWidget implements Element{
+	public class KeyboardKeyWidget extends PressableWidget{
 		
 		private InputUtil.Key key;
 		private KeyboardWidget keyboard;
