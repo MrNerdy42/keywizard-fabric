@@ -23,7 +23,7 @@ public class KeyWizardScreen extends GameOptionsScreen{
 	protected void init() {
 		this.keyboard = KeyboardWidgetBuilder.testKeyboard(this.width/2, this.height/2);
 		this.addChild(keyboard);
-		this.bindingList = new KeyBindingListWidget(client, 20, 200, 50, 100, 10);
+		this.bindingList = new KeyBindingListWidget(client, 50, this.width/2, 300, 200, 10);
 		this.addChild(this.bindingList);
 	}
 	

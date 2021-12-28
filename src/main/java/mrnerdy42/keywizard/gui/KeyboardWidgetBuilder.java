@@ -10,9 +10,10 @@ public class KeyboardWidgetBuilder {
 	
 	public static KeyboardWidget testKeyboard(int x, int y) {
 		KeyboardWidget kb = emptyKeyboard(x,y);
-		
+		/*
 		kb.addRow(20);
 		kb.getRow(0).addKey(GLFW.GLFW_KEY_Q, 20);
+		*/
 		return kb;
 	}
 	
