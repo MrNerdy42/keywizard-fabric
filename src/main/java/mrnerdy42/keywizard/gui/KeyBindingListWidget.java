@@ -9,12 +9,26 @@ import net.minecraft.client.util.math.MatrixStack;
 public class KeyBindingListWidget extends EntryListWidget<KeyBindingListWidget.BindingEntry>{
 
 	public KeyBindingListWidget(MinecraftClient client, int top, int left, int width, int height, int itemHeight) {
-		super(client, width, height, top, top + height, itemHeight);
-		this.left = left;
+		super(client, width, height, 0, 0, itemHeight);
+		this.width = width;
+		this.height = height;
+		this.top = top;
+		this.bottom = bottom;
+		this.itemHeight = itemHeight;
+		this.left = 0;
+		this.right = width;
+		//this.method_31322(false);
+		//this.method_31323(false);
 		
 		for (KeyBinding k : this.client.options.keysAll) {
 			this.addEntry(new BindingEntry(k));
 		}
+	}
+	
+	@Override
+	protected int getScrollbarPositionX() {
+		//return this.left+this.width;
+		return super.getScrollbarPositionX();
 	}
 
 	
