@@ -4,6 +4,7 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.option.GameOptionsScreen;
+import net.minecraft.client.gui.screen.option.LanguageOptionsScreen;
 import net.minecraft.client.option.GameOptions;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.Text;
@@ -12,6 +13,7 @@ import net.minecraft.text.Text;
 public class KeyWizardScreen extends GameOptionsScreen{
 	
 	private KeyboardWidget keyboard;
+	private KeyBindingListWidget bindingList;
 
 	public KeyWizardScreen(Screen parent, GameOptions gameOptions, Text title) {
 		super(parent, gameOptions, title);
@@ -21,12 +23,15 @@ public class KeyWizardScreen extends GameOptionsScreen{
 	protected void init() {
 		this.keyboard = KeyboardWidgetBuilder.testKeyboard(this.width/2, this.height/2);
 		this.addChild(keyboard);
+		this.bindingList = new KeyBindingListWidget(client, 20, 20, 50, 100, 10);
+		this.addChild(this.bindingList);
 	}
 	
 	@Override
 	public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
 		this.renderBackground(matrices);
 		this.keyboard.render(matrices, mouseX, mouseY, delta);
+		this.bindingList.render(matrices, mouseX, mouseY, delta);
 		super.render(matrices, mouseX, mouseY, delta);
 	}
 
