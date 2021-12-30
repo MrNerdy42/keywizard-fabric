@@ -13,7 +13,8 @@ import net.minecraft.text.Text;
 public class KeyWizardScreen extends GameOptionsScreen{
 	
 	private KeyboardWidget keyboard;
-	private TestScrollingListWidget bindingList;
+	private KeyBindingListWidget bindingList;
+	private TestScrollingListWidget testList;
 
 	public KeyWizardScreen(Screen parent, GameOptions gameOptions, Text title) {
 		super(parent, gameOptions, title);
@@ -23,8 +24,10 @@ public class KeyWizardScreen extends GameOptionsScreen{
 	protected void init() {
 		this.keyboard = KeyboardWidgetBuilder.testKeyboard(this.width/2, this.height/2);
 		this.addChild(keyboard);
-		this.bindingList = new TestScrollingListWidget(client, width, height); //new KeyBindingListWidget(client, 50, this.width/2, 300, 200, 10);
+		this.bindingList = new KeyBindingListWidget(client, 50, this.width/2, 200, 200, 50); 
 		this.addChild(this.bindingList);
+		//this.testList = new TestScrollingListWidget(client, width, height); 
+		//this.addChild(this.testList);
 	}
 	
 	@Override
@@ -32,6 +35,7 @@ public class KeyWizardScreen extends GameOptionsScreen{
 		this.renderBackground(matrices);
 		this.keyboard.render(matrices, mouseX, mouseY, delta);
 		this.bindingList.render(matrices, mouseX, mouseY, delta);
+		//this.testList.render(matrices, mouseX, mouseY, delta);
 		super.render(matrices, mouseX, mouseY, delta);
 	}
 
