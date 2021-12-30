@@ -6,6 +6,7 @@ import net.minecraft.client.gui.widget.EntryListWidget;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.TranslatableText;
+import net.minecraft.util.math.MathHelper;
 
 public class KeyBindingListWidget extends EntryListWidget<KeyBindingListWidget.BindingEntry>{
 
@@ -25,6 +26,7 @@ public class KeyBindingListWidget extends EntryListWidget<KeyBindingListWidget.B
 		for (KeyBinding k : this.client.options.keysAll) {
 			this.addEntry(new BindingEntry(k));
 		}
+		this.setSelected(this.children().get(0));
 	}
 	
 	@Override
@@ -37,7 +39,6 @@ public class KeyBindingListWidget extends EntryListWidget<KeyBindingListWidget.B
 	public int getRowWidth() {
 		return this.width;
 	}
-	
 	
 	@Override
 	public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
