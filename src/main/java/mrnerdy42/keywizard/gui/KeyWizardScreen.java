@@ -14,7 +14,6 @@ public class KeyWizardScreen extends GameOptionsScreen{
 	
 	private KeyboardWidget keyboard;
 	private KeyBindingListWidget bindingList;
-	private TestScrollingListWidget testList;
 
 	public KeyWizardScreen(Screen parent, GameOptions gameOptions, Text title) {
 		super(parent, gameOptions, title);
@@ -26,8 +25,6 @@ public class KeyWizardScreen extends GameOptionsScreen{
 		this.addChild(keyboard);
 		this.bindingList = new KeyBindingListWidget(client, 50, this.width/2, 200, 200, 50); 
 		this.addChild(this.bindingList);
-		//this.testList = new TestScrollingListWidget(client, width, height); 
-		//this.addChild(this.testList);
 	}
 	
 	@Override
