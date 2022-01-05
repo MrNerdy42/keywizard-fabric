@@ -1,7 +1,5 @@
 package mrnerdy42.keywizard.gui;
 
-import org.lwjgl.glfw.GLFW;
-
 public class KeyboardWidgetBuilder {
 	
 	public static KeyboardWidget emptyKeyboard(int x, int y) {

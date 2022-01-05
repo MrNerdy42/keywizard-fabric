@@ -13,7 +13,6 @@ import net.minecraft.client.render.Tessellator;
 import net.minecraft.client.render.VertexFormats;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.TranslatableText;
-import net.minecraft.util.math.MathHelper;
 
 public class KeyBindingListWidget extends EntryListWidget<KeyBindingListWidget.BindingEntry> {
 
@@ -63,7 +62,7 @@ public class KeyBindingListWidget extends EntryListWidget<KeyBindingListWidget.B
 
 		for (int j = 0; j < i; ++j) {
 			int k = this.getRowTop(j);
-			int l = this.getRowTop(j) + this.itemHeight;
+			//int l = this.getRowTop(j) + this.itemHeight;
 			int m = y + j * this.itemHeight + this.headerHeight;
 			int n = this.itemHeight - 4;
 			BindingEntry entry = this.getEntry(j);
