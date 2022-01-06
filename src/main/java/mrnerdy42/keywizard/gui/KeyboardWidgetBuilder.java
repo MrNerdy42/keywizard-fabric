@@ -2,16 +2,10 @@ package mrnerdy42.keywizard.gui;
 
 public class KeyboardWidgetBuilder {
 	
-	public static KeyboardWidget emptyKeyboard(int x, int y) {
-		return new KeyboardWidget(x, y);
-	}
 	
-	public static KeyboardWidget testKeyboard(int x, int y) {
-		KeyboardWidget kb = emptyKeyboard(x,y);
-		/*
-		kb.addRow(20);
-		kb.getRow(0).addKey(GLFW.GLFW_KEY_Q, 20);
-		*/
+	public static KeyboardWidget StandardKeyboard(KeyWizardScreen keyWizardScreen) {
+		KeyboardWidget kb = new KeyboardWidget(keyWizardScreen);
+		
 		return kb;
 	}
 	

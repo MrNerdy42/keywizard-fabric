@@ -2,6 +2,7 @@ package mrnerdy42.keywizard.gui;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.option.GameOptionsScreen;
 import net.minecraft.client.option.GameOptions;
@@ -42,6 +43,10 @@ public class KeyWizardScreen extends GameOptionsScreen{
 		this.keyboard.render(matrices, mouseX, mouseY, delta);
 		this.bindingList.render(matrices, mouseX, mouseY, delta);
 		super.render(matrices, mouseX, mouseY, delta);
+	}
+	
+	public TextRenderer getTextRenderer() {
+		return this.textRenderer;
 	}
 
 }
