@@ -31,7 +31,7 @@ public class KeyWizardScreen extends GameOptionsScreen{
 		}
 		
 		int bindingListWidth = (maxBindingNameWidth + 20);
-		this.keyboard = KeyboardWidgetBuilder.testKeyboard(this.width/2, this.height/2);
+		this.keyboard = KeyboardWidgetBuilder.StandardKeyboard(this, 200, 50, 500, 300);
 		this.addChild(keyboard);
 		this.bindingList = new KeyBindingListWidget(this.client, 10, 10, bindingListWidth, this.height - 40, this.textRenderer.fontHeight * 3 + 10);
 		this.addChild(this.bindingList);

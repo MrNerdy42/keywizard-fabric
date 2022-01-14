@@ -17,13 +17,17 @@ public class KeyboardWidget extends AbstractParentElement implements Drawable {
 	public KeyWizardScreen keyWizardScreen;
 	
 	private HashMap<Integer, KeyboardKeyWidget> keys = new HashMap<>();
+	private int anchorX;
+	private int anchorY;
 	
-	protected KeyboardWidget(KeyWizardScreen keyWizardScreen) {
+	protected KeyboardWidget(KeyWizardScreen keyWizardScreen, int anchorX, int anchorY) {
 		this.keyWizardScreen = keyWizardScreen;
+		this.anchorX = anchorX;
+		this.anchorY = anchorY;
 	}
 	
-	public void addKey(int keyCode, int x, int y, int width, int height) {
-		this.keys.put(keyCode, new KeyboardKeyWidget(this, keyCode, x, y, width, height));
+	public void addKey(int relativeX, int relativeY, int width, int height, int keyCode) {
+		this.keys.put(keyCode, new KeyboardKeyWidget(this, keyCode, this.anchorX + relativeX, this.anchorY + relativeY, width, height));
 	}
 	
 	@Override
