@@ -28,7 +28,7 @@ public class KeyboardWidget extends AbstractParentElement implements Drawable {
 	
 	public int addKey(int relativeX, int relativeY, int width, int height, int keySpacing, int keyCode) {
 		this.keys.put(keyCode, new KeyboardKeyWidget(this, keyCode, this.anchorX + relativeX, this.anchorY + relativeY, width, height));
-		return width + keySpacing;
+		return relativeX + width + keySpacing;
 	}
 	
 	@Override
