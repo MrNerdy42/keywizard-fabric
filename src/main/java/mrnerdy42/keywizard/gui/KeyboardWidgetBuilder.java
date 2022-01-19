@@ -14,7 +14,7 @@ public class KeyboardWidgetBuilder {
 		int keySpacing = 5;
 		int nudge = 0;
 		int keyWidth = width/12-keySpacing;
-		int keyHeight = height/15;
+		int keyHeight = height/6-keySpacing; //15
 	
 		currentX = addHorizontalRow(kb, new int[] {GLFW.GLFW_KEY_F1, GLFW.GLFW_KEY_F2, GLFW.GLFW_KEY_F3, GLFW.GLFW_KEY_F4, GLFW.GLFW_KEY_F5, GLFW.GLFW_KEY_F6, GLFW.GLFW_KEY_F7, GLFW.GLFW_KEY_F8, GLFW.GLFW_KEY_F9, GLFW.GLFW_KEY_F10, GLFW.GLFW_KEY_F11, GLFW.GLFW_KEY_F12}, 0, currentY, keyWidth, keyHeight, keySpacing);
 		
@@ -40,11 +40,11 @@ public class KeyboardWidgetBuilder {
 		currentX = kb.addKey(currentX, currentY, (keyWidth*3+keySpacing*2)+nudge, keyHeight, keySpacing, GLFW.GLFW_KEY_RIGHT_SHIFT);
 		
 		currentY += keyHeight + keySpacing;
-		keyWidth = width/7-keySpacing;
+		keyWidth = width / 8 - keySpacing;
 		//currentX = addHorizontalRow(kb, new int[] {GLFW.GLFW_KEY_LEFT_CONTROL,GLFW.GLFW_KEY_LEFT_SUPER,GLFW.GLFW_KEY_LEFT_ALT}, 0, currentY, keyWidth, keyHeight, keySpacing);
 		//currentX = kb.addKey(currentX, currentY, keyWidth-5, keyHeight, keySpacing, GLFW.GLFW_KEY_SPACE);
 		//currentX = addHorizontalRow(kb, new int[] {GLFW.GLFW_KEY_RIGHT_ALT,GLFW.GLFW_KEY_RIGHT_SUPER,GLFW.GLFW_KEY_RIGHT_CONTROL}, currentX, currentY, keyWidth, keyHeight, keySpacing);
-		currentX = addHorizontalRow(kb, new int[] {GLFW.GLFW_KEY_LEFT_CONTROL,GLFW.GLFW_KEY_LEFT_SUPER,GLFW.GLFW_KEY_LEFT_ALT, GLFW.GLFW_KEY_SPACE, GLFW.GLFW_KEY_RIGHT_ALT,GLFW.GLFW_KEY_RIGHT_SUPER,GLFW.GLFW_KEY_RIGHT_CONTROL}, 0, currentY, keyWidth, keyHeight, keySpacing);
+		currentX = addHorizontalRow(kb, new int[] {GLFW.GLFW_KEY_F25, GLFW.GLFW_KEY_LEFT_CONTROL,GLFW.GLFW_KEY_LEFT_SUPER,GLFW.GLFW_KEY_LEFT_ALT, GLFW.GLFW_KEY_SPACE, GLFW.GLFW_KEY_RIGHT_ALT,GLFW.GLFW_KEY_RIGHT_SUPER,GLFW.GLFW_KEY_RIGHT_CONTROL}, 0, currentY, keyWidth, keyHeight, keySpacing);
 
 		
 		return kb;
