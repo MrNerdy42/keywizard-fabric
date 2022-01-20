@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import mrnerdy42.keywizard.util.DrawingUtil;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.AbstractParentElement;
 import net.minecraft.client.gui.Drawable;
 import net.minecraft.client.gui.DrawableHelper;
@@ -17,16 +19,16 @@ public class KeyboardWidget extends AbstractParentElement implements Drawable {
 	public KeyWizardScreen keyWizardScreen;
 	
 	private HashMap<Integer, KeyboardKeyWidget> keys = new HashMap<>();
-	private int anchorX;
-	private int anchorY;
+	private float anchorX;
+	private float anchorY;
 	
-	protected KeyboardWidget(KeyWizardScreen keyWizardScreen, int anchorX, int anchorY) {
+	protected KeyboardWidget(KeyWizardScreen keyWizardScreen, float anchorX, float anchorY) {
 		this.keyWizardScreen = keyWizardScreen;
 		this.anchorX = anchorX;
 		this.anchorY = anchorY;
 	}
 	
-	public int addKey(int relativeX, int relativeY, int width, int height, int keySpacing, int keyCode) {
+	public float addKey(float relativeX, float relativeY, float width, float height, float keySpacing, int keyCode) {
 		this.keys.put(keyCode, new KeyboardKeyWidget(this, keyCode, this.anchorX + relativeX, this.anchorY + relativeY, width, height));
 		return relativeX + width + keySpacing;
 	}
@@ -53,13 +55,22 @@ public class KeyboardWidget extends AbstractParentElement implements Drawable {
 		return new ArrayList<KeyboardKeyWidget>(this.keys.values());
 	}
 	
-	public class KeyboardKeyWidget extends PressableWidget{
+	public class KeyboardKeyWidget extends PressableWidget{	
+		public float x;
+		public float y;
+		
+		protected float width;
+		protected float height;
 		
 		private InputUtil.Key key;
 		private KeyboardWidget keyboard;
 		
-		protected KeyboardKeyWidget(KeyboardWidget keyboard, int keyCode, int x, int y, int width, int height) {
-			super(x, y, width, height, Text.of(""));
+		protected KeyboardKeyWidget(KeyboardWidget keyboard, int keyCode, float x, float y, float width, float height) {
+			super((int) x, (int) y, (int) width, (int) height, Text.of(""));
+			this.x = x;
+			this.y = y;
+			this.width = width;
+			this.height = height;
 			this.keyboard = keyboard;
 			this.key = InputUtil.Type.KEYSYM.createFromCode(keyCode);
 			this.setMessage(this.key.getLocalizedText());
@@ -90,8 +101,8 @@ public class KeyboardWidget extends AbstractParentElement implements Drawable {
 			} else {
 				color = 0xFF555555;
 			}
-			drawNoFillRect(matrices, this.x, this.y, this.x + this.width, this.y + this.height, color);
-			DrawableHelper.drawCenteredText(matrices, keyWizardScreen.getTextRenderer(), this.getMessage(), this.x + (this.width + 2)/2, this.y + (this.height-6)/2, color);		
+			DrawingUtil.drawNoFillRect(matrices, this.x, this.y, this.x + this.width, this.y + this.height, color);
+			keyWizardScreen.getTextRenderer().drawWithShadow(matrices, this.getMessage(), this.x + (this.width)/2, this.y + (this.height-6)/2, color);
         }
 
 		@Override
@@ -100,12 +111,7 @@ public class KeyboardWidget extends AbstractParentElement implements Drawable {
 			this.playDownSound(MinecraftClient.getInstance().getSoundManager());
 		}
 		
-		protected void drawNoFillRect(MatrixStack matrices, int left, int top, int right, int bottom, int color) {
-			drawHorizontalLine(matrices, left, right, top, color);
-			drawHorizontalLine(matrices, left, right, bottom, color);
-			drawVerticalLine(matrices, left, top, bottom, color);
-			drawVerticalLine(matrices, right, top, bottom, color);
-		}
+
 	}
 
 }
