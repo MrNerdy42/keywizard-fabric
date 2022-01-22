@@ -14,7 +14,7 @@ public class KeyboardWidgetBuilder {
 		float keySpacing = 5;
 		float nudge = 0;
 		float keyWidth = width/12-keySpacing;
-		float keyHeight = height/6-keySpacing; //15
+		float keyHeight = height/6-keySpacing; 
 	
 		currentX = addHorizontalRow(kb, new int[] {GLFW.GLFW_KEY_F1, GLFW.GLFW_KEY_F2, GLFW.GLFW_KEY_F3, GLFW.GLFW_KEY_F4, GLFW.GLFW_KEY_F5, GLFW.GLFW_KEY_F6, GLFW.GLFW_KEY_F7, GLFW.GLFW_KEY_F8, GLFW.GLFW_KEY_F9, GLFW.GLFW_KEY_F10, GLFW.GLFW_KEY_F11, GLFW.GLFW_KEY_F12}, 0, currentY, keyWidth, keyHeight, keySpacing);
 		

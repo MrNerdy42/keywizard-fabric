@@ -102,7 +102,8 @@ public class KeyboardWidget extends AbstractParentElement implements Drawable {
 				color = 0xFF555555;
 			}
 			DrawingUtil.drawNoFillRect(matrices, this.x, this.y, this.x + this.width, this.y + this.height, color);
-			keyWizardScreen.getTextRenderer().drawWithShadow(matrices, this.getMessage(), this.x + (this.width)/2, this.y + (this.height-6)/2, color);
+			TextRenderer textRenderer = keyWizardScreen.getTextRenderer();
+			textRenderer.drawWithShadow(matrices, this.getMessage(), (this.x + (this.width)/2 - textRenderer.getWidth(this.getMessage()) / 2), this.y + (this.height-6)/2, color);
         }
 
 		@Override
