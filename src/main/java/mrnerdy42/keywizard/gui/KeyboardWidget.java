@@ -1,6 +1,7 @@
 package mrnerdy42.keywizard.gui;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
@@ -9,8 +10,8 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.AbstractParentElement;
 import net.minecraft.client.gui.Drawable;
-import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.gui.widget.PressableWidget;
+import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.util.InputUtil;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.Text;
@@ -78,23 +79,21 @@ public class KeyboardWidget extends AbstractParentElement implements Drawable {
 		
 		@Override
 		public void renderButton(MatrixStack matrices, int mouseX, int mouseY, float delta) {
-			//this.hovered = mouseX >= this.x && mouseY >= this.y && mouseX < this.x + this.width && mouseY < this.y + this.height;
-			int modifiedBindings = 0;
-			int unmodifiedBindings = 0;
+			int bindings = this.getBindings().length;
 			int color = 0;
 			if (this.active) {
 				if (this.isHovered()) {
 					color = 0xFFAAAAAA;
-					if(modifiedBindings == 1) {
+					if(bindings == 1) {
 						color = 0xFF00AA00;
-					} else if (modifiedBindings > 1) {
+					} else if (bindings > 1) {
 						color = 0xFFAA0000;
 					}
 				}else {
 					color = 0xFFFFFFFF;
-					if(modifiedBindings == 1) {
+					if(bindings == 1) {
 						color = 0xFF00FF00;
-					} else if (modifiedBindings > 1) {
+					} else if (bindings > 1) {
 						color = 0xFFFF0000;
 					}
 				}
@@ -110,6 +109,19 @@ public class KeyboardWidget extends AbstractParentElement implements Drawable {
 		public void onPress() {
 			System.out.println("test!");
 			this.playDownSound(MinecraftClient.getInstance().getSoundManager());
+		}
+		
+		public KeyBinding[] getBindings() {
+			ArrayList<KeyBinding> bound = new ArrayList<>();
+			
+			for (KeyBinding k : keyWizardScreen.getClient().options.keysAll) {
+				if (k.matchesKey(this.key.getCode(), -1)) {
+					bound.add(k);
+				}
+			}
+			
+			
+			return bound.toArray(new KeyBinding[bound.size()]);
 		}
 		
 
