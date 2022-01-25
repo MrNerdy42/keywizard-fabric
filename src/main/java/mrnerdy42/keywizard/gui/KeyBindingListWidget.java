@@ -75,14 +75,14 @@ public class KeyBindingListWidget extends EntryListWidget<KeyBindingListWidget.B
 				float f = this.isFocused() ? 1.0F : 0.5F;
 				RenderSystem.color4f(f, f, f, 1.0F);
 				bufferBuilder.begin(7, VertexFormats.POSITION);
-				bufferBuilder.vertex((double) r, (double) (m + n + 2), 0.0D).next();
+				bufferBuilder.vertex((double) r, (double) (m + n + 2), 0.0D).next(); //draw a white square behind the selected item.
 				bufferBuilder.vertex((double) q, (double) (m + n + 2), 0.0D).next();
 				bufferBuilder.vertex((double) q, (double) (m - 2), 0.0D).next();
 				bufferBuilder.vertex((double) r, (double) (m - 2), 0.0D).next();
 				tessellator.draw();
 				RenderSystem.color4f(0.0F, 0.0F, 0.0F, 1.0F);
 				bufferBuilder.begin(7, VertexFormats.POSITION);
-				bufferBuilder.vertex((double) (r + 1), (double) (m + n + 1), 0.0D).next();
+				bufferBuilder.vertex((double) (r + 1), (double) (m + n + 1), 0.0D).next(); // fill in an alpha square inside the white square.
 				bufferBuilder.vertex((double) (q - 1), (double) (m + n + 1), 0.0D).next();
 				bufferBuilder.vertex((double) (q - 1), (double) (m - 1), 0.0D).next();
 				bufferBuilder.vertex((double) (r + 1), (double) (m - 1), 0.0D).next();
