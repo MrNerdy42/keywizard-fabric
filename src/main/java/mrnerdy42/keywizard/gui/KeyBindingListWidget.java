@@ -50,7 +50,7 @@ public class KeyBindingListWidget extends EntryListWidget<KeyBindingListWidget.B
 	public void renderBackground(MatrixStack matrices) {
 		this.fillGradient(matrices, this.left, this.top, this.right, this.bottom, -1072689136, -804253680);
 	}
-
+	
 	@Override
 	protected void renderList(MatrixStack matrices, int x, int y, int mouseX, int mouseY, float delta) {
 		double scaleH = this.client.getWindow().getHeight() / (double) this.client.getWindow().getScaledHeight();
@@ -121,10 +121,10 @@ public class KeyBindingListWidget extends EntryListWidget<KeyBindingListWidget.B
 		}
 
 		@Override
-		public void render(MatrixStack matrices, int index, int y, int x, int entryWidth, int entryHeight, int mouseX,
-				int mouseY, boolean hovered, float tickDelta) {
-			DrawableHelper.drawTextWithShadow(matrices, client.textRenderer,
-					new TranslatableText(this.keyBinding.getTranslationKey()), x, y, 0xFFFFFFFF);
+		public void render(MatrixStack matrices, int index, int y, int x, int entryWidth, int entryHeight, int mouseX, int mouseY, boolean hovered, float tickDelta) {
+			client.textRenderer.drawWithShadow(matrices, new TranslatableText(this.keyBinding.getTranslationKey()), x, y, 0xFFFFFFFF);
+			int color = 0xFF999999;
+			client.textRenderer.drawWithShadow(matrices, this.keyBinding.getBoundKeyLocalizedText(), x, y + client.textRenderer.fontHeight + 5, color);
 		}
 
 		@Override

@@ -46,6 +46,7 @@ public class KeyWizardScreen extends GameOptionsScreen{
 		super.render(matrices, mouseX, mouseY, delta);
 	}
 	
+	
 	public TextRenderer getTextRenderer() {
 		return this.textRenderer;
 	}
