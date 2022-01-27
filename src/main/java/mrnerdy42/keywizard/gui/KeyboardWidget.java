@@ -107,14 +107,15 @@ public class KeyboardWidget extends AbstractParentElement implements Drawable {
 
 		@Override
 		public void onPress() {
-			System.out.println("test!");
 			this.playDownSound(MinecraftClient.getInstance().getSoundManager());
+			keyWizardScreen.getSelectedKeyBinding().setBoundKey(this.key);
+			KeyBinding.updateKeysByCode();
 		}
 		
 		public KeyBinding[] getBindings() {
 			ArrayList<KeyBinding> bound = new ArrayList<>();
 			
-			for (KeyBinding k : keyWizardScreen.getClient().options.keysAll) {
+			for (KeyBinding k : MinecraftClient.getInstance().options.keysAll) {
 				if (k.matchesKey(this.key.getCode(), -1)) {
 					bound.add(k);
 				}

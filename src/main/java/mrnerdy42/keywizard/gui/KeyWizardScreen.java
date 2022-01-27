@@ -51,8 +51,8 @@ public class KeyWizardScreen extends GameOptionsScreen{
 		return this.textRenderer;
 	}
 	
-	public MinecraftClient getClient() {
-		return this.client;
+	public KeyBinding getSelectedKeyBinding() {
+		return this.bindingList.getSelectedKeyBinding();
 	}
-
+	
 }

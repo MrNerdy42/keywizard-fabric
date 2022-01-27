@@ -51,6 +51,10 @@ public class KeyBindingListWidget extends EntryListWidget<KeyBindingListWidget.B
 		this.fillGradient(matrices, this.left, this.top, this.right, this.bottom, -1072689136, -804253680);
 	}
 	
+	public KeyBinding getSelectedKeyBinding() {
+		return this.getSelected().keyBinding;
+	}
+	
 	@Override
 	protected void renderList(MatrixStack matrices, int x, int y, int mouseX, int mouseY, float delta) {
 		double scaleH = this.client.getWindow().getHeight() / (double) this.client.getWindow().getScaledHeight();
