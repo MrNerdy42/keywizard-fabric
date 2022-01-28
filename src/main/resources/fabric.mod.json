@@ -30,7 +30,7 @@
     "fabricloader": ">=0.11.3",
     "fabric": "*",
     "minecraft": "1.16.x",
-    "java": ">=16",
+    "java": ">=1.8",
     "fabric-key-binding-api-v1": "*"
   },
   "suggests": {
