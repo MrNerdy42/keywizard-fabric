@@ -1,7 +1,8 @@
 v2.0.0-alpha.1
 First version built on Fabric!
-Entirely re-wrote rendering system for keyboard and binding list
-As a result, MOST FEATURES FROM PREVIOSU VERSIONS ARE CURRENTLY UNAVAILABLE
+Re-wrote basically everything to make it work with Miencraft 1.16.5
+As a result, MOST FEATURES FROM PREVIOUS VERSIONS ARE CURRENTLY UNAVAILABLE
+Added support for different keyboard layouts.
 
 v1.7.3
 Made new category list actually usable
@@ -28,6 +29,7 @@ Completely changed the way the keyboard is rendered
 Keyboard resizes with the Minecraft window
 Modifier keys can no longer modify themselves
 Temporarily removed numpad :(
+
 v1.5.6
 Updated lang file to include all button labels
 Updated Russian lang file
