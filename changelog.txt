@@ -1,4 +1,4 @@
-v2.0.0
+v2.0.0-alpha.1
 First version built on Fabric!
 Entirely re-wrote rendering system for keyboard and binding list
 As a result, MOST FEATURES FROM PREVIOSU VERSIONS ARE CURRENTLY UNAVAILABLE
