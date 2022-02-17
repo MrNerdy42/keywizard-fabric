@@ -1,10 +1,10 @@
 package mrnerdy42.keywizard.gui;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
+import ca.weblite.objc.Client;
 import mrnerdy42.keywizard.util.DrawingUtil;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
@@ -112,6 +112,7 @@ public class KeyboardWidget extends AbstractParentElement implements Drawable {
 			KeyBinding.updateKeysByCode();
 		}
 		
+		@SuppressWarnings("resource")
 		public KeyBinding[] getBindings() {
 			ArrayList<KeyBinding> bound = new ArrayList<>();
 			
@@ -120,7 +121,6 @@ public class KeyboardWidget extends AbstractParentElement implements Drawable {
 					bound.add(k);
 				}
 			}
-			
 			
 			return bound.toArray(new KeyBinding[bound.size()]);
 		}
