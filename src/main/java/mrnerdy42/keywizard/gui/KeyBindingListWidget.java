@@ -4,6 +4,7 @@ import java.util.Objects;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 
+import mrnerdy42.keywizard.util.DrawingUtil;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.widget.EntryListWidget;
 import net.minecraft.client.option.KeyBinding;
@@ -59,43 +60,15 @@ public class KeyBindingListWidget extends EntryListWidget<KeyBindingListWidget.B
 		double scaleH = this.client.getWindow().getHeight() / (double) this.client.getWindow().getScaledHeight();
 		double scaleW = this.client.getWindow().getWidth() / (double) this.client.getWindow().getScaledWidth();
 		RenderSystem.enableScissor((int)(this.left * scaleW), (int)(this.client.getWindow().getHeight() - (this.bottom * scaleH)), (int)(this.width * scaleW), (int)(this.height * scaleH));
-		int i = this.getEntryCount();
-		Tessellator tessellator = Tessellator.getInstance();
-		BufferBuilder bufferBuilder = tessellator.getBuffer();
 
-		for (int j = 0; j < i; ++j) {
-			int k = this.getRowTop(j);
-			//int l = this.getRowTop(j) + this.itemHeight;
-			int m = y + j * this.itemHeight + this.headerHeight;
-			int n = this.itemHeight - 4;
-			BindingEntry entry = this.getEntry(j);
-			int o = this.getRowWidth();
-			int r;
-			if (this.isSelectedEntry(j)) {
-				r = this.left + this.width / 2 - o / 2;
-				int q = this.left + this.width / 2 + o / 2;
-				RenderSystem.disableTexture();
-				float f = this.isFocused() ? 1.0F : 0.5F;
-				RenderSystem.color4f(f, f, f, 1.0F);
-				bufferBuilder.begin(7, VertexFormats.POSITION);
-				bufferBuilder.vertex((double) r, (double) (m + n + 2), 0.0D).next(); //draw a white square behind the selected item.
-				bufferBuilder.vertex((double) q, (double) (m + n + 2), 0.0D).next();
-				bufferBuilder.vertex((double) q, (double) (m - 2), 0.0D).next();
-				bufferBuilder.vertex((double) r, (double) (m - 2), 0.0D).next();
-				tessellator.draw();
-				RenderSystem.color4f(0.0F, 0.0F, 0.0F, 1.0F);
-				bufferBuilder.begin(7, VertexFormats.POSITION);
-				bufferBuilder.vertex((double) (r + 1), (double) (m + n + 1), 0.0D).next(); // fill in an alpha square inside the white square.
-				bufferBuilder.vertex((double) (q - 1), (double) (m + n + 1), 0.0D).next();
-				bufferBuilder.vertex((double) (q - 1), (double) (m - 1), 0.0D).next();
-				bufferBuilder.vertex((double) (r + 1), (double) (m - 1), 0.0D).next();
-				tessellator.draw();
-				RenderSystem.enableTexture();
+		for (int i = 0; i < this.getEntryCount(); ++i) {
+			if (this.isSelectedEntry(i)) {
+				DrawingUtil.drawNoFillRect(matrices, this.getRowLeft()-2, this.getRowTop(i) -2, this.getRowRight() - 8, this.getRowTop(i) + this.itemHeight - 4, 0xFFFFFFFF);
 			}
-
-			r = this.getRowLeft();
-			entry.render(matrices, j, k, r, o, n, mouseX, mouseY, this.isMouseOver((double) mouseX, (double) mouseY)
-					&& Objects.equals(this.getEntryAtPosition((double) mouseX, (double) mouseY), entry), delta);
+			
+			BindingEntry entry = getEntry(i);
+			//this.itemHeight - 4??
+			entry.render(matrices, i, this.getRowTop(i), this.getRowLeft(), this.getRowWidth(), this.itemHeight-4, mouseX, mouseY, this.isMouseOver((double) mouseX, (double) mouseY) && Objects.equals(this.getEntryAtPosition((double) mouseX, (double) mouseY), entry), delta);
 		}
 		RenderSystem.disableScissor();
 	}
@@ -104,10 +77,10 @@ public class KeyBindingListWidget extends EntryListWidget<KeyBindingListWidget.B
 	public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
 		this.renderBackground(matrices);
 		super.render(matrices, mouseX, mouseY, delta);
-		drawHorizontalLine(matrices, this.left, this.right, this.top, 0xFFFFFFFF);
-		drawHorizontalLine(matrices, this.left, this.right, this.bottom, 0xFFFFFFFF);
-		drawVerticalLine(matrices, this.left, this.top, this.bottom, 0xFFFFFFFF);
-		drawVerticalLine(matrices, this.right, this.top, this.bottom, 0xFFFFFFFF);
+		//drawHorizontalLine(matrices, this.left, this.right, this.top, 0xFFFFFFFF);
+		//drawHorizontalLine(matrices, this.left, this.right, this.bottom, 0xFFFFFFFF);
+		//drawVerticalLine(matrices, this.left, this.top, this.bottom, 0xFFFFFFFF);
+		//drawVerticalLine(matrices, this.right, this.top, this.bottom, 0xFFFFFFFF);
 	}
 
 	@Override
