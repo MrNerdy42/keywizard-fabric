@@ -14,7 +14,7 @@ import net.minecraft.client.render.VertexFormats;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.TranslatableText;
 
-public class KeyBindingListWidget extends EntryListWidget<KeyBindingListWidget.BindingEntry> {
+public class KeyBindingListWidget extends FreeFormListWidget /*t<KeyBindingListWidget.BindingEntry>*/ {
 
 	public KeyBindingListWidget(MinecraftClient client, int top, int left, int width, int height, int itemHeight) {
 		super(client, 0, 0, 0, 0, itemHeight);
@@ -88,7 +88,7 @@ public class KeyBindingListWidget extends EntryListWidget<KeyBindingListWidget.B
 		return true;
 	}
 
-	public class BindingEntry extends EntryListWidget.Entry<KeyBindingListWidget.BindingEntry> {
+	public class BindingEntry extends FreeFormListWidget.Entry /*EntryListWidget.Entry<KeyBindingListWidget.BindingEntry>*/ {
 
 		private final KeyBinding keyBinding;
 
@@ -98,7 +98,7 @@ public class KeyBindingListWidget extends EntryListWidget<KeyBindingListWidget.B
 
 		@Override
 		public void render(MatrixStack matrices, int index, int y, int x, int entryWidth, int entryHeight, int mouseX, int mouseY, boolean hovered, float tickDelta) {
-			client.textRenderer.drawWithShadow(matrices, new TranslatableText(this.keyBinding.getTranslationKey()), x, y, 0xFFFFFFFF);
+			client.textRenderer.drawWithShadow(matrices, new TranslatableTe xt(this.keyBinding.getTranslationKey()), x, y, 0xFFFFFFFF);
 			int color = 0xFF999999;
 			client.textRenderer.drawWithShadow(matrices, this.keyBinding.getBoundKeyLocalizedText(), x, y + client.textRenderer.fontHeight + 5, color);
 		}

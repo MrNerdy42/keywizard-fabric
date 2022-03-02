@@ -6,6 +6,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 
 import mrnerdy42.keywizard.util.DrawingUtil;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.gui.Element;
 import net.minecraft.client.gui.widget.EntryListWidget;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.render.BufferBuilder;
@@ -14,13 +15,13 @@ import net.minecraft.client.render.VertexFormats;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.TranslatableText;
 
-public abstract class FreeFormListWidget extends EntryListWidget<FreeFormListWidget.Entry> {
+public abstract class FreeFormListWidget<E extends FreeFormListWidget<?>.Entry<E>> extends EntryListWidget<FreeFormListWidget<?>.Entry<E>> {
 
 	public FreeFormListWidget(MinecraftClient client, int top, int left, int width, int height, int itemHeight) {
 		super(client, 0, 0, 0, 0, itemHeight);
-		this.height = height;
 		this.top = top;
 		this.left = left;
+		this.height = height;
 		this.width = width;
 
 		this.bottom = top + height;
@@ -75,8 +76,9 @@ public abstract class FreeFormListWidget extends EntryListWidget<FreeFormListWid
 	protected boolean isFocused() {
 		return true;
 	}
-
-	public abstract class Entry extends EntryListWidget.Entry<FreeFormListWidget.Entry> {
+	
+	//Think about it. FreeFormListWidget needs a type qualifier because the abstract class isn't static and I can't reference a raw FreeFormListWidget for some reason
+	public abstract class Entry<E extends FreeFormListWidget<?>.Entry<E>> extends EntryListWidget.Entry<Entry<E>> {
 
 		@Override
 		public abstract void render(MatrixStack matrices, int index, int y, int x, int entryWidth, int entryHeight, int mouseX, int mouseY, boolean hovered, float tickDelta);
@@ -92,7 +94,7 @@ public abstract class FreeFormListWidget extends EntryListWidget<FreeFormListWid
 		}
 
 		private void onPressed() {
-			FreeFormListWidget.this.setSelected(this);
+			FreeFormListWidget.this.setSelected( (FreeFormListWidget<?>.Entry<E>) this);
 		}
 	}
 }
