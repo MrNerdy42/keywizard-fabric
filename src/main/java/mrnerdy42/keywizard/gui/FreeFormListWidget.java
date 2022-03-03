@@ -15,7 +15,7 @@ import net.minecraft.client.render.VertexFormats;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.TranslatableText;
 
-public abstract class FreeFormListWidget<E extends FreeFormListWidget<?>.Entry<E>> extends EntryListWidget<FreeFormListWidget<?>.Entry<E>> {
+public abstract class FreeFormListWidget<E extends FreeFormListWidget<E>.Entry> extends EntryListWidget<FreeFormListWidget<E>.Entry> {
 
 	public FreeFormListWidget(MinecraftClient client, int top, int left, int width, int height, int itemHeight) {
 		super(client, 0, 0, 0, 0, itemHeight);
@@ -77,9 +77,7 @@ public abstract class FreeFormListWidget<E extends FreeFormListWidget<?>.Entry<E
 		return true;
 	}
 	
-	//Think about it. FreeFormListWidget needs a type qualifier because the abstract class isn't static and I can't reference a raw FreeFormListWidget for some reason
-	public abstract class Entry<E extends FreeFormListWidget<?>.Entry<E>> extends EntryListWidget.Entry<Entry<E>> {
-
+	public abstract class Entry extends EntryListWidget.Entry<FreeFormListWidget<E>.Entry>{
 		@Override
 		public abstract void render(MatrixStack matrices, int index, int y, int x, int entryWidth, int entryHeight, int mouseX, int mouseY, boolean hovered, float tickDelta);
 
@@ -92,9 +90,9 @@ public abstract class FreeFormListWidget<E extends FreeFormListWidget<?>.Entry<E
 				return false;
 			}
 		}
-
+		
 		private void onPressed() {
-			FreeFormListWidget.this.setSelected( (FreeFormListWidget<?>.Entry<E>) this);
+			FreeFormListWidget.this.setSelected(this);
 		}
 	}
 }

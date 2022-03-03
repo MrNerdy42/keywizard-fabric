@@ -98,7 +98,7 @@ public class KeyBindingListWidget extends FreeFormListWidget /*t<KeyBindingListW
 
 		@Override
 		public void render(MatrixStack matrices, int index, int y, int x, int entryWidth, int entryHeight, int mouseX, int mouseY, boolean hovered, float tickDelta) {
-			client.textRenderer.drawWithShadow(matrices, new TranslatableTe xt(this.keyBinding.getTranslationKey()), x, y, 0xFFFFFFFF);
+			client.textRenderer.drawWithShadow(matrices, new TranslatableText(this.keyBinding.getTranslationKey()), x, y, 0xFFFFFFFF);
 			int color = 0xFF999999;
 			client.textRenderer.drawWithShadow(matrices, this.keyBinding.getBoundKeyLocalizedText(), x, y + client.textRenderer.fontHeight + 5, color);
 		}
