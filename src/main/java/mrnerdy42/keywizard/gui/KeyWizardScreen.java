@@ -42,6 +42,10 @@ public class KeyWizardScreen extends GameOptionsScreen{
 		super.render(matrices, mouseX, mouseY, delta);
 	}
 	
+	@Override
+	public void tick() {
+		this.keyboard.tick();
+	}
 	
 	public TextRenderer getTextRenderer() {
 		return this.textRenderer;
