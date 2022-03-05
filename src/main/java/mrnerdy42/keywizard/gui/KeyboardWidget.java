@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import com.mojang.blaze3d.systems.RenderSystem;
+
 import mrnerdy42.keywizard.util.DrawingUtil;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
@@ -15,7 +17,10 @@ import net.minecraft.client.gui.widget.PressableWidget;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.util.InputUtil;
 import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.text.MutableText;
+import net.minecraft.text.Style;
 import net.minecraft.text.Text;
+import net.minecraft.text.TextColor;
 import net.minecraft.text.TranslatableText;
 
 public class KeyboardWidget extends AbstractParentElement implements Drawable, TickableElement {
@@ -38,8 +43,15 @@ public class KeyboardWidget extends AbstractParentElement implements Drawable, T
 	
 	@Override
 	public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
-		for (KeyboardKeyWidget k : this.children()) {
+		List<? extends KeyboardKeyWidget> keys = this.children();
+		for (KeyboardKeyWidget k : keys) {
 			k.render(matrices, mouseX, mouseY, delta);
+		}
+		
+		for (KeyboardKeyWidget k : keys) {
+		    if (k.active && k.isHovered()) {
+		        keyWizardScreen.renderTooltip(matrices, k.tooltipText, mouseX, mouseY);
+		    }
 		}
 	}
 	
@@ -93,8 +105,6 @@ public class KeyboardWidget extends AbstractParentElement implements Drawable, T
 			int color = 0;
 			if (this.active) {
 				if (this.isHovered()) {
-					
-					
 					color = 0xFFAAAAAA;
 					if(bindings == 1) {
 						color = 0xFF00AA00;
@@ -115,7 +125,6 @@ public class KeyboardWidget extends AbstractParentElement implements Drawable, T
 			DrawingUtil.drawNoFillRect(matrices, this.x, this.y, this.x + this.width, this.y + this.height, color);
 			TextRenderer textRenderer = keyWizardScreen.getTextRenderer();
 			textRenderer.drawWithShadow(matrices, this.getMessage(), (this.x + (this.width)/2 - textRenderer.getWidth(this.getMessage()) / 2), this.y + (this.height-6)/2, color);
-			keyWizardScreen.renderTooltip(matrices, tooltipText, mouseX, mouseY);
         }
 
 		@Override
@@ -139,9 +148,10 @@ public class KeyboardWidget extends AbstractParentElement implements Drawable, T
 		}
 		
 		private void updateTooltip() {
-			ArrayList<TranslatableText> tooltipText = new ArrayList<>();
+			Style test = Style.EMPTY.withColor(TextColor.fromRgb(0x555555));
+			ArrayList<MutableText> tooltipText = new ArrayList<>();
 			for (KeyBinding b : this.bindings) {
-				tooltipText.add(new TranslatableText(b.getTranslationKey()) );
+				tooltipText.add(new TranslatableText(b.getTranslationKey()).append(new TranslatableText(" (this is a test)").setStyle(test)));
 			}	
 			this.tooltipText = tooltipText.stream().sorted((a, b) -> a.asString().compareTo(b.asString())).collect(Collectors.toList());
 		}
