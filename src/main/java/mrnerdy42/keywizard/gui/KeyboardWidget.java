@@ -148,10 +148,10 @@ public class KeyboardWidget extends AbstractParentElement implements Drawable, T
 		}
 		
 		private void updateTooltip() {
-			Style test = Style.EMPTY.withColor(TextColor.fromRgb(0x555555));
+			//Style test = Style.EMPTY.withColor(TextColor.fromRgb(0x555555));
 			ArrayList<MutableText> tooltipText = new ArrayList<>();
 			for (KeyBinding b : this.bindings) {
-				tooltipText.add(new TranslatableText(b.getTranslationKey()).append(new TranslatableText(" (this is a test)").setStyle(test)));
+				tooltipText.add( new TranslatableText(b.getTranslationKey()) );/*.append(new TranslatableText(" (this is a test)").setStyle(test)));*/
 			}	
 			this.tooltipText = tooltipText.stream().sorted((a, b) -> a.asString().compareTo(b.asString())).collect(Collectors.toList());
 		}
