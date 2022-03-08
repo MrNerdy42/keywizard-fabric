@@ -1,3 +1,8 @@
+v2.0.0-alpha.2
+Added tooltips to keys
+Split up list code on the back end
+Cleaned up codebase a little
+
 v2.0.0-alpha.1
 First version built on Fabric!
 Re-wrote basically everything to make it work with Miencraft 1.16.5
