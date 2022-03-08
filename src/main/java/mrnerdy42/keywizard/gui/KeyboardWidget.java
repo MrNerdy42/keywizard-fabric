@@ -5,8 +5,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import com.mojang.blaze3d.systems.RenderSystem;
-
 import mrnerdy42.keywizard.util.DrawingUtil;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
@@ -18,9 +16,7 @@ import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.util.InputUtil;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.MutableText;
-import net.minecraft.text.Style;
 import net.minecraft.text.Text;
-import net.minecraft.text.TextColor;
 import net.minecraft.text.TranslatableText;
 
 public class KeyboardWidget extends AbstractParentElement implements Drawable, TickableElement {
@@ -86,8 +82,8 @@ public class KeyboardWidget extends AbstractParentElement implements Drawable, T
 		protected float height;
 		
 		private InputUtil.Key key;
-		private ArrayList<KeyBinding> bindings = new ArrayList<KeyBinding>();
-		private List<Text> tooltipText = new ArrayList<Text>();
+		//private ArrayList<KeyBinding> bindings = new ArrayList<KeyBinding>();
+		private List<Text> tooltipText = new ArrayList<>();
 		
 		protected KeyboardKeyWidget(int keyCode, float x, float y, float width, float height) {
 			super((int) x, (int) y, (int) width, (int) height, Text.of(""));
@@ -101,21 +97,21 @@ public class KeyboardWidget extends AbstractParentElement implements Drawable, T
 		
 		@Override
 		public void renderButton(MatrixStack matrices, int mouseX, int mouseY, float delta) {
-			int bindings = this.bindings.size();
+			int bindingCount = this.tooltipText.size();
 			int color = 0;
 			if (this.active) {
 				if (this.isHovered()) {
 					color = 0xFFAAAAAA;
-					if(bindings == 1) {
+					if(bindingCount == 1) {
 						color = 0xFF00AA00;
-					} else if (bindings > 1) {
+					} else if (bindingCount > 1) {
 						color = 0xFFAA0000;
 					}
 				}else {
 					color = 0xFFFFFFFF;
-					if(bindings == 1) {
+					if(bindingCount == 1) {
 						color = 0xFF00FF00;
-					} else if (bindings > 1) {
+					} else if (bindingCount > 1) {
 						color = 0xFFFF0000;
 					}
 				}
@@ -134,6 +130,7 @@ public class KeyboardWidget extends AbstractParentElement implements Drawable, T
 			KeyBinding.updateKeysByCode();
 		}
 		
+		/*
 		@SuppressWarnings("resource")
 		private void updateBindings() {
 			ArrayList<KeyBinding> bound = new ArrayList<>();
@@ -146,19 +143,23 @@ public class KeyboardWidget extends AbstractParentElement implements Drawable, T
 			
 			this.bindings = bound;
 		}
+		*/
 		
+		@SuppressWarnings("resource")
 		private void updateTooltip() {
 			//Style test = Style.EMPTY.withColor(TextColor.fromRgb(0x555555));
 			ArrayList<MutableText> tooltipText = new ArrayList<>();
-			for (KeyBinding b : this.bindings) {
-				tooltipText.add( new TranslatableText(b.getTranslationKey()) );/*.append(new TranslatableText(" (this is a test)").setStyle(test)));*/
+			for (KeyBinding b :  MinecraftClient.getInstance().options.keysAll) {
+				if (b.matchesKey(this.key.getCode(), -1)) {
+				    tooltipText.add( new TranslatableText(b.getTranslationKey()) );/*.append(new TranslatableText(" (this is a test)").setStyle(test)));*/
+				}
 			}	
 			this.tooltipText = tooltipText.stream().sorted((a, b) -> a.asString().compareTo(b.asString())).collect(Collectors.toList());
 		}
 
 		@Override
 		public void tick() {
-			updateBindings();
+			//updateBindings();
 			updateTooltip();
 		}
 		
