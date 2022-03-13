@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import com.google.common.collect.Lists;
+
 import mrnerdy42.keywizard.util.DrawingUtil;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
@@ -130,36 +132,22 @@ public class KeyboardWidget extends AbstractParentElement implements Drawable, T
 			KeyBinding.updateKeysByCode();
 		}
 		
-		/*
-		@SuppressWarnings("resource")
-		private void updateBindings() {
-			ArrayList<KeyBinding> bound = new ArrayList<>();
-			
-			for (KeyBinding k : MinecraftClient.getInstance().options.keysAll) {
-				if (k.matchesKey(this.key.getCode(), -1)) {
-					bound.add(k);
-				}
-			}
-			
-			this.bindings = bound;
-		}
-		*/
 		
 		@SuppressWarnings("resource")
 		private void updateTooltip() {
 			//Style test = Style.EMPTY.withColor(TextColor.fromRgb(0x555555));
-			ArrayList<MutableText> tooltipText = new ArrayList<>();
+			List<Text> tooltipText = new ArrayList<>();
 			for (KeyBinding b :  MinecraftClient.getInstance().options.keysAll) {
 				if (b.matchesKey(this.key.getCode(), -1)) {
 				    tooltipText.add( new TranslatableText(b.getTranslationKey()) );/*.append(new TranslatableText(" (this is a test)").setStyle(test)));*/
 				}
 			}	
-			this.tooltipText = tooltipText.stream().sorted((a, b) -> a.asString().compareTo(b.asString())).collect(Collectors.toList());
+			// Sorting not working has something to do with with either the collector or Lists.transform not preserving list order.
+			this.tooltipText = tooltipText;//.stream().sorted((a, b) -> a.asString().compareTo(b.asString())).collect(Collectors.toList());
 		}
 
 		@Override
 		public void tick() {
-			//updateBindings();
 			updateTooltip();
 		}
 		
