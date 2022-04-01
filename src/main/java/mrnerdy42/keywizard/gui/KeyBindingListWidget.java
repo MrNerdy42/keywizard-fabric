@@ -20,32 +20,7 @@ public class KeyBindingListWidget extends FreeFormListWidget<KeyBindingListWidge
 		return ((BindingEntry)this.getSelected()).keyBinding;
 	}
 
-	/*
-	@Override
-	protected void renderList(MatrixStack matrices, int x, int y, int mouseX, int mouseY, float delta) {
-		double scaleH = this.client.getWindow().getHeight() / (double) this.client.getWindow().getScaledHeight();
-		double scaleW = this.client.getWindow().getWidth() / (double) this.client.getWindow().getScaledWidth();
-		RenderSystem.enableScissor((int)(this.left * scaleW), (int)(this.client.getWindow().getHeight() - (this.bottom * scaleH)), (int)(this.width * scaleW), (int)(this.height * scaleH));
-
-		for (int i = 0; i < this.getEntryCount(); ++i) {
-			if (this.isSelectedEntry(i)) {
-				DrawingUtil.drawNoFillRect(matrices, this.getRowLeft()-2, this.getRowTop(i) -2, this.getRowRight() - 8, this.getRowTop(i) + this.itemHeight - 4, 0xFFFFFFFF);
-			}
-			
-			BindingEntry entry = (BindingEntry) getEntry(i);
-			//this.itemHeight - 4??
-			entry.render(matrices, i, this.getRowTop(i), this.getRowLeft(), this.getRowWidth(), this.itemHeight-4, mouseX, mouseY, this.isMouseOver((double) mouseX, (double) mouseY) && Objects.equals(this.getEntryAtPosition((double) mouseX, (double) mouseY), entry), delta);
-		}
-		RenderSystem.disableScissor();
-	}
-	*/
-
-	@Override
-	protected boolean isFocused() {
-		return true;
-	}
-
-	public class BindingEntry extends FreeFormListWidget<KeyBindingListWidget.BindingEntry>.Entry /*EntryListWidget.Entry<KeyBindingListWidget.BindingEntry>*/ {
+	public class BindingEntry extends FreeFormListWidget<KeyBindingListWidget.BindingEntry>.Entry{
 
 		private final KeyBinding keyBinding;
 
