@@ -28,10 +28,11 @@ public class KeyWizardScreen extends GameOptionsScreen{
 		}
 		
 		int bindingListWidth = (maxBindingNameWidth + 20);
-		this.keyboard = KeyboardWidgetBuilder.StandardKeyboard(this, bindingListWidth + 15, this.height / 2 - 90, this.width - (bindingListWidth + 15), 200);
-		this.addChild(keyboard);
 		this.bindingList = new KeyBindingListWidget(this.client, 10, 10, bindingListWidth, this.height - 40, this.textRenderer.fontHeight * 3 + 10);
+		this.keyboard = KeyboardWidgetBuilder.StandardKeyboard(this, bindingListWidth + 15, this.height / 2 - 90, this.width - (bindingListWidth + 15), 200);
+		
 		this.addChild(this.bindingList);
+		this.addChild(this.keyboard);
 	}
 	
 	@Override
