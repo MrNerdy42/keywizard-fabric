@@ -2,17 +2,21 @@ package mrnerdy42.keywizard.gui;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.function.Function;
+
+import com.google.common.util.concurrent.Runnables;
 
 import mrnerdy42.keywizard.gui.KeyBindingListWidget.BindingEntry;
 import mrnerdy42.keywizard.util.KeyBindingUtil;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.widget.ButtonWidget;
+import net.minecraft.client.gui.widget.PressableWidget;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
 
-public class CategorySelectorWidget extends ButtonWidget{
+public class CategorySelectorWidget extends PressableWidget{
 	
 	public KeyWizardScreen keyWizardScreen;
 	
@@ -22,7 +26,41 @@ public class CategorySelectorWidget extends ButtonWidget{
 	
 	private int selectedCategoryIdx;
 	private String selectedCategory;
+
+	public CategorySelectorWidget(int x, int y, int width, int height) {
+		super(x, y, width, height, new TranslatableText("CATEGORY TEST"));
+		MinecraftClient c = MinecraftClient.getInstance();
+		this.list = new BindingCategoryListWidget(c, y, x, width, keyWizardScreen.height - 20, c.textRenderer.fontHeight + 7);
+		this.list.visible = false;
+	}
 	
+	@Override
+	public void onPress() {
+		this.playDownSound(MinecraftClient.getInstance().getSoundManager());
+	}
+
+
+	public boolean getExtended(){
+    	return this.extended;
+    }
+	
+	public String getSelctedCategory(){
+    	return null;
+    	//TODO: fix
+    }
+    
+    public void setExtended(boolean extended){
+		this.extended = extended;
+		this.update();
+	}
+    
+    private void update() {
+		this.hovered = this.extended;
+		this.selectedCategory = this.categories.get(this.selectedCategoryIdx);
+		this.setMessage(new TranslatableText(this.selectedCategory));
+		
+    }
+    
 	private class BindingCategoryListWidget extends FreeFormListWidget<BindingCategoryListWidget.CategoryEntry> {
 
 		public BindingCategoryListWidget(MinecraftClient client, int top, int left, int width, int height, int itemHeight) {
@@ -48,36 +86,6 @@ public class CategorySelectorWidget extends ButtonWidget{
 			}
 
 		}
-	}
+	}	
 	
-	public CategorySelectorWidget(int x, int y, int width, int height, Text message) {
-		super(x, y, width, height, message, (btn) -> {
-			//TODO: figure out toggle
-		});
-		MinecraftClient c = MinecraftClient.getInstance();
-		this.list = new BindingCategoryListWidget(c, y, x, width, keyWizardScreen.height - 20, c.textRenderer.fontHeight + 7);
-	}
-
-	
-	public boolean getExtended(){
-    	return this.extended;
-    }
-	
-	public String getSelctedCategory(){
-    	return null;
-    	//TODO: fix
-    }
-    
-    public void setState(boolean extended){
-		this.extended = extended;
-		this.update();
-	}
-    
-    private void update() {
-		this.hovered = this.extended;
-		this.selectedCategory = this.categories.get(this.selectedCategoryIdx);
-		this.setMessage(new TranslatableText(this.selectedCategory));
-		
-    }
-
 }
