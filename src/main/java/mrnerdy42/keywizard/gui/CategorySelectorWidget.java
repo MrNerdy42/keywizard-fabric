@@ -1,64 +1,53 @@
 package mrnerdy42.keywizard.gui;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.function.Function;
-
-import com.google.common.util.concurrent.Runnables;
-
-import mrnerdy42.keywizard.gui.KeyBindingListWidget.BindingEntry;
 import mrnerdy42.keywizard.util.KeyBindingUtil;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.widget.ButtonWidget;
+import net.minecraft.client.gui.screen.TickableElement;
 import net.minecraft.client.gui.widget.PressableWidget;
-import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
 
-public class CategorySelectorWidget extends PressableWidget{
+public class CategorySelectorWidget extends PressableWidget implements TickableElement {
 	
 	public KeyWizardScreen keyWizardScreen;
+	public boolean extended = false;
 	
-	private boolean extended = false;
 	private BindingCategoryListWidget list;
-	private ArrayList<String> categories;
 	
-	private int selectedCategoryIdx;
-	private String selectedCategory;
-
-	public CategorySelectorWidget(int x, int y, int width, int height) {
-		super(x, y, width, height, new TranslatableText("CATEGORY TEST"));
+	public CategorySelectorWidget(KeyWizardScreen keyWizardScreen, int x, int y, int width, int height) {
+		super(x, y, width, height, Text.of(""));
+		this.keyWizardScreen = keyWizardScreen;
 		MinecraftClient c = MinecraftClient.getInstance();
-		this.list = new BindingCategoryListWidget(c, y, x, width, keyWizardScreen.height - 20, c.textRenderer.fontHeight + 7);
-		this.list.visible = false;
+		this.list = new BindingCategoryListWidget(c, y + height, x, width, this.keyWizardScreen.height - 20, c.textRenderer.fontHeight + 7);
+	}
+	
+	@Override
+	public boolean mouseClicked(double mouseX, double mouseY, int button) {
+		return super.mouseClicked(mouseX, mouseY, button) || this.list.mouseClicked(mouseX, mouseY, button);
 	}
 	
 	@Override
 	public void onPress() {
 		this.playDownSound(MinecraftClient.getInstance().getSoundManager());
+		this.extended = !this.extended;
 	}
-
-
-	public boolean getExtended(){
-    	return this.extended;
-    }
+	
+	@Override
+	public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
+		super.render(matrices, mouseX, mouseY, delta);
+		this.list.render(matrices, mouseX, mouseY, delta);
+	}
+	
+	@Override
+	public void tick() {
+		this.setMessage(new TranslatableText(this.getSelctedCategory()));
+    	this.list.visible = this.extended;
+		this.hovered = this.extended;
+	}
 	
 	public String getSelctedCategory(){
-    	return null;
-    	//TODO: fix
-    }
-    
-    public void setExtended(boolean extended){
-		this.extended = extended;
-		this.update();
-	}
-    
-    private void update() {
-		this.hovered = this.extended;
-		this.selectedCategory = this.categories.get(this.selectedCategoryIdx);
-		this.setMessage(new TranslatableText(this.selectedCategory));
-		
+    	return ((BindingCategoryListWidget.CategoryEntry) this.list.getSelected()).category;
     }
     
 	private class BindingCategoryListWidget extends FreeFormListWidget<BindingCategoryListWidget.CategoryEntry> {
