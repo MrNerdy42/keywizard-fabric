@@ -24,7 +24,9 @@ public class CategorySelectorWidget extends PressableWidget implements TickableE
 	
 	@Override
 	public boolean mouseClicked(double mouseX, double mouseY, int button) {
-		return super.mouseClicked(mouseX, mouseY, button) || this.list.mouseClicked(mouseX, mouseY, button);
+		boolean listClicked = this.list.mouseClicked(mouseX, mouseY, button);
+		boolean thisClicked = super.mouseClicked(mouseX, mouseY, button);
+		return listClicked || thisClicked;
 	}
 	
 	@Override
