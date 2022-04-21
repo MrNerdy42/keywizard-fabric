@@ -68,4 +68,8 @@ public class KeyWizardScreen extends GameOptionsScreen{
 		return this.bindingList.getSelectedKeyBinding();
 	}
 	
+	public boolean getCategorySelectorExtended() {
+		return this.categorySelector.extended;
+	}
+	
 }
