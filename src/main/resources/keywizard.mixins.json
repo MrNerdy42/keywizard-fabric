@@ -3,10 +3,8 @@
   "minVersion": "0.8",
   "package": "mrnerdy42.keywizard.mixin",
   "compatibilityLevel": "JAVA_8",
-  "mixins": [
-  ],
-  "client": [
-  ],
+  "mixins": [],
+  "client": ["ControlsOptionsScreenInjector"],
   "injectors": {
     "defaultRequire": 1
   }
