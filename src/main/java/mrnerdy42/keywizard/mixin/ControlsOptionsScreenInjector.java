@@ -10,8 +10,10 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(ControlsOptionsScreen.class)
 public class ControlsOptionsScreenInjector {
-	@Inject(at = @At("HEAD"), method = "init()V")
+	@Inject(at = @At("TAIL"), method = "init()V")
 	private void init(CallbackInfo info) {
-		
+		KeyWizard.LOGGER.info("Controls injector mixin loaded!");
+		ControlsOptionsScreen target = (ControlsOptionsScreen)((Object)this);
+
 	}
 }
