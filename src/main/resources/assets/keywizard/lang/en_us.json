@@ -10,5 +10,6 @@
 "gui.bindingCategories": "Binding Categories",
 "gui.page": "Page",
 "gui.mouse": "Mouse",
-"key.keywizard.openKeyWizard": "Open Key Wizard"
+"key.keywizard.openKeyWizard": "Open Key Wizard",
+"keywizard.button.openKeyWizard": "KW"
 }
