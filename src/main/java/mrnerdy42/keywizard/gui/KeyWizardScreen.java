@@ -1,6 +1,8 @@
 package mrnerdy42.keywizard.gui;
 
+import mrnerdy42.keywizard.KeyWizard;
 import mrnerdy42.keywizard.util.KeyBindingUtil;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.option.GameOptionsScreen;
@@ -70,6 +72,11 @@ public class KeyWizardScreen extends GameOptionsScreen{
 	
 	public boolean getCategorySelectorExtended() {
 		return this.categorySelector.extended;
+	}
+	
+	public static KeyWizardScreen getNewScreen() {
+		MinecraftClient client = MinecraftClient.getInstance();
+		return new KeyWizardScreen(client.currentScreen, client.options, Text.of(KeyWizard.MODID));
 	}
 	
 }
