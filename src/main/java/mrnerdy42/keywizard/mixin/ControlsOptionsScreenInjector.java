@@ -16,9 +16,11 @@ import net.minecraft.client.gui.screen.option.ControlsOptionsScreen;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.gui.widget.ClickableWidget;
 import net.minecraft.text.TranslatableText;
+import net.minecraft.util.Identifier;
 
 @Mixin(ControlsOptionsScreen.class)
 public class ControlsOptionsScreenInjector {
+	
 	@Inject(at = @At("TAIL"), method = "init()V")
 	private void init(CallbackInfo info) {
 		KeyWizard.LOGGER.info("Controls screen injector mixin loaded!");
