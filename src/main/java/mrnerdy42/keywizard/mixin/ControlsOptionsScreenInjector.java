@@ -13,10 +13,8 @@ import mrnerdy42.keywizard.gui.KeyWizardScreen;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.option.ControlsOptionsScreen;
-import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.gui.widget.ClickableWidget;
-import net.minecraft.text.TranslatableText;
-import net.minecraft.util.Identifier;
+import net.minecraft.client.gui.widget.TexturedButtonWidget;
 
 @Mixin(ControlsOptionsScreen.class)
 public class ControlsOptionsScreenInjector {
@@ -27,10 +25,10 @@ public class ControlsOptionsScreenInjector {
 		ControlsOptionsScreen target = (ControlsOptionsScreen)((Object)this);
 		try {
 			Method addButton = Screen.class.getDeclaredMethod("addButton", ClickableWidget.class);
-			ButtonWidget keyWizardButton = new ButtonWidget(target.width - 22, target.height - 22, 20, 20, new TranslatableText("keywizard.button.openKeyWizard"), (button) -> {
+			TexturedButtonWidget screenToggleButton = new TexturedButtonWidget(target.width - 22, target.height - 22, 20, 20, 0, 0, 20, KeyWizard.SCREEN_TOGGLE_WIDGETS, 40, 40, (btn) -> {
 				MinecraftClient.getInstance().openScreen(KeyWizardScreen.getNewScreen());
 			});
-			addButton.invoke(target, keyWizardButton);
+			addButton.invoke(target, screenToggleButton);
 		} catch (NoSuchMethodException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
 			KeyWizard.LOGGER.warn("Button injection failed. Printing stack trace...");
 			e.printStackTrace();
