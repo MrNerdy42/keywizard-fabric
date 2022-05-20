@@ -9,11 +9,8 @@ import mrnerdy42.keywizard.gui.KeyWizardScreen;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
-import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.util.InputUtil;
-import net.minecraft.resource.ResourceType;
-import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 
 public class KeyWizard implements ClientModInitializer {
@@ -31,7 +28,7 @@ public class KeyWizard implements ClientModInitializer {
 		keyOpenKeyWizard = KeyBindingHelper.registerKeyBinding(new KeyBinding("key." + MODID + ".openKeyWizard", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_F7, "category." + MODID + ".bindings"));
 		ClientTickEvents.END_CLIENT_TICK.register(client -> {
 		        while (keyOpenKeyWizard.wasPressed()) {
-		    	    client.openScreen(KeyWizardScreen.getNewScreen());
+		    	    client.openScreen(new KeyWizardScreen(client.currentScreen));
 		        }
 			});
 	}

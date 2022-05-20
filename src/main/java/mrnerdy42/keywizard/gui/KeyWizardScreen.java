@@ -8,7 +8,6 @@ import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.option.ControlsOptionsScreen;
 import net.minecraft.client.gui.screen.option.GameOptionsScreen;
 import net.minecraft.client.gui.widget.TexturedButtonWidget;
-import net.minecraft.client.option.GameOptions;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.Text;
@@ -21,8 +20,9 @@ public class KeyWizardScreen extends GameOptionsScreen{
 	private CategorySelectorWidget categorySelector;
 	private TexturedButtonWidget screenToggleButton;
 
-	public KeyWizardScreen(Screen parent, GameOptions gameOptions, Text title) {
-		super(parent, gameOptions, title);
+	@SuppressWarnings("resource")
+	public KeyWizardScreen(Screen parent) {
+		super(parent, MinecraftClient.getInstance().options, Text.of(KeyWizard.MODID));
 	}
 	
 	@Override
@@ -45,7 +45,7 @@ public class KeyWizardScreen extends GameOptionsScreen{
 		this.keyboard = KeyboardWidgetBuilder.StandardKeyboard(this, bindingListWidth + 15, this.height / 2 - 90, this.width - (bindingListWidth + 15), 200);
 		this.categorySelector = new CategorySelectorWidget(this, bindingListWidth + 15, 5, maxCategoryWidth + 10, 20);
 		this.screenToggleButton = new TexturedButtonWidget(this.width - 22, this.height - 22, 20, 20, 20, 0, 20, KeyWizard.SCREEN_TOGGLE_WIDGETS, 40, 40, (btn) -> {
-			this.client.openScreen(new ControlsOptionsScreen(this, this.gameOptions));
+			this.client.openScreen(new ControlsOptionsScreen(this.parent, this.gameOptions));
 		});
 		this.addChild(this.bindingList);
 		this.addChild(this.keyboard);
@@ -78,11 +78,6 @@ public class KeyWizardScreen extends GameOptionsScreen{
 	
 	public boolean getCategorySelectorExtended() {
 		return this.categorySelector.extended;
-	}
-	
-	public static KeyWizardScreen getNewScreen() {
-		MinecraftClient client = MinecraftClient.getInstance();
-		return new KeyWizardScreen(client.currentScreen, client.options, Text.of(KeyWizard.MODID));
 	}
 	
 }
