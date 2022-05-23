@@ -4,7 +4,9 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Field;
 
+import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -17,25 +19,35 @@ import net.minecraft.client.gui.screen.option.ControlsOptionsScreen;
 import net.minecraft.client.gui.screen.option.GameOptionsScreen;
 import net.minecraft.client.gui.widget.ClickableWidget;
 import net.minecraft.client.gui.widget.TexturedButtonWidget;
+import net.minecraft.client.option.GameOptions;
+import net.minecraft.text.Text;
 
 @Mixin(ControlsOptionsScreen.class)
-public class ControlsOptionsScreenInjector {
+public abstract class ControlsOptionsScreenInjector extends GameOptionsScreen {
 	
+	private ControlsOptionsScreenInjector(Screen parent, GameOptions gameOptions, Text title) {
+		super(parent, gameOptions, title);
+	}
+
+	@Shadow
+	protected abstract <T extends ClickableWidget> T addButton(T button);
+	@Shadow
+	@Final
+	protected Screen parent;
+	@Shadow
+	protected MinecraftClient client;
+	
+	@Shadow
+	public int width;
+
 	@Inject(at = @At("TAIL"), method = "init()V")
 	private void init(CallbackInfo info) {
 		KeyWizard.LOGGER.info("Controls screen injector mixin loaded!");
 		ControlsOptionsScreen target = (ControlsOptionsScreen)((Object)this);
-		try {
-			Method addButton = Screen.class.getDeclaredMethod("addButton", ClickableWidget.class);
-			Field parentField = GameOptionsScreen.class.getDeclaredField("parent");
-			Screen parent = (Screen) parentField.get(target);
-			TexturedButtonWidget screenToggleButton = new TexturedButtonWidget(target.width - 22, target.height - 22, 20, 20, 0, 0, 20, KeyWizard.SCREEN_TOGGLE_WIDGETS, 40, 40, (btn) -> {
-			    MinecraftClient.getInstance().openScreen(new KeyWizardScreen(parent));
-			});
-			addButton.invoke(target, screenToggleButton);
-		} catch (NoSuchMethodException | IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchFieldException e) {
-			KeyWizard.LOGGER.warn("Button injection failed. Printing stack trace...");
-			e.printStackTrace();
-		}
+		TexturedButtonWidget screenToggleButton = new TexturedButtonWidget(this.width - 22, target.height - 22, 20, 20, 0, 0, 20, KeyWizard.SCREEN_TOGGLE_WIDGETS, 40, 40, (btn) -> {
+		    client.openScreen(new KeyWizardScreen(parent));
+		});
+		this.addButton(screenToggleButton);
 	}
+	
 }
