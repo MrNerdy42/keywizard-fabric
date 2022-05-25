@@ -21,4 +21,22 @@ public class KeyBindingUtil {
 
 		return categories;
 	}
+	
+	public enum DynamicCategories {
+	    ALL("key.categories.all"),
+	    CONFLICTS("key.categories.conflicts"),
+	    UNBOUND("key.categories.conflicts");
+		
+		private final String category;
+
+		DynamicCategories(final String category) {
+			this.category = category;
+		}
+		
+		@Override
+		public String toString() {
+			return this.category;
+		}
+	}
+
 }

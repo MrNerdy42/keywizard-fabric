@@ -1,5 +1,7 @@
 package mrnerdy42.keywizard.gui;
 
+import org.jetbrains.annotations.Nullable;
+
 import mrnerdy42.keywizard.KeyWizard;
 import mrnerdy42.keywizard.util.KeyBindingUtil;
 import net.minecraft.client.MinecraftClient;
@@ -72,6 +74,7 @@ public class KeyWizardScreen extends GameOptionsScreen{
 		return this.textRenderer;
 	}
 	
+	@Nullable
 	public KeyBinding getSelectedKeyBinding() {
 		return this.bindingList.getSelectedKeyBinding();
 	}

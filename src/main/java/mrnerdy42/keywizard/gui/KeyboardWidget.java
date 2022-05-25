@@ -130,8 +130,11 @@ public class KeyboardWidget extends AbstractParentElement implements Drawable, T
 		@Override
 		public void onPress() {
 			this.playDownSound(MinecraftClient.getInstance().getSoundManager());
-			keyWizardScreen.getSelectedKeyBinding().setBoundKey(this.key);
-			KeyBinding.updateKeysByCode();
+			KeyBinding selectedKeyBinding = keyWizardScreen.getSelectedKeyBinding();
+			if (selectedKeyBinding != null) {
+				selectedKeyBinding.setBoundKey(this.key);
+				KeyBinding.updateKeysByCode();
+			}
 		}
 
 		@SuppressWarnings("resource")
