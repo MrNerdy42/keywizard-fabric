@@ -51,7 +51,10 @@ public class CategorySelectorWidget extends PressableWidget implements TickableE
 		this.hovered = this.extended;
 	}
 	
-	public String getSelctedCategory(){
+	public String getSelctedCategory() {
+		if (this.list.getSelected() == null) {
+			return null;
+		}
     	return ((BindingCategoryListWidget.CategoryEntry) this.list.getSelected()).category;
     }
     

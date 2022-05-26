@@ -17,6 +17,8 @@ import net.minecraft.text.TranslatableText;
 
 public class KeyWizardScreen extends GameOptionsScreen{
 	
+	private String searchText = "";
+	
 	private KeyboardWidget keyboard;
 	private KeyBindingListWidget bindingList;
 	private CategorySelectorWidget categorySelector;
@@ -43,7 +45,7 @@ public class KeyWizardScreen extends GameOptionsScreen{
 		}
 		
 		int bindingListWidth = (maxBindingNameWidth + 20);
-		this.bindingList = new KeyBindingListWidget(this.client, 10, 10, bindingListWidth, this.height - 40, this.textRenderer.fontHeight * 3 + 10);
+		this.bindingList = new KeyBindingListWidget(this, 10, 10, bindingListWidth, this.height - 40, this.textRenderer.fontHeight * 3 + 10);
 		this.keyboard = KeyboardWidgetBuilder.StandardKeyboard(this, bindingListWidth + 15, this.height / 2 - 90, this.width - (bindingListWidth + 15), 200);
 		this.categorySelector = new CategorySelectorWidget(this, bindingListWidth + 15, 5, maxCategoryWidth + 10, 20);
 		this.screenToggleButton = new TexturedButtonWidget(this.width - 22, this.height - 22, 20, 20, 20, 0, 20, KeyWizard.SCREEN_TOGGLE_WIDGETS, 40, 40, (btn) -> {
@@ -81,6 +83,20 @@ public class KeyWizardScreen extends GameOptionsScreen{
 	
 	public boolean getCategorySelectorExtended() {
 		return this.categorySelector.extended;
+	}
+	
+	@Nullable
+	public String getSelectedCategory() {
+		return this.categorySelector.getSelctedCategory();
+	}
+	
+	public String getSearchText() {
+		return this.searchText;
+	}
+	
+	public void setSearchText(String s) {
+		this.searchText = s;
+		//this.searchBar.setText(s);
 	}
 	
 }
