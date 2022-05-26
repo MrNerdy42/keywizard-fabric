@@ -6,6 +6,10 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.option.KeyBinding;
 
 public class KeyBindingUtil {
+	public static final String DYNAMIC_CATEGORY_ALL = "key.categories.keywizard.all";
+	public static final String DYNAMIC_CATEGORY_CONFLICTS = "key.categories.keywizard.conflicts";
+	public static final String DYNAMIC_CATEGORY_UNBOUND = "key.categories.keywizard.unbound";
+	
 	/**
 	 * Get a list of all binding categories
 	 */
@@ -22,21 +26,13 @@ public class KeyBindingUtil {
 		return categories;
 	}
 	
-	public enum DynamicCategories {
-	    ALL("key.categories.all"),
-	    CONFLICTS("key.categories.conflicts"),
-	    UNBOUND("key.categories.conflicts");
-		
-		private final String category;
-
-		DynamicCategories(final String category) {
-			this.category = category;
-		}
-		
-		@Override
-		public String toString() {
-			return this.category;
-		}
+	public static ArrayList<String> getCategoriesWithDynamics() {
+		ArrayList<String> categories = new ArrayList<>();
+		categories.add(DYNAMIC_CATEGORY_ALL);
+		categories.add(DYNAMIC_CATEGORY_CONFLICTS);
+		categories.add(DYNAMIC_CATEGORY_UNBOUND);
+		categories.addAll(getCategories());
+		return categories;
 	}
 
 }

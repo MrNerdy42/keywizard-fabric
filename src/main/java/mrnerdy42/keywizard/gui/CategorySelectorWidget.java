@@ -60,7 +60,7 @@ public class CategorySelectorWidget extends PressableWidget implements TickableE
 		public BindingCategoryListWidget(MinecraftClient client, int top, int left, int width, int height, int itemHeight) {
 			super(client, top, left, width, height, itemHeight);
 			
-			for (String c : KeyBindingUtil.getCategories()) {
+			for (String c : KeyBindingUtil.getCategoriesWithDynamics()) {
 				this.addEntry(new CategoryEntry(c));
 			}
 			this.setSelected(this.children().get(0));

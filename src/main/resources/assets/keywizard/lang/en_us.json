@@ -1,8 +1,8 @@
 {
-"categories.all": "All Bindings",
-"categories.conflicts": "Conflicting",
-"categories.unbound": "Unbound",
-"gui.openKeyWiz": "Key Wizard",
+"key.categories.keywizard.all": "All Bindings",
+"key.categories.keywizard.conflicts": "Conflicting",
+"key.categories.keywizard.unbound": "Unbound",
+"key.categories.keywizard.bindings": "Keyboard Wizard",
 "gui.done": "Done",
 "gui.resetBinding": "Reset Binding",
 "gui.clearBinding": "Clear Binding",
@@ -10,6 +10,5 @@
 "gui.bindingCategories": "Binding Categories",
 "gui.page": "Page",
 "gui.mouse": "Mouse",
-"key.keywizard.openKeyWizard": "Open Key Wizard",
-"keywizard.button.openKeyWizard": "KW"
+"key.keywizard.openKeyWizard": "Open Key Wizard"
 }
