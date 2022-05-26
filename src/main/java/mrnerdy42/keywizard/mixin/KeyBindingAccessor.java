@@ -9,5 +9,5 @@ import net.minecraft.client.util.InputUtil;
 @Mixin(KeyBinding.class)
 public interface KeyBindingAccessor {
 	@Accessor
-	InputUtil.Key getboundKey();
+	InputUtil.Key getBoundKey();
 }
