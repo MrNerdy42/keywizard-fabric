@@ -17,6 +17,7 @@ public class KeyBindingListWidget extends FreeFormListWidget<KeyBindingListWidge
 	
 	public KeyWizardScreen keyWizardScreen;
 	private String searchText = "";
+	private String category = KeyBindingUtil.DYNAMIC_CATEGORY_ALL;
 
 	public KeyBindingListWidget(KeyWizardScreen keyWizardScreen, int top, int left, int width, int height, int itemHeight) {
 		super(MinecraftClient.getInstance(), top, left, width, height, itemHeight);
@@ -37,9 +38,21 @@ public class KeyBindingListWidget extends FreeFormListWidget<KeyBindingListWidge
 	}
 	
 	private void updateList() {
-		String category = this.keyWizardScreen.getSelectedCategory();
-		KeyBinding[] bindings = getBindingsByCategory(category == null ? KeyBindingUtil.DYNAMIC_CATEGORY_ALL : category);
-		if (!this.searchText.equals(this.keyWizardScreen.getSearchText())) {
+		if (!this.searchText.equals(this.keyWizardScreen.getSearchText()) || !this.category.equals(this.keyWizardScreen.getSelectedCategory())) {
+			this.category = this.keyWizardScreen.getSelectedCategory();
+			KeyBinding[] bindings = getBindingsByCategory(this.category);
+			if (!this.searchText.equals(this.keyWizardScreen.getSearchText())) {
+				//String[] words = this.searchText.split("\\s+");
+			}
+			this.children().clear();
+			if (bindings.length > 0) {
+				for (KeyBinding k : bindings) {
+					this.addEntry(new BindingEntry(k));
+				}
+				this.setSelected(this.children().get(0));
+			} else {
+				this.setSelected(null);
+			}
 		}
 	}
 	
@@ -67,7 +80,7 @@ public class KeyBindingListWidget extends FreeFormListWidget<KeyBindingListWidge
 	
 	@Override
 	public void tick() {
-		
+		updateList();
 	}
 
 	public class BindingEntry extends FreeFormListWidget<KeyBindingListWidget.BindingEntry>.Entry{

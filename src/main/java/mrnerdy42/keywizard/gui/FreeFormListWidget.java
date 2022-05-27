@@ -63,7 +63,7 @@ public abstract class FreeFormListWidget<E extends FreeFormListWidget<E>.Entry> 
 
 	@Override
 	public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
-		if (this.visible) {
+		if (this.visible) { //TODO: Still grabs mouse input when hidden
 			this.renderBackground(matrices);
 			super.render(matrices, mouseX, mouseY, delta);
 		}
