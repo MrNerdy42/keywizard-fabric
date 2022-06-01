@@ -3,6 +3,7 @@ package mrnerdy42.keywizard.gui;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import mrnerdy42.keywizard.util.DrawingUtil;
 import net.minecraft.client.MinecraftClient;
@@ -12,8 +13,10 @@ import net.minecraft.client.gui.Drawable;
 import net.minecraft.client.gui.screen.TickableElement;
 import net.minecraft.client.gui.widget.PressableWidget;
 import net.minecraft.client.option.KeyBinding;
+import net.minecraft.client.resource.language.I18n;
 import net.minecraft.client.util.InputUtil;
 import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.text.OrderedText;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
 
@@ -84,7 +87,6 @@ public class KeyboardWidget extends AbstractParentElement implements Drawable, T
 		protected float height;
 
 		private InputUtil.Key key;
-		// private ArrayList<KeyBinding> bindings = new ArrayList<KeyBinding>();
 		private List<Text> tooltipText = new ArrayList<>();
 
 		protected KeyboardKeyWidget(int keyCode, float x, float y, float width, float height) {
@@ -121,7 +123,8 @@ public class KeyboardWidget extends AbstractParentElement implements Drawable, T
 				color = 0xFF555555;
 			}
 			DrawingUtil.drawNoFillRect(matrices, this.x, this.y, this.x + this.width, this.y + this.height, color);
-			TextRenderer textRenderer = keyWizardScreen.getTextRenderer();
+			@SuppressWarnings("resource")
+			TextRenderer textRenderer = MinecraftClient.getInstance().textRenderer;
 			textRenderer.drawWithShadow(matrices, this.getMessage(),
 					(this.x + (this.width) / 2 - textRenderer.getWidth(this.getMessage()) / 2),
 					this.y + (this.height - 6) / 2, color);
@@ -139,21 +142,13 @@ public class KeyboardWidget extends AbstractParentElement implements Drawable, T
 
 		@SuppressWarnings("resource")
 		private void updateTooltip() {
-			// Style test = Style.EMPTY.withColor(TextColor.fromRgb(0x555555));
-			List<Text> tooltipText = new ArrayList<>();
+			ArrayList<String> tooltipText = new ArrayList<>();
 			for (KeyBinding b : MinecraftClient.getInstance().options.keysAll) {
 				if (b.matchesKey(this.key.getCode(), -1)) {
-					tooltipText.add(new TranslatableText(
-							b.getTranslationKey()));/*
-													 * .append(new
-													 * TranslatableText(" (this is a test)").setStyle(test)));
-													 */
+					tooltipText.add(I18n.translate(b.getTranslationKey()));
 				}
 			}
-			// Sorting not working has something to do with with either the collector or
-			// Lists.transform not preserving list order.
-			this.tooltipText = tooltipText;// .stream().sorted((a, b) ->
-											// a.asString().compareTo(b.asString())).collect(Collectors.toList());
+			this.tooltipText = tooltipText.stream().sorted().map(s -> new TranslatableText(s)).collect(Collectors.toCollection(ArrayList<Text>::new));
 		}
 
 		@Override
