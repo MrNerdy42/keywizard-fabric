@@ -74,6 +74,78 @@ public abstract class FreeFormListWidget<E extends FreeFormListWidget<E>.Entry> 
 		return true;
 	}
 	
+	@Override
+	public boolean mouseClicked(double mouseX, double mouseY, int button) {
+		if (this.visible) {
+			return super.mouseClicked(mouseX, mouseY, button);
+		}
+		
+		return false;
+	}
+	
+	@Override
+	public boolean mouseReleased(double mouseX, double mouseY, int button) {
+		if (this.visible) {
+			return super.mouseReleased(mouseX, mouseY, button);
+		}
+		
+		return false;
+	}
+	
+	@Override
+	public boolean mouseDragged(double mouseX, double mouseY, int button, double deltaX, double deltaY) {
+		if (this.visible) {
+			return super.mouseDragged(mouseX, mouseY, button, deltaX, deltaY);
+		}
+		
+		return false;
+	}
+	
+	@Override
+	public boolean mouseScrolled(double mouseX, double mouseY, double amount) {
+		if (this.visible) {
+			return super.mouseScrolled(mouseX, mouseY, amount);
+		}
+		
+		return false;
+	}
+	
+	@Override
+	public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
+		if (this.visible) {
+			return super.keyPressed(keyCode, scanCode, modifiers);
+		}
+		
+		return false;
+	}
+	
+	@Override
+	public boolean keyReleased(int keyCode, int scanCode, int modifiers) {
+		if (this.visible) {
+			return super.keyReleased(keyCode, scanCode, modifiers);
+		}
+		
+		return false;
+	}
+	
+	@Override
+	public boolean charTyped(char chr, int modifiers) {
+		if (this.visible) {
+			return super.charTyped(chr, modifiers);
+		}
+		
+		return false;
+	}
+	
+	@Override
+	public boolean isMouseOver(double mouseX, double mouseY) {
+		if (this.visible) {
+			return super.isMouseOver(mouseX, mouseY);
+		}
+		
+		return false;
+	}
+	
 	public abstract class Entry extends EntryListWidget.Entry<FreeFormListWidget<E>.Entry>{
 		@Override
 		public abstract void render(MatrixStack matrices, int index, int y, int x, int entryWidth, int entryHeight, int mouseX, int mouseY, boolean hovered, float tickDelta);
@@ -83,9 +155,9 @@ public abstract class FreeFormListWidget<E extends FreeFormListWidget<E>.Entry> 
 			if (button == 0) {
 				this.onPressed();
 				return true;
-			} else {
-				return false;
 			}
+				
+			return false;
 		}
 		
 		private void onPressed() {
