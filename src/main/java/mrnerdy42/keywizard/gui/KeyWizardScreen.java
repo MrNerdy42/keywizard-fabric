@@ -37,6 +37,7 @@ public class KeyWizardScreen extends GameOptionsScreen{
 			if (w > maxBindingNameWidth)
 				maxBindingNameWidth = w;
 		}
+		
 		int maxCategoryWidth = 0;
 		for (String s : KeyBindingUtil.getCategories()) {
 			int w = this.textRenderer.getWidth(new TranslatableText(s));
@@ -47,7 +48,7 @@ public class KeyWizardScreen extends GameOptionsScreen{
 		int bindingListWidth = (maxBindingNameWidth + 20);
 		this.bindingList = new KeyBindingListWidget(this, 10, 10, bindingListWidth, this.height - 40, this.textRenderer.fontHeight * 3 + 10);
 		this.keyboard = KeyboardWidgetBuilder.StandardKeyboard(this, bindingListWidth + 15, this.height / 2 - 90, this.width - (bindingListWidth + 15), 200);
-		this.categorySelector = new CategorySelectorWidget(this, bindingListWidth + 15, 5, maxCategoryWidth + 10, 20);
+		this.categorySelector = new CategorySelectorWidget(this, bindingListWidth + 15, 5, maxCategoryWidth + 20, 20);
 		this.screenToggleButton = new TexturedButtonWidget(this.width - 22, this.height - 22, 20, 20, 20, 0, 20, KeyWizard.SCREEN_TOGGLE_WIDGETS, 40, 40, (btn) -> {
 			this.client.openScreen(new ControlsOptionsScreen(this.parent, this.gameOptions));
 		});

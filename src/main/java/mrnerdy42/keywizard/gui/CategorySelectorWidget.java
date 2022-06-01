@@ -1,5 +1,7 @@
 package mrnerdy42.keywizard.gui;
 
+import java.util.ArrayList;
+
 import mrnerdy42.keywizard.util.KeyBindingUtil;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.TickableElement;
@@ -19,7 +21,9 @@ public class CategorySelectorWidget extends PressableWidget implements TickableE
 		super(x, y, width, height, Text.of(""));
 		this.keyWizardScreen = keyWizardScreen;
 		MinecraftClient c = MinecraftClient.getInstance();
-		this.list = new BindingCategoryListWidget(c, y + height, x, width, this.keyWizardScreen.height - 20, c.textRenderer.fontHeight + 7);
+		int listItemHeight = c.textRenderer.fontHeight + 7;
+		int listHeight = KeyBindingUtil.getCategoriesWithDynamics().size() * listItemHeight + 10;
+		this.list = new BindingCategoryListWidget(c, this.y + this.height, this.x, this.width, listHeight, listItemHeight);
 	}
 	
 	@Override
