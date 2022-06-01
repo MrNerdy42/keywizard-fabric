@@ -74,10 +74,6 @@ public class KeyWizardScreen extends GameOptionsScreen{
 		this.bindingList.tick();
 	}
 	
-	public TextRenderer getTextRenderer() {
-		return this.textRenderer;
-	}
-	
 	@Nullable
 	public KeyBinding getSelectedKeyBinding() {
 		return this.bindingList.getSelectedKeyBinding();
@@ -88,8 +84,7 @@ public class KeyWizardScreen extends GameOptionsScreen{
 	}
 	
 	public String getSelectedCategory() {
-		String category = this.categorySelector.getSelctedCategory();
-		return category == null ? KeyBindingUtil.DYNAMIC_CATEGORY_ALL : category;
+		return this.categorySelector.getSelctedCategory();
 	}
 	
 	public String getSearchText() {

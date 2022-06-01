@@ -24,8 +24,6 @@ public abstract class FreeFormListWidget<E extends FreeFormListWidget<E>.Entry> 
 
 		this.method_31322(false);
 		this.method_31323(false);
-
-		//this.setSelected(this.children().get(0));
 	}
 
 	@Override
@@ -63,7 +61,7 @@ public abstract class FreeFormListWidget<E extends FreeFormListWidget<E>.Entry> 
 
 	@Override
 	public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
-		if (this.visible) { //TODO: Still grabs mouse input when hidden
+		if (this.visible) {
 			this.renderBackground(matrices);
 			super.render(matrices, mouseX, mouseY, delta);
 		}

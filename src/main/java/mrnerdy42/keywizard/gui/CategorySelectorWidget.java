@@ -1,7 +1,5 @@
 package mrnerdy42.keywizard.gui;
 
-import java.util.ArrayList;
-
 import mrnerdy42.keywizard.util.KeyBindingUtil;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.TickableElement;
@@ -52,12 +50,11 @@ public class CategorySelectorWidget extends PressableWidget implements TickableE
 	public void tick() {
 		this.setMessage(new TranslatableText(this.getSelctedCategory()));
     	this.list.visible = this.extended;
-		this.hovered = this.extended;
 	}
 	
 	public String getSelctedCategory() {
 		if (this.list.getSelected() == null) {
-			return null;
+			return KeyBindingUtil.DYNAMIC_CATEGORY_ALL;
 		}
     	return ((BindingCategoryListWidget.CategoryEntry) this.list.getSelected()).category;
     }
