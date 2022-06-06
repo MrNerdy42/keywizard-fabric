@@ -13,7 +13,7 @@ public class CategorySelectorWidget extends PressableWidget implements TickableE
 	public KeyWizardScreen keyWizardScreen;
 	public boolean extended = false;
 	
-	private BindingCategoryListWidget list;
+	public BindingCategoryListWidget list;
 	
 	public CategorySelectorWidget(KeyWizardScreen keyWizardScreen, int x, int y, int width, int height) {
 		super(x, y, width, height, Text.of(""));
@@ -21,7 +21,7 @@ public class CategorySelectorWidget extends PressableWidget implements TickableE
 		MinecraftClient c = MinecraftClient.getInstance();
 		int listItemHeight = c.textRenderer.fontHeight + 7;
 		int listHeight = KeyBindingUtil.getCategoriesWithDynamics().size() * listItemHeight + 10;
-		this.list = new BindingCategoryListWidget(c, this.y + this.height, this.x, this.width, listHeight, listItemHeight);
+		this.list = new BindingCategoryListWidget(c, this.y + this.height, this.x, this.width, 50, listItemHeight);
 	}
 	
 	@Override
@@ -76,6 +76,12 @@ public class CategorySelectorWidget extends PressableWidget implements TickableE
 
 			public CategoryEntry(String category) {
 			    this.category = category;
+			}
+			
+			@Override
+			public boolean mouseScrolled(double mouseX, double mouseY, double amount) {
+				System.out.println("What a scroll!");
+				return super.mouseScrolled(mouseX, mouseY, amount);
 			}
 
 			@Override

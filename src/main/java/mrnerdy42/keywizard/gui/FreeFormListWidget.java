@@ -74,74 +74,44 @@ public abstract class FreeFormListWidget<E extends FreeFormListWidget<E>.Entry> 
 	
 	@Override
 	public boolean mouseClicked(double mouseX, double mouseY, int button) {
-		if (this.visible) {
-			return super.mouseClicked(mouseX, mouseY, button);
-		}
-		
-		return false;
+		return this.visible && super.mouseClicked(mouseX, mouseY, button);
 	}
 	
 	@Override
 	public boolean mouseReleased(double mouseX, double mouseY, int button) {
-		if (this.visible) {
-			return super.mouseReleased(mouseX, mouseY, button);
-		}
-		
-		return false;
+		return this.visible && super.mouseReleased(mouseX, mouseY, button);
+
 	}
 	
 	@Override
 	public boolean mouseDragged(double mouseX, double mouseY, int button, double deltaX, double deltaY) {
-		if (this.visible) {
-			return super.mouseDragged(mouseX, mouseY, button, deltaX, deltaY);
-		}
-		
-		return false;
+		return this.visible && super.mouseDragged(mouseX, mouseY, button, deltaX, deltaY);
 	}
 	
 	@Override
 	public boolean mouseScrolled(double mouseX, double mouseY, double amount) {
-		if (this.visible) {
-			return super.mouseScrolled(mouseX, mouseY, amount);
-		}
-		
-		return false;
+		return this.visible && super.mouseScrolled(mouseX, mouseY, amount);
 	}
 	
 	@Override
 	public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
-		if (this.visible) {
-			return super.keyPressed(keyCode, scanCode, modifiers);
-		}
-		
-		return false;
+		return this.visible && super.keyPressed(keyCode, scanCode, modifiers);
 	}
 	
 	@Override
 	public boolean keyReleased(int keyCode, int scanCode, int modifiers) {
-		if (this.visible) {
-			return super.keyReleased(keyCode, scanCode, modifiers);
-		}
-		
-		return false;
+		return this.visible && super.keyReleased(keyCode, scanCode, modifiers);
+
 	}
 	
 	@Override
 	public boolean charTyped(char chr, int modifiers) {
-		if (this.visible) {
-			return super.charTyped(chr, modifiers);
-		}
-		
-		return false;
+		return this.visible && super.charTyped(chr, modifiers);
 	}
 	
 	@Override
 	public boolean isMouseOver(double mouseX, double mouseY) {
-		if (this.visible) {
-			return super.isMouseOver(mouseX, mouseY);
-		}
-		
-		return false;
+		return this.visible && super.isMouseOver(mouseX, mouseY);
 	}
 	
 	public abstract class Entry extends EntryListWidget.Entry<FreeFormListWidget<E>.Entry>{
