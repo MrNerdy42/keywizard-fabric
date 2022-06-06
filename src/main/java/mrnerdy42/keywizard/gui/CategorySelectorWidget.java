@@ -22,6 +22,9 @@ public class CategorySelectorWidget extends PressableWidget implements TickableE
 		MinecraftClient c = MinecraftClient.getInstance();
 		int listItemHeight = c.textRenderer.fontHeight + 7;
 		int listHeight = KeyBindingUtil.getCategoriesWithDynamics().size() * listItemHeight + 10;
+		if (listHeight > this.keyWizardScreen.height - this.y - listItemHeight) {
+			listHeight = this.keyWizardScreen.height - listItemHeight;
+		}
 		this.categoryList = new BindingCategoryListWidget(c, this.y + this.height, this.x, this.width, listHeight, listItemHeight);
 	}
 	
