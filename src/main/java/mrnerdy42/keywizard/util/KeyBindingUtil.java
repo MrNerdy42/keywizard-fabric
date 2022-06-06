@@ -1,9 +1,9 @@
 package mrnerdy42.keywizard.util;
 
 import java.util.ArrayList;
+import java.util.stream.Collectors;
 
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.option.KeyBinding;
+import mrnerdy42.keywizard.mixin.KeyBindingAccessor;
 
 public class KeyBindingUtil {
 	public static final String DYNAMIC_CATEGORY_ALL = "key.categories.keywizard.all";
@@ -13,26 +13,16 @@ public class KeyBindingUtil {
 	/**
 	 * Get a list of all binding categories
 	 */
-	@SuppressWarnings("resource")
 	public static ArrayList<String> getCategories() {
-		ArrayList<String> categories = new ArrayList<>();
-
-		for (KeyBinding k : MinecraftClient.getInstance().options.keysAll) {
-			String c = k.getCategory();
-			if (!categories.contains(c))
-				categories.add(c);
-		}
-
-		return categories;
+		return KeyBindingAccessor.getKeyCategories().stream().sorted().collect(Collectors.toCollection(ArrayList<String>::new));
 	}
 	
 	public static ArrayList<String> getCategoriesWithDynamics() {
-		ArrayList<String> categories = new ArrayList<>();
-		categories.add(DYNAMIC_CATEGORY_ALL);
-		categories.add(DYNAMIC_CATEGORY_CONFLICTS);
-		categories.add(DYNAMIC_CATEGORY_UNBOUND);
-		categories.addAll(getCategories());
+		ArrayList<String> categories = getCategories();
+		categories.add(0, DYNAMIC_CATEGORY_UNBOUND);
+		categories.add(0, DYNAMIC_CATEGORY_CONFLICTS);
+		categories.add(0, DYNAMIC_CATEGORY_ALL);
 		return categories;
 	}
-
+	
 }

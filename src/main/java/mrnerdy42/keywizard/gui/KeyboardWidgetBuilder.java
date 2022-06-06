@@ -41,40 +41,11 @@ public class KeyboardWidgetBuilder {
 		
 		currentY += keyHeight + keySpacing;
 		keyWidth = width / 7 - keySpacing;
-		//currentX = addHorizontalRow(kb, new int[] {GLFW.GLFW_KEY_LEFT_CONTROL,GLFW.GLFW_KEY_LEFT_SUPER,GLFW.GLFW_KEY_LEFT_ALT}, 0, currentY, keyWidth, keyHeight, keySpacing);
-		//currentX = kb.addKey(currentX, currentY, keyWidth-5, keyHeight, keySpacing, GLFW.GLFW_KEY_SPACE);
-		//currentX = addHorizontalRow(kb, new int[] {GLFW.GLFW_KEY_RIGHT_ALT,GLFW.GLFW_KEY_RIGHT_SUPER,GLFW.GLFW_KEY_RIGHT_CONTROL}, currentX, currentY, keyWidth, keyHeight, keySpacing);
 		currentX = addHorizontalRow(kb, new int[] {GLFW.GLFW_KEY_LEFT_CONTROL,GLFW.GLFW_KEY_LEFT_SUPER,GLFW.GLFW_KEY_LEFT_ALT, GLFW.GLFW_KEY_SPACE, GLFW.GLFW_KEY_RIGHT_ALT,GLFW.GLFW_KEY_RIGHT_SUPER,GLFW.GLFW_KEY_RIGHT_CONTROL}, 0, currentY, keyWidth, keyHeight, keySpacing);
 
 		
 		return kb;
 	}
-	
-	/*private static KeyboardWidget makeQwertyKeyboard(int x, int y, int width, int height) {
-		
-	}*/
-	
-	/*
-	/**
-	 * Adds a uniformly spaced row to the keyboard it is passed.
-	 * @param kb
-	 * @param startCode
-	 * @param endCode
-	 * @param startX
-	 * @param y
-	 * @param width
-	 * @param height
-	 * @param spacing
-	 * @return x position of left edge of the last key added
-	 * /
-	private static int addHorizontalRow(KeyboardWidget kb, int startCode, int endCode, int startX, int y, int width, int height, int spacing) {
-		int currentX = startX;
-		for(int i=startCode; i<=endCode; i++) {
-			currentX = kb.addKey(currentX, y, width, height, spacing, i);
-		}
-		return currentX;//startX + (width * (endCode-startCode + 1) + spacing * ((endCode-startCode)+1));
-	}
-	*/
 	
 	/**
 	 * Adds a uniformly spaced row to the keyboard it is passed.
@@ -92,7 +63,7 @@ public class KeyboardWidgetBuilder {
 		for(int k:keys) {
 			currentX = kb.addKey(currentX, y, width, height, spacing, k);
 		}
-		return currentX;//startX + (width * (keys.length) + spacing * (keys.length));
+		return currentX;
 	}
 
 }
