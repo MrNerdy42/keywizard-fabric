@@ -53,9 +53,9 @@ public class KeyWizardScreen extends GameOptionsScreen{
 		});
 		this.addChild(this.bindingList);
 		this.addChild(this.keyboard);
-		this.addChild(categorySelector);
-		this.addChild(categorySelector.list);
-		this.addButton(screenToggleButton);
+		this.addChild(this.categorySelector);
+		this.addChild(this.categorySelector.getCategoryList());
+		this.addButton(this.screenToggleButton);
 	}
 	
 	@Override
