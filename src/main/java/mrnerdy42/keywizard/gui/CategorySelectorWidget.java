@@ -22,10 +22,12 @@ public class CategorySelectorWidget extends PressableWidget implements TickableE
 		MinecraftClient c = MinecraftClient.getInstance();
 		int listItemHeight = c.textRenderer.fontHeight + 7;
 		int listHeight = KeyBindingUtil.getCategoriesWithDynamics().size() * listItemHeight + 10;
-		if (listHeight > this.keyWizardScreen.height - this.y - listItemHeight) {
-			listHeight = this.keyWizardScreen.height - listItemHeight;
+		int listBottom = this.y + this.height + listHeight;
+		if (listBottom > this.keyWizardScreen.height) {
+			listHeight = this.keyWizardScreen.height - this.y - this.height - 10;
 		}
 		this.categoryList = new BindingCategoryListWidget(c, this.y + this.height, this.x, this.width, listHeight, listItemHeight);
+
 	}
 	
 	@Override
@@ -76,6 +78,10 @@ public class CategorySelectorWidget extends PressableWidget implements TickableE
 				this.addEntry(new CategoryEntry(c));
 			}
 			this.setSelected(this.children().get(0));
+		}
+		
+		public int getBottom() {
+			return this.bottom;
 		}
 		
 		public class CategoryEntry extends FreeFormListWidget<BindingCategoryListWidget.CategoryEntry>.Entry{

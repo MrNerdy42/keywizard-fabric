@@ -22,35 +22,6 @@ public class KeyBindingUtil {
 		categories.add(0, DYNAMIC_CATEGORY_UNBOUND);
 		categories.add(0, DYNAMIC_CATEGORY_CONFLICTS);
 		categories.add(0, DYNAMIC_CATEGORY_ALL);
-		categories.add(0, "test");
-		categories.add(0, "test");
-		categories.add(0, "test");
-		categories.add(0, "test");
-		categories.add(0, "test");
-		categories.add(0, "test");
-		categories.add(0, "test");
-		categories.add(0, "test");
-		categories.add(0, "test");
-		categories.add(0, "test");
-		categories.add(0, "test");
-		categories.add(0, "test");
-		categories.add(0, "test");
-		categories.add(0, "test");
-		categories.add(0, "test");
-		categories.add(0, "test");
-		categories.add(0, "test");
-		categories.add(0, "test");
-		categories.add(0, "test");
-		categories.add(0, "test");
-		categories.add(0, "test");
-		categories.add(0, "test");
-		categories.add(0, "test");
-		categories.add(0, "test");
-		categories.add(0, "test");
-		categories.add(0, "test");
-		categories.add(0, "test");
-		categories.add(0, "test");
-		categories.add(0, "test");
 		return categories;
 	}
 	
