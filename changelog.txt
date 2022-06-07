@@ -1,3 +1,9 @@
+v2.0.0-beta.1
+Added category selector!
+Added button to toggle between the vanilla controls GUI and Keyboard Wizard
+Keyboard key tooltips are sorted alphabetically (at least in the Latin alphabet)
+Did a bunch of code cleanup
+
 v2.0.0-alpha.2
 Added tooltips to keys
 Split up list code on the back end
