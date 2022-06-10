@@ -80,10 +80,6 @@ public class CategorySelectorWidget extends PressableWidget implements TickableE
 			this.setSelected(this.children().get(0));
 		}
 		
-		public int getBottom() {
-			return this.bottom;
-		}
-		
 		public class CategoryEntry extends FreeFormListWidget<BindingCategoryListWidget.CategoryEntry>.Entry{
 
 			private final String category;
