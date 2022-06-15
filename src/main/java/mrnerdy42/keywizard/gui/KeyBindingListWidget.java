@@ -39,9 +39,17 @@ public class KeyBindingListWidget extends FreeFormListWidget<KeyBindingListWidge
 		if (!this.searchText.equals(this.keyWizardScreen.getSearchText()) || !this.category.equals(this.keyWizardScreen.getSelectedCategory())) {
 			this.category = this.keyWizardScreen.getSelectedCategory();
 			KeyBinding[] bindings = getBindingsByCategory(this.category);
+			
 			if (!this.searchText.equals(this.keyWizardScreen.getSearchText())) {
-				//String[] words = this.searchText.split("\\s+");
+				this.searchText = this.keyWizardScreen.getSearchText();
+				if (!this.searchText.equals("")) {
+					if (this.searchText.charAt(0) == '@') {
+						bindings = filterBindingsByKey(bindings, "test");
+					}
+				}
+				
 			}
+			
 			this.children().clear();
 			if (bindings.length > 0) {
 				for (KeyBinding k : bindings) {

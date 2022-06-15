@@ -8,6 +8,7 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.option.ControlsOptionsScreen;
 import net.minecraft.client.gui.screen.option.GameOptionsScreen;
+import net.minecraft.client.gui.widget.TextFieldWidget;
 import net.minecraft.client.gui.widget.TexturedButtonWidget;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.util.math.MatrixStack;
@@ -22,6 +23,7 @@ public class KeyWizardScreen extends GameOptionsScreen{
 	private KeyBindingListWidget bindingList;
 	private CategorySelectorWidget categorySelector;
 	private TexturedButtonWidget screenToggleButton;
+	private TextFieldWidget searchBar;
 
 	@SuppressWarnings("resource")
 	public KeyWizardScreen(Screen parent) {
@@ -51,11 +53,13 @@ public class KeyWizardScreen extends GameOptionsScreen{
 		this.screenToggleButton = new TexturedButtonWidget(this.width - 22, this.height - 22, 20, 20, 20, 0, 20, KeyWizard.SCREEN_TOGGLE_WIDGETS, 40, 40, (btn) -> {
 			this.client.openScreen(new ControlsOptionsScreen(this.parent, this.gameOptions));
 		});
+		this.searchBar = new TextFieldWidget(this.textRenderer, 10, this.height - 20, bindingListWidth, 14, Text.of(""));
 		this.addChild(this.bindingList);
 		this.addChild(this.keyboard);
 		this.addChild(this.categorySelector);
 		this.addChild(this.categorySelector.getCategoryList());
 		this.addButton(this.screenToggleButton);
+		this.addChild(this.searchBar);
 	}
 	
 	@Override
@@ -64,6 +68,7 @@ public class KeyWizardScreen extends GameOptionsScreen{
 		this.keyboard.render(matrices, mouseX, mouseY, delta);
 		this.bindingList.render(matrices, mouseX, mouseY, delta);
 		this.categorySelector.render(matrices, mouseX, mouseY, delta);
+		this.searchBar.render(matrices, mouseX, mouseY, delta);
 		super.render(matrices, mouseX, mouseY, delta);
 	}
 	
