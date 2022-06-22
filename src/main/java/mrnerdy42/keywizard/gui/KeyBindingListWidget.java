@@ -1,6 +1,9 @@
 package mrnerdy42.keywizard.gui;
 
 import java.util.Arrays;
+import java.util.function.Predicate;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.jetbrains.annotations.Nullable;
 
@@ -8,14 +11,16 @@ import mrnerdy42.keywizard.util.KeyBindingUtil;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.TickableElement;
 import net.minecraft.client.option.KeyBinding;
+import net.minecraft.client.resource.language.I18n;
 import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
 
 public class KeyBindingListWidget extends FreeFormListWidget<KeyBindingListWidget.BindingEntry> implements TickableElement {
 	
 	public KeyWizardScreen keyWizardScreen;
-	private String searchText = "";
-	private String category = KeyBindingUtil.DYNAMIC_CATEGORY_ALL;
+	private String currentFilterText = "";
+	private String currentCategory = KeyBindingUtil.DYNAMIC_CATEGORY_ALL;
 
 	public KeyBindingListWidget(KeyWizardScreen keyWizardScreen, int top, int left, int width, int height, int itemHeight) {
 		super(MinecraftClient.getInstance(), top, left, width, height, itemHeight);
@@ -36,18 +41,21 @@ public class KeyBindingListWidget extends FreeFormListWidget<KeyBindingListWidge
 	}
 	
 	private void updateList() {
-		if (!this.searchText.equals(this.keyWizardScreen.getSearchText()) || !this.category.equals(this.keyWizardScreen.getSelectedCategory())) {
-			this.category = this.keyWizardScreen.getSelectedCategory();
-			KeyBinding[] bindings = getBindingsByCategory(this.category);
+		boolean filterUpdate = !this.currentFilterText.equals(this.keyWizardScreen.getFilterText());
+		boolean categoryUpdate = !this.currentCategory.equals(this.keyWizardScreen.getSelectedCategory());
+		
+		if (categoryUpdate || filterUpdate) {			
+			if (categoryUpdate) {
+				this.currentCategory = this.keyWizardScreen.getSelectedCategory();
+			}
 			
-			if (!this.searchText.equals(this.keyWizardScreen.getSearchText())) {
-				this.searchText = this.keyWizardScreen.getSearchText();
-				if (!this.searchText.equals("")) {
-					if (this.searchText.charAt(0) == '@') {
-						bindings = filterBindingsByKey(bindings, "test");
-					}
+			KeyBinding[] bindings = getBindingsByCategory(this.currentCategory);
+			
+			if (filterUpdate) {
+				this.currentFilterText = this.keyWizardScreen.getFilterText();		
+				if (!this.currentFilterText.equals("")) {
+				    bindings = filterBindings(bindings, this.currentFilterText);
 				}
-				
 			}
 			
 			this.children().clear();
@@ -60,6 +68,41 @@ public class KeyBindingListWidget extends FreeFormListWidget<KeyBindingListWidge
 				this.setSelected(null);
 			}
 		}
+	}
+	
+	private KeyBinding[] filterBindings (KeyBinding[] bindings, String filterText) {
+		KeyBinding[] bindingsFiltered = bindings;
+		String keyNameRegex = "<.*>";
+		Matcher keyNameMatcher = Pattern.compile(keyNameRegex).matcher(filterText);
+		
+		
+		if (keyNameMatcher.find()) {
+			String keyNameWithBrackets = keyNameMatcher.group();
+			String keyName = keyNameWithBrackets.replace("<", "").replace(">", "");
+			filterText = filterText.replace(keyNameWithBrackets, "");
+			bindingsFiltered = filterBindingsByKey(bindingsFiltered, keyName);
+		}
+
+		//String[] words = filterText.split("\\s+");
+		
+		
+		return bindingsFiltered;
+	}
+	
+	private KeyBinding[] filterBindingsByName(KeyBinding[] bindings, String bindingName){
+		return null;
+	}
+	
+	private KeyBinding[] filterBindingsByKey(KeyBinding[] bindings, String keyName) {
+		return Arrays.stream(bindings).filter(b -> {
+			Text t = b.getBoundKeyLocalizedText();
+			if (t instanceof TranslatableText) {
+				return I18n.translate(((TranslatableText) t).getKey()).toLowerCase().equals(keyName.toLowerCase());
+			}
+			else {
+				return t.asString().toLowerCase().equals(keyName.toLowerCase());
+			}
+		}).toArray(KeyBinding[]::new);
 	}
 	
 	private KeyBinding[] getBindingsByCategory(String category) {
@@ -75,15 +118,7 @@ public class KeyBindingListWidget extends FreeFormListWidget<KeyBindingListWidge
 			return Arrays.stream(bindings).filter(b -> b.getCategory() == category).toArray(KeyBinding[]::new);
 		}
 	}
-	
-	private KeyBinding[] filterBindingsByName(KeyBinding[] bindings, String[] words){
-		return null;
-	}
-	
-	private KeyBinding[] filterBindingsByKey(KeyBinding[] bindings, String keyName) {
-		return null;
-	}
-	
+
 	@Override
 	public void tick() {
 		updateList();

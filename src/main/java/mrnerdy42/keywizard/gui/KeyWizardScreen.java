@@ -17,8 +17,6 @@ import net.minecraft.text.TranslatableText;
 
 public class KeyWizardScreen extends GameOptionsScreen{
 	
-	private String searchText = "";
-	
 	private KeyboardWidget keyboard;
 	private KeyBindingListWidget bindingList;
 	private CategorySelectorWidget categorySelector;
@@ -92,13 +90,12 @@ public class KeyWizardScreen extends GameOptionsScreen{
 		return this.categorySelector.getSelctedCategory();
 	}
 	
-	public String getSearchText() {
-		return this.searchText;
+	public String getFilterText() {
+		return this.searchBar.getText();
 	}
 	
 	public void setSearchText(String s) {
-		this.searchText = s;
-		//this.searchBar.setText(s);
+		this.searchBar.setText(s);
 	}
 	
 }
