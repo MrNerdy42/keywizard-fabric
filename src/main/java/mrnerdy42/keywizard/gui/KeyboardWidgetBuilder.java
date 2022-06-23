@@ -12,7 +12,6 @@ public class KeyboardWidgetBuilder {
 		float currentY = 0;
 		
 		float keySpacing = 5;
-		float nudge = 0;
 		float keyWidth = width/12-keySpacing;
 		float keyHeight = height/6-keySpacing; 
 	
@@ -21,23 +20,22 @@ public class KeyboardWidgetBuilder {
 		currentY += keyHeight + keySpacing;
 		keyWidth = width/15-keySpacing;
 		currentX = addHorizontalRow(kb, new int[] {GLFW.GLFW_KEY_GRAVE_ACCENT, GLFW.GLFW_KEY_1, GLFW.GLFW_KEY_2, GLFW.GLFW_KEY_3, GLFW.GLFW_KEY_4, GLFW.GLFW_KEY_5, GLFW.GLFW_KEY_6, GLFW.GLFW_KEY_7, GLFW.GLFW_KEY_8, GLFW.GLFW_KEY_9, GLFW.GLFW_KEY_0, GLFW.GLFW_KEY_MINUS, GLFW.GLFW_KEY_EQUAL}, 0, currentY, keyWidth, keyHeight, keySpacing);
-		currentX = kb.addKey(currentX, currentY, (keyWidth*2+keySpacing)+nudge, keyHeight, keySpacing, GLFW.GLFW_KEY_BACKSPACE);
+		currentX = kb.addKey(currentX, currentY, (keyWidth*2+keySpacing), keyHeight, keySpacing, GLFW.GLFW_KEY_BACKSPACE);
 		
 		currentY += keyHeight + keySpacing;
 		currentX = kb.addKey(0, currentY, keyWidth*2+keySpacing, keyHeight, keySpacing, GLFW.GLFW_KEY_TAB);
-		//currentX = keyWidth*2+keySpacing*2;
 		currentX = addHorizontalRow(kb, new int[] {GLFW.GLFW_KEY_Q, GLFW.GLFW_KEY_W, GLFW.GLFW_KEY_E, GLFW.GLFW_KEY_R, GLFW.GLFW_KEY_T, GLFW.GLFW_KEY_Y, GLFW.GLFW_KEY_U, GLFW.GLFW_KEY_I, GLFW.GLFW_KEY_O, GLFW.GLFW_KEY_P, GLFW.GLFW_KEY_LEFT_BRACKET, GLFW.GLFW_KEY_RIGHT_BRACKET}, currentX, currentY, keyWidth, keyHeight, keySpacing);
-		currentX = kb.addKey(currentX, currentY, keyWidth+nudge, keyHeight, keySpacing, GLFW.GLFW_KEY_BACKSLASH);
+		currentX = kb.addKey(currentX, currentY, keyWidth, keyHeight, keySpacing, GLFW.GLFW_KEY_BACKSLASH);
 		
 		currentY += keyHeight + keySpacing;
 		currentX = kb.addKey(0, currentY, keyWidth*2+keySpacing, keyHeight, keySpacing, GLFW.GLFW_KEY_CAPS_LOCK);
 		currentX = addHorizontalRow(kb, new int[] {GLFW.GLFW_KEY_A, GLFW.GLFW_KEY_S, GLFW.GLFW_KEY_D, GLFW.GLFW_KEY_F, GLFW.GLFW_KEY_G, GLFW.GLFW_KEY_H, GLFW.GLFW_KEY_J, GLFW.GLFW_KEY_K, GLFW.GLFW_KEY_L, GLFW.GLFW_KEY_SEMICOLON, GLFW.GLFW_KEY_APOSTROPHE}, currentX, currentY, keyWidth, keyHeight, keySpacing);
-		kb.addKey(currentX, currentY, (keyWidth*2+keySpacing)+nudge, keyHeight, keySpacing, GLFW.GLFW_KEY_ENTER);
+		kb.addKey(currentX, currentY, (keyWidth*2+keySpacing), keyHeight, keySpacing, GLFW.GLFW_KEY_ENTER);
 		
 		currentY += keyHeight + keySpacing;
 		currentX = kb.addKey(0, currentY, keyWidth*2+keySpacing, keyHeight, keySpacing, GLFW.GLFW_KEY_LEFT_SHIFT);
 		currentX = addHorizontalRow(kb, new int[] {GLFW.GLFW_KEY_Z, GLFW.GLFW_KEY_X, GLFW.GLFW_KEY_C, GLFW.GLFW_KEY_V, GLFW.GLFW_KEY_B, GLFW.GLFW_KEY_N, GLFW.GLFW_KEY_M, GLFW.GLFW_KEY_COMMA, GLFW.GLFW_KEY_PERIOD, GLFW.GLFW_KEY_SLASH}, currentX, currentY, keyWidth, keyHeight, keySpacing);
-		currentX = kb.addKey(currentX, currentY, (keyWidth*3+keySpacing*2)+nudge, keyHeight, keySpacing, GLFW.GLFW_KEY_RIGHT_SHIFT);
+		currentX = kb.addKey(currentX, currentY, (keyWidth*3+keySpacing*2), keyHeight, keySpacing, GLFW.GLFW_KEY_RIGHT_SHIFT);
 		
 		currentY += keyHeight + keySpacing;
 		keyWidth = width / 7 - keySpacing;
