@@ -1,7 +1,6 @@
 package mrnerdy42.keywizard.gui;
 
 import java.util.Arrays;
-import java.util.function.Predicate;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -82,15 +81,24 @@ public class KeyBindingListWidget extends FreeFormListWidget<KeyBindingListWidge
 			filterText = filterText.replace(keyNameWithBrackets, "");
 			bindingsFiltered = filterBindingsByKey(bindingsFiltered, keyName);
 		}
-
-		//String[] words = filterText.split("\\s+");
 		
+		if (!filterText.equals("")) {
+			bindingsFiltered = filterBindingsByName(bindingsFiltered, filterText);
+		}
 		
 		return bindingsFiltered;
 	}
 	
 	private KeyBinding[] filterBindingsByName(KeyBinding[] bindings, String bindingName){
-		return null;
+		String[] words = bindingName.split("\\s+");
+		KeyBinding[] bindingsFiltered = Arrays.stream(bindings).filter(binding -> {
+				boolean flag = true;
+				for (String w:words) {
+					flag = flag && I18n.translate(binding.getTranslationKey()).toLowerCase().contains(w.toLowerCase());
+				}
+				return flag;
+			}).toArray(KeyBinding[]::new);
+		return bindingsFiltered;
 	}
 	
 	private KeyBinding[] filterBindingsByKey(KeyBinding[] bindings, String keyName) {
