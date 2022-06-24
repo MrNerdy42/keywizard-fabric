@@ -2,10 +2,12 @@ package mrnerdy42.keywizard.gui;
 
 import org.lwjgl.glfw.GLFW;
 
+import net.minecraft.client.util.InputUtil;
+
 public class KeyboardWidgetBuilder {
 	
 	
-	public static KeyboardWidget StandardKeyboard(KeyWizardScreen keyWizardScreen, float anchorX, float anchorY, float width, float height) {
+	public static KeyboardWidget standardKeyboard(KeyWizardScreen keyWizardScreen, float anchorX, float anchorY, float width, float height) {
 		KeyboardWidget kb = new KeyboardWidget(keyWizardScreen, anchorX, anchorY);
 
 		float currentX = 0;
@@ -41,7 +43,12 @@ public class KeyboardWidgetBuilder {
 		keyWidth = width / 7 - keySpacing;
 		currentX = addHorizontalRow(kb, new int[] {GLFW.GLFW_KEY_LEFT_CONTROL,GLFW.GLFW_KEY_LEFT_SUPER,GLFW.GLFW_KEY_LEFT_ALT, GLFW.GLFW_KEY_SPACE, GLFW.GLFW_KEY_RIGHT_ALT,GLFW.GLFW_KEY_RIGHT_SUPER,GLFW.GLFW_KEY_RIGHT_CONTROL}, 0, currentY, keyWidth, keyHeight, keySpacing);
 
-		
+		return kb;
+	}
+	
+	public static KeyboardWidget singleKeyKeyboard(KeyWizardScreen keyWizardScreen, float anchorX, float anchorY, float width, float height, int keyCode) {
+		KeyboardWidget kb = new KeyboardWidget(keyWizardScreen, anchorX, anchorY);
+		kb.addKey(0, 0, width, height, 0, keyCode);
 		return kb;
 	}
 	
