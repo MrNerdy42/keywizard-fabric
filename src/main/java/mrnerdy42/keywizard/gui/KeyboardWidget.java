@@ -34,7 +34,13 @@ public class KeyboardWidget extends AbstractParentElement implements Drawable, T
 
 	public float addKey(float relativeX, float relativeY, float width, float height, float keySpacing, int keyCode) {
 		this.keys.put(keyCode,
-				new KeyboardKeyWidget(keyCode, this.anchorX + relativeX, this.anchorY + relativeY, width, height));
+				new KeyboardKeyWidget(keyCode, this.anchorX + relativeX, this.anchorY + relativeY, width, height, InputUtil.Type.KEYSYM));
+		return relativeX + width + keySpacing;
+	}
+	
+	public float addKey(float relativeX, float relativeY, float width, float height, float keySpacing, int keyCode, InputUtil.Type keyType) {
+		this.keys.put(keyCode,
+				new KeyboardKeyWidget(keyCode, this.anchorX + relativeX, this.anchorY + relativeY, width, height, keyType));
 		return relativeX + width + keySpacing;
 	}
 
@@ -88,13 +94,13 @@ public class KeyboardWidget extends AbstractParentElement implements Drawable, T
 		private InputUtil.Key key;
 		private List<Text> tooltipText = new ArrayList<>();
 
-		protected KeyboardKeyWidget(int keyCode, float x, float y, float width, float height) {
+		protected KeyboardKeyWidget(int keyCode, float x, float y, float width, float height, InputUtil.Type keyType) {
 			super((int) x, (int) y, (int) width, (int) height, Text.of(""));
 			this.x = x;
 			this.y = y;
 			this.width = width;
 			this.height = height;
-			this.key = InputUtil.Type.KEYSYM.createFromCode(keyCode);
+			this.key = keyType.createFromCode(keyCode);
 			this.setMessage(this.key.getLocalizedText());
 		}
 

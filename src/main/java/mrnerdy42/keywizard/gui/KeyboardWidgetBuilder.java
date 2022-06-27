@@ -46,9 +46,9 @@ public class KeyboardWidgetBuilder {
 		return kb;
 	}
 	
-	public static KeyboardWidget singleKeyKeyboard(KeyWizardScreen keyWizardScreen, float anchorX, float anchorY, float width, float height, int keyCode) {
+	public static KeyboardWidget singleKeyKeyboard(KeyWizardScreen keyWizardScreen, float anchorX, float anchorY, float width, float height, int keyCode, InputUtil.Type keyType) {
 		KeyboardWidget kb = new KeyboardWidget(keyWizardScreen, anchorX, anchorY);
-		kb.addKey(0, 0, width, height, 0, keyCode);
+		kb.addKey(0, 0, width, height, 0, keyCode, keyType);
 		return kb;
 	}
 	

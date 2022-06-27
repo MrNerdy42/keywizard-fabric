@@ -12,6 +12,7 @@ import net.minecraft.client.gui.screen.option.GameOptionsScreen;
 import net.minecraft.client.gui.widget.TextFieldWidget;
 import net.minecraft.client.gui.widget.TexturedButtonWidget;
 import net.minecraft.client.option.KeyBinding;
+import net.minecraft.client.util.InputUtil;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
@@ -54,7 +55,7 @@ public class KeyWizardScreen extends GameOptionsScreen{
 			this.client.openScreen(new ControlsOptionsScreen(this.parent, this.gameOptions));
 		});
 		this.searchBar = new TextFieldWidget(this.textRenderer, 10, this.height - 20, bindingListWidth, 14, Text.of(""));
-		this.mouseKey = KeyboardWidgetBuilder.singleKeyKeyboard(this, 100, this.width/2, this.height - 110, 20, GLFW.GLFW_MOUSE_BUTTON_1);
+		this.mouseKey = KeyboardWidgetBuilder.singleKeyKeyboard(this, 100, this.width/2, this.height - 110, 20, GLFW.GLFW_MOUSE_BUTTON_1, InputUtil.Type.MOUSE);
 		
 		this.addChild(this.bindingList);
 		this.addChild(this.keyboard);
