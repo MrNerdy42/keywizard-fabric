@@ -148,8 +148,11 @@ public class KeyboardWidget extends AbstractParentElement implements Drawable, T
 		@SuppressWarnings("resource")
 		private void updateTooltip() {
 			ArrayList<String> tooltipText = new ArrayList<>();
+			if (this.key.getCategory() == InputUtil.Type.MOUSE) {
+				System.out.println("Mouse!");
+			}
 			for (KeyBinding b : MinecraftClient.getInstance().options.keysAll) {
-				if (b.matchesKey(this.key.getCode(), -1)) {
+				if (b.matchesMouse(this.key.getCode()) || b.matchesKey(this.key.getCode(), -1)) {
 					tooltipText.add(I18n.translate(b.getTranslationKey()));
 				}
 			}
