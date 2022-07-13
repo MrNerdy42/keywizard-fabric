@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import mrnerdy42.keywizard.mixin.KeyBindingAccessor;
 import mrnerdy42.keywizard.util.DrawingUtil;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
@@ -148,11 +149,8 @@ public class KeyboardWidget extends AbstractParentElement implements Drawable, T
 		@SuppressWarnings("resource")
 		private void updateTooltip() {
 			ArrayList<String> tooltipText = new ArrayList<>();
-			if (this.key.getCategory() == InputUtil.Type.MOUSE) {
-				System.out.println("Mouse!");
-			}
 			for (KeyBinding b : MinecraftClient.getInstance().options.keysAll) {
-				if (b.matchesMouse(this.key.getCode()) || b.matchesKey(this.key.getCode(), -1)) {
+				if (((KeyBindingAccessor) b).getBoundKey().equals(this.key)) {
 					tooltipText.add(I18n.translate(b.getTranslationKey()));
 				}
 			}

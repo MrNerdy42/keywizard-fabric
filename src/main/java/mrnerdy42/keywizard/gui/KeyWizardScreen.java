@@ -82,6 +82,7 @@ public class KeyWizardScreen extends GameOptionsScreen{
 		this.keyboard.tick();
 		this.categorySelector.tick();
 		this.bindingList.tick();
+		this.mouseKey.tick();
 	}
 	
 	@Nullable
