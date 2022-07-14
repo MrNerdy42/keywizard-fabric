@@ -6,7 +6,10 @@ import org.lwjgl.glfw.GLFW;
 import mrnerdy42.keywizard.KeyWizard;
 import mrnerdy42.keywizard.util.KeyBindingUtil;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.gui.Drawable;
+import net.minecraft.client.gui.Element;
 import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.gui.screen.TickableElement;
 import net.minecraft.client.gui.screen.option.ControlsOptionsScreen;
 import net.minecraft.client.gui.screen.option.GameOptionsScreen;
 import net.minecraft.client.gui.widget.TextFieldWidget;
@@ -16,8 +19,9 @@ import net.minecraft.client.util.InputUtil;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
+import net.minecraft.util.Tickable;
 
-public class KeyWizardScreen extends GameOptionsScreen{
+public class KeyWizardScreen extends GameOptionsScreen {
 	
 	private KeyboardWidget keyboard;
 	private KeyboardWidget mouseKey;
@@ -61,28 +65,28 @@ public class KeyWizardScreen extends GameOptionsScreen{
 		this.addChild(this.keyboard);
 		this.addChild(this.categorySelector);
 		this.addChild(this.categorySelector.getCategoryList());
-		this.addButton(this.screenToggleButton);
+		this.addChild(this.screenToggleButton);
 		this.addChild(this.searchBar);
-		this.addChild(mouseKey);
+		this.addChild(this.mouseKey);
 	}
 	
 	@Override
 	public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
 		this.renderBackground(matrices);
-		this.keyboard.render(matrices, mouseX, mouseY, delta);
-		this.bindingList.render(matrices, mouseX, mouseY, delta);
-		this.categorySelector.render(matrices, mouseX, mouseY, delta);
-		this.searchBar.render(matrices, mouseX, mouseY, delta);
-		this.mouseKey.render(matrices, mouseX, mouseY, delta);
-		super.render(matrices, mouseX, mouseY, delta);
+		for (Element e : this.children) {
+			if (e instanceof Drawable) {
+				((Drawable) e).render(matrices, mouseX, mouseY, delta);
+			}
+		}
 	}
 	
 	@Override
 	public void tick() {
-		this.keyboard.tick();
-		this.categorySelector.tick();
-		this.bindingList.tick();
-		this.mouseKey.tick();
+		for (Element e : this.children) {
+			if (e instanceof TickableElement) {
+				((TickableElement) e).tick();
+			}
+		}
 	}
 	
 	@Nullable
