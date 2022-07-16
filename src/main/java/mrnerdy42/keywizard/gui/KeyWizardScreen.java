@@ -59,7 +59,7 @@ public class KeyWizardScreen extends GameOptionsScreen {
 			this.client.openScreen(new ControlsOptionsScreen(this.parent, this.gameOptions));
 		});
 		this.searchBar = new TextFieldWidget(this.textRenderer, 10, this.height - 20, bindingListWidth, 14, Text.of(""));
-		this.mouseKey = KeyboardWidgetBuilder.singleKeyKeyboard(this, 100, this.width/2, this.height - 110, 20, GLFW.GLFW_MOUSE_BUTTON_1, InputUtil.Type.MOUSE);
+		//this.mouseKey = KeyboardWidgetBuilder.singleKeyKeyboard(this, 100, this.width/2, this.height - 110, 20, GLFW.GLFW_MOUSE_BUTTON_1, InputUtil.Type.MOUSE);
 		
 		this.addChild(this.bindingList);
 		this.addChild(this.keyboard);
@@ -67,7 +67,7 @@ public class KeyWizardScreen extends GameOptionsScreen {
 		this.addChild(this.categorySelector.getCategoryList());
 		this.addChild(this.screenToggleButton);
 		this.addChild(this.searchBar);
-		this.addChild(this.mouseKey);
+		//this.addChild(this.mouseKey);
 	}
 	
 	@Override

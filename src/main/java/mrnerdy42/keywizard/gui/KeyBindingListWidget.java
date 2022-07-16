@@ -119,7 +119,7 @@ public class KeyBindingListWidget extends FreeFormListWidget<KeyBindingListWidge
 		case KeyBindingUtil.DYNAMIC_CATEGORY_ALL:
 		    return bindings;
 		case KeyBindingUtil.DYNAMIC_CATEGORY_CONFLICTS:
-			return bindings;
+			return bindings;//Arrays.stream(bindings).map(b -> b.);
 		case KeyBindingUtil.DYNAMIC_CATEGORY_UNBOUND:
 			return Arrays.stream(bindings).filter(b -> b.isUnbound()).toArray(KeyBinding[]::new);
 		default:
