@@ -1,16 +1,19 @@
 package mrnerdy42.keywizard.gui;
 
 import java.util.Arrays;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.jetbrains.annotations.Nullable;
 
+import mrnerdy42.keywizard.mixin.KeyBindingAccessor;
 import mrnerdy42.keywizard.util.KeyBindingUtil;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.TickableElement;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.resource.language.I18n;
+import net.minecraft.client.util.InputUtil;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
@@ -66,6 +69,7 @@ public class KeyBindingListWidget extends FreeFormListWidget<KeyBindingListWidge
 			} else {
 				this.setSelected(null);
 			}
+			this.setScrollAmount(0);
 		}
 	}
 	
@@ -119,7 +123,8 @@ public class KeyBindingListWidget extends FreeFormListWidget<KeyBindingListWidge
 		case KeyBindingUtil.DYNAMIC_CATEGORY_ALL:
 		    return bindings;
 		case KeyBindingUtil.DYNAMIC_CATEGORY_CONFLICTS:
-			return bindings;//Arrays.stream(bindings).map(b -> b.);
+			Map<InputUtil.Key, Integer> bindingCounts = KeyBindingUtil.getBindingCountsByKey();
+			return Arrays.stream(bindings).filter(b -> bindingCounts.get(((KeyBindingAccessor)b).getBoundKey()) > 1  && ((KeyBindingAccessor)b).getBoundKey().getCode() != -1).toArray(KeyBinding[]::new) ;
 		case KeyBindingUtil.DYNAMIC_CATEGORY_UNBOUND:
 			return Arrays.stream(bindings).filter(b -> b.isUnbound()).toArray(KeyBinding[]::new);
 		default:
