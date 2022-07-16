@@ -1,3 +1,10 @@
+v2.0.0-beta.2
+Added search bar!!
+Fixed 'Conflicting' category returning all bindings
+Possibly fixed issue where binding list would be blank until scrolled after changing categories
+Added under-the-hood support for mouse buttons (coming soon!)
+Made gui rendering and ticking dynamic
+
 v2.0.0-beta.1
 Added category selector!
 Added button to toggle between the vanilla controls GUI and Keyboard Wizard
