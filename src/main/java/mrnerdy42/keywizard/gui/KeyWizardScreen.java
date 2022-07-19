@@ -1,7 +1,6 @@
 package mrnerdy42.keywizard.gui;
 
 import org.jetbrains.annotations.Nullable;
-import org.lwjgl.glfw.GLFW;
 
 import mrnerdy42.keywizard.KeyWizard;
 import mrnerdy42.keywizard.util.KeyBindingUtil;
@@ -15,11 +14,9 @@ import net.minecraft.client.gui.screen.option.GameOptionsScreen;
 import net.minecraft.client.gui.widget.TextFieldWidget;
 import net.minecraft.client.gui.widget.TexturedButtonWidget;
 import net.minecraft.client.option.KeyBinding;
-import net.minecraft.client.util.InputUtil;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
-import net.minecraft.util.Tickable;
 
 public class KeyWizardScreen extends GameOptionsScreen {
 	
