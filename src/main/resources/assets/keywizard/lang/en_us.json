@@ -10,5 +10,15 @@
 "gui.bindingCategories": "Binding Categories",
 "gui.page": "Page",
 "gui.mouse": "Mouse",
-"key.keywizard.openKeyWizard": "Open Key Wizard"
+"key.keywizard.openKeyWizard": "Open Key Wizard",
+"key.keyboard.backspace": "Back",
+"key.keyboard.caps.lock": "Caps",
+"key.keyboard.right.shift": "RShift",
+"key.keyboard.left.shift": "LShift",
+"key.keyboard.right.control": "RCtrl",
+"key.keyboard.left.control": "LCtrl",
+"key.keyboard.right.win": "RWin",
+"key.keyboard.left.win": "LWin",
+"key.keyboard.right.alt": "RAlt",
+"key.keyboard.left.alt": "LAlt"
 }
