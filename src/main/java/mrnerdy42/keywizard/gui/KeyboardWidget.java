@@ -11,6 +11,7 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.AbstractParentElement;
 import net.minecraft.client.gui.Drawable;
+import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.TickableElement;
 import net.minecraft.client.gui.widget.PressableWidget;
 import net.minecraft.client.option.KeyBinding;
@@ -34,14 +35,15 @@ public class KeyboardWidget extends AbstractParentElement implements Drawable, T
 	}
 
 	public float addKey(float relativeX, float relativeY, float width, float height, float keySpacing, int keyCode) {
-		this.keys.put(keyCode,
-				new KeyboardKeyWidget(keyCode, this.anchorX + relativeX, this.anchorY + relativeY, width, height, InputUtil.Type.KEYSYM));
+		this.keys.put(keyCode, new KeyboardKeyWidget(keyCode, this.anchorX + relativeX, this.anchorY + relativeY, width,
+				height, InputUtil.Type.KEYSYM));
 		return relativeX + width + keySpacing;
 	}
-	
-	public float addKey(float relativeX, float relativeY, float width, float height, float keySpacing, int keyCode, InputUtil.Type keyType) {
-		this.keys.put(keyCode,
-				new KeyboardKeyWidget(keyCode, this.anchorX + relativeX, this.anchorY + relativeY, width, height, keyType));
+
+	public float addKey(float relativeX, float relativeY, float width, float height, float keySpacing, int keyCode,
+			InputUtil.Type keyType) {
+		this.keys.put(keyCode, new KeyboardKeyWidget(keyCode, this.anchorX + relativeX, this.anchorY + relativeY, width,
+				height, keyType));
 		return relativeX + width + keySpacing;
 	}
 
@@ -139,10 +141,21 @@ public class KeyboardWidget extends AbstractParentElement implements Drawable, T
 		@Override
 		public void onPress() {
 			this.playDownSound(MinecraftClient.getInstance().getSoundManager());
-			KeyBinding selectedKeyBinding = keyWizardScreen.getSelectedKeyBinding();
-			if (selectedKeyBinding != null) {
-				selectedKeyBinding.setBoundKey(this.key);
-				KeyBinding.updateKeysByCode();
+			if (Screen.hasShiftDown()) {
+				Text t = this.getMessage();
+				String keyName;
+				if (t instanceof TranslatableText) {
+					keyName = I18n.translate(((TranslatableText) t).getKey());
+				} else {
+					keyName = t.asString();
+				}
+				keyWizardScreen.setSearchText("<" + keyName + ">");
+			} else {
+				KeyBinding selectedKeyBinding = keyWizardScreen.getSelectedKeyBinding();
+				if (selectedKeyBinding != null) {
+					selectedKeyBinding.setBoundKey(this.key);
+					KeyBinding.updateKeysByCode();
+				}
 			}
 		}
 
@@ -154,7 +167,8 @@ public class KeyboardWidget extends AbstractParentElement implements Drawable, T
 					tooltipText.add(I18n.translate(b.getTranslationKey()));
 				}
 			}
-			this.tooltipText = tooltipText.stream().sorted().map(s -> new TranslatableText(s)).collect(Collectors.toCollection(ArrayList<Text>::new));
+			this.tooltipText = tooltipText.stream().sorted().map(s -> new TranslatableText(s))
+					.collect(Collectors.toCollection(ArrayList<Text>::new));
 		}
 
 		@Override
