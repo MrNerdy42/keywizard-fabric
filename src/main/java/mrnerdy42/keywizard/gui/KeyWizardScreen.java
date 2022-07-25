@@ -12,6 +12,7 @@ import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.TickableElement;
 import net.minecraft.client.gui.screen.option.ControlsOptionsScreen;
 import net.minecraft.client.gui.screen.option.GameOptionsScreen;
+import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.gui.widget.TextFieldWidget;
 import net.minecraft.client.gui.widget.TexturedButtonWidget;
 import net.minecraft.client.option.KeyBinding;
@@ -27,6 +28,8 @@ public class KeyWizardScreen extends GameOptionsScreen {
 	
 	private KeyboardWidget keyboard;
 	private KeyboardWidget mouseButton;
+	private ButtonWidget mousePlus;
+	private ButtonWidget mouseMinus;
 	private KeyBindingListWidget bindingList;
 	private CategorySelectorWidget categorySelector;
 	private TexturedButtonWidget screenToggleButton;
@@ -39,6 +42,11 @@ public class KeyWizardScreen extends GameOptionsScreen {
 	
 	@Override
 	protected void init() {
+		int mouseButtonX = this.width - 105;
+		int mouseButtonY = this.height / 2 - 115;
+		int mouseButtonWidth = 80;
+		int mouseButtonHeight = 20;
+		
 		int maxBindingNameWidth = 0;
 		for (KeyBinding k : this.client.options.keysAll) {
 			int w = this.textRenderer.getWidth(new TranslatableText(k.getTranslationKey()));
@@ -61,7 +69,16 @@ public class KeyWizardScreen extends GameOptionsScreen {
 			this.client.openScreen(new ControlsOptionsScreen(this.parent, this.gameOptions));
 		});
 		this.searchBar = new TextFieldWidget(this.textRenderer, 10, this.height - 20, bindingListWidth, 14, Text.of(""));
-		this.mouseButton = KeyboardWidgetBuilder.singleKeyKeyboard(this, this.width - 105, this.height / 2 - 115, 80, 20, mouseCodes[mouseCodeIndex], InputUtil.Type.MOUSE);
+		this.mouseButton = KeyboardWidgetBuilder.singleKeyKeyboard(this, mouseButtonX, mouseButtonY, mouseButtonWidth, mouseButtonHeight, mouseCodes[mouseCodeIndex], InputUtil.Type.MOUSE);
+		this.mousePlus = new ButtonWidget( (int)this.mouseButton.getAnchorX() + 85, (int)this.mouseButton.getAnchorY(), 25, 20, Text.of("+"), (btn) -> {
+			this.mouseCodeIndex ++;
+			if (this.mouseCodeIndex >= this.mouseCodes.length ) {
+				this.mouseCodeIndex = 0;
+			}
+			this.children.remove(this.mouseButton);
+			this.mouseButton = KeyboardWidgetBuilder.singleKeyKeyboard(this, mouseButtonX, mouseButtonY, mouseButtonWidth, mouseButtonHeight, mouseCodes[mouseCodeIndex], InputUtil.Type.MOUSE);
+			this.children.add(this.mouseButton);
+		});
 		
 		this.addChild(this.bindingList);
 		this.addChild(this.keyboard);
@@ -70,6 +87,7 @@ public class KeyWizardScreen extends GameOptionsScreen {
 		this.addChild(this.screenToggleButton);
 		this.addChild(this.searchBar);
 		this.addChild(this.mouseButton);
+		this.addChild(this.mousePlus);
 	}
 	
 	@Override

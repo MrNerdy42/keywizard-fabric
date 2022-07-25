@@ -86,6 +86,14 @@ public class KeyboardWidget extends AbstractParentElement implements Drawable, T
 			k.tick();
 		}
 	}
+	
+	public float getAnchorX() {
+		return this.anchorX;
+	}
+	
+	public float getAnchorY() {
+		return this.anchorY;
+	}
 
 	public class KeyboardKeyWidget extends PressableWidget implements TickableElement {
 		public float x;
