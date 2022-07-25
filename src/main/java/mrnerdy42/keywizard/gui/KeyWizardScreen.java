@@ -70,10 +70,19 @@ public class KeyWizardScreen extends GameOptionsScreen {
 		});
 		this.searchBar = new TextFieldWidget(this.textRenderer, 10, this.height - 20, bindingListWidth, 14, Text.of(""));
 		this.mouseButton = KeyboardWidgetBuilder.singleKeyKeyboard(this, mouseButtonX, mouseButtonY, mouseButtonWidth, mouseButtonHeight, mouseCodes[mouseCodeIndex], InputUtil.Type.MOUSE);
-		this.mousePlus = new ButtonWidget( (int)this.mouseButton.getAnchorX() + 85, (int)this.mouseButton.getAnchorY(), 25, 20, Text.of("+"), (btn) -> {
+		this.mousePlus = new ButtonWidget( (int)this.mouseButton.getAnchorX() + 83, (int)this.mouseButton.getAnchorY(), 25, 20, Text.of("+"), (btn) -> {
 			this.mouseCodeIndex ++;
 			if (this.mouseCodeIndex >= this.mouseCodes.length ) {
 				this.mouseCodeIndex = 0;
+			}
+			this.children.remove(this.mouseButton);
+			this.mouseButton = KeyboardWidgetBuilder.singleKeyKeyboard(this, mouseButtonX, mouseButtonY, mouseButtonWidth, mouseButtonHeight, mouseCodes[mouseCodeIndex], InputUtil.Type.MOUSE);
+			this.children.add(this.mouseButton);
+		});
+		this.mouseMinus = new ButtonWidget( (int)this.mouseButton.getAnchorX() - 26, (int)this.mouseButton.getAnchorY(), 25, 20, Text.of("-"), (btn) -> {
+			this.mouseCodeIndex --;
+			if (this.mouseCodeIndex < 0) {
+				this.mouseCodeIndex = this.mouseCodes.length - 1;
 			}
 			this.children.remove(this.mouseButton);
 			this.mouseButton = KeyboardWidgetBuilder.singleKeyKeyboard(this, mouseButtonX, mouseButtonY, mouseButtonWidth, mouseButtonHeight, mouseCodes[mouseCodeIndex], InputUtil.Type.MOUSE);
@@ -88,6 +97,7 @@ public class KeyWizardScreen extends GameOptionsScreen {
 		this.addChild(this.searchBar);
 		this.addChild(this.mouseButton);
 		this.addChild(this.mousePlus);
+		this.addChild(this.mouseMinus);
 	}
 	
 	@Override
