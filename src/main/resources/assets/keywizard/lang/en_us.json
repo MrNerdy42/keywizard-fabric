@@ -20,5 +20,13 @@
 "key.keyboard.right.win": "RWin",
 "key.keyboard.left.win": "LWin",
 "key.keyboard.right.alt": "RAlt",
-"key.keyboard.left.alt": "LAlt"
+"key.keyboard.left.alt": "LAlt",
+"key.mouse.left": "Mouse1(L)",
+"key.mouse.right": "Mouse2(R)",
+"key.mouse.middle": "Mouse3(M)",
+"key.mouse.4": "Mouse4",
+"key.mouse.5": "Mouse5",
+"key.mouse.6": "Mouse6",
+"key.mouse.7": "Mouse7",
+"key.mouse.8": "Mouse8"
 }
