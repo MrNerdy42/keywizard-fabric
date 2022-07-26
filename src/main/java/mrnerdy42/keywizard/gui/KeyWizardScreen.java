@@ -16,6 +16,7 @@ import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.gui.widget.TextFieldWidget;
 import net.minecraft.client.gui.widget.TexturedButtonWidget;
 import net.minecraft.client.option.KeyBinding;
+import net.minecraft.client.resource.language.I18n;
 import net.minecraft.client.util.InputUtil;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.Text;
@@ -34,6 +35,9 @@ public class KeyWizardScreen extends GameOptionsScreen {
 	private CategorySelectorWidget categorySelector;
 	private TexturedButtonWidget screenToggleButton;
 	private TextFieldWidget searchBar;
+	private ButtonWidget resetBinding;
+	private ButtonWidget resetAll;
+	private ButtonWidget clearBinding;
 
 	@SuppressWarnings("resource")
 	public KeyWizardScreen(Screen parent) {
@@ -88,6 +92,22 @@ public class KeyWizardScreen extends GameOptionsScreen {
 			this.mouseButton = KeyboardWidgetBuilder.singleKeyKeyboard(this, mouseButtonX, mouseButtonY, mouseButtonWidth, mouseButtonHeight, mouseCodes[mouseCodeIndex], InputUtil.Type.MOUSE);
 			this.children.add(this.mouseButton);
 		});
+		this.resetBinding = new ButtonWidget(bindingListWidth + 15, this.height - 23, 50, 20, new TranslatableText("controls.reset"), (btn) -> {
+			KeyBinding selectedBinding = this.getSelectedKeyBinding();
+			selectedBinding.setBoundKey(selectedBinding.getDefaultKey());
+			KeyBinding.updateKeysByCode();
+		});
+		this.clearBinding = new ButtonWidget(bindingListWidth + 15, this.height - 23, 50, 20, new TranslatableText("controls.reset"), (btn) -> {
+			KeyBinding selectedBinding = this.getSelectedKeyBinding();
+			selectedBinding.setBoundKey(InputUtil.Type.KEYSYM.createFromCode(GLFW.GLFW_KEY_UNKNOWN));
+			KeyBinding.updateKeysByCode();
+		});
+		this.resetAll = new ButtonWidget(bindingListWidth + 115, this.height - 23, 100, 20, new TranslatableText("controls.resetAll"), (btn) -> {
+			for(KeyBinding b : this.gameOptions.keysAll) {
+				b.setBoundKey(b.getDefaultKey());
+			}
+			KeyBinding.updateKeysByCode();
+		});
 		
 		this.addChild(this.bindingList);
 		this.addChild(this.keyboard);
@@ -98,6 +118,8 @@ public class KeyWizardScreen extends GameOptionsScreen {
 		this.addChild(this.mouseButton);
 		this.addChild(this.mousePlus);
 		this.addChild(this.mouseMinus);
+		this.addChild(this.resetBinding);
+		this.addChild(this.resetAll);
 	}
 	
 	@Override
