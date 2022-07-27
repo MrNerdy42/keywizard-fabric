@@ -1,3 +1,9 @@
+v2.0.0
+Added key for mouse buttons
+Added buttons to reset the current binding, clear the current binding, and reset all bindings
+Added ability to shift click a key to auto populate its name in the search bar
+Shortened English key/mouse names to make the gui look nicer
+
 v2.0.0-beta.2
 Added search bar!!
 Fixed 'Conflicting' category returning all bindings
