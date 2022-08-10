@@ -6,8 +6,8 @@ import net.minecraft.client.render.BufferBuilder;
 import net.minecraft.client.render.BufferRenderer;
 import net.minecraft.client.render.Tessellator;
 import net.minecraft.client.render.VertexFormats;
-import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.math.Matrix4f;
+import net.minecraft.client.util.math.MatrixStack;
 
 public class DrawingUtil {
 	public static void fill(MatrixStack matrices, float x1, float y1, float x2, float y2, int color) {
