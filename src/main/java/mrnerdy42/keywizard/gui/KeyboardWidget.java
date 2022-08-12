@@ -12,16 +12,15 @@ import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.AbstractParentElement;
 import net.minecraft.client.gui.Drawable;
 import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.gui.screen.TickableElement;
-import net.minecraft.client.gui.widget.PressableWidget;
-import net.minecraft.client.option.KeyBinding;
+import net.minecraft.client.gui.widget.AbstractPressableButtonWidget;
+import net.minecraft.client.options.KeyBinding;
 import net.minecraft.client.resource.language.I18n;
 import net.minecraft.client.util.InputUtil;
-import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
+import net.minecraft.util.Tickable;
 
-public class KeyboardWidget extends AbstractParentElement implements Drawable, TickableElement {
+public class KeyboardWidget extends AbstractParentElement implements Drawable, Tickable {
 	public KeyWizardScreen keyWizardScreen;
 
 	private HashMap<Integer, KeyboardKeyWidget> keys = new HashMap<>();
@@ -48,16 +47,16 @@ public class KeyboardWidget extends AbstractParentElement implements Drawable, T
 	}
 
 	@Override
-	public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
+	public void render(int mouseX, int mouseY, float delta) {
 		List<? extends KeyboardKeyWidget> keys = this.children();
 		for (KeyboardKeyWidget k : keys) {
-			k.render(matrices, mouseX, mouseY, delta);
+			k.render(mouseX, mouseY, delta);
 		}
 
 		if (!keyWizardScreen.getCategorySelectorExtended()) {
 			for (KeyboardKeyWidget k : keys) {
 				if (k.active && k.isHovered()) {
-					keyWizardScreen.renderTooltip(matrices, k.tooltipText, mouseX, mouseY);
+					keyWizardScreen.renderTooltip(k.tooltipText, mouseX, mouseY);
 				}
 			}
 		}
@@ -95,28 +94,28 @@ public class KeyboardWidget extends AbstractParentElement implements Drawable, T
 		return this.anchorY;
 	}
 
-	public class KeyboardKeyWidget extends PressableWidget implements TickableElement {
+	public class KeyboardKeyWidget extends AbstractPressableButtonWidget implements Tickable {
 		public float x;
 		public float y;
 
 		protected float width;
 		protected float height;
 
-		private InputUtil.Key key;
-		private List<Text> tooltipText = new ArrayList<>();
+		private InputUtil.KeyCode key;
+		private List<String> tooltipText = new ArrayList<>();
 
 		protected KeyboardKeyWidget(int keyCode, float x, float y, float width, float height, InputUtil.Type keyType) {
-			super((int) x, (int) y, (int) width, (int) height, Text.of(""));
+			super((int) x, (int) y, (int) width, (int) height, "");
 			this.x = x;
 			this.y = y;
 			this.width = width;
 			this.height = height;
 			this.key = keyType.createFromCode(keyCode);
-			this.setMessage(this.key.getLocalizedText());
+			this.setMessage(this.key.getName());
 		}
 
 		@Override
-		public void renderButton(MatrixStack matrices, int mouseX, int mouseY, float delta) {
+		public void renderButton(int mouseX, int mouseY, float delta) {
 			int bindingCount = this.tooltipText.size();
 			int color = 0;
 			if (this.active) {
@@ -138,11 +137,11 @@ public class KeyboardWidget extends AbstractParentElement implements Drawable, T
 			} else {
 				color = 0xFF555555;
 			}
-			DrawingUtil.drawNoFillRect(matrices, this.x, this.y, this.x + this.width, this.y + this.height, color);
+			DrawingUtil.drawNoFillRect(this.x, this.y, this.x + this.width, this.y + this.height, color);
 			@SuppressWarnings("resource")
 			TextRenderer textRenderer = MinecraftClient.getInstance().textRenderer;
-			textRenderer.drawWithShadow(matrices, this.getMessage(),
-					(this.x + (this.width) / 2 - textRenderer.getWidth(this.getMessage()) / 2),
+			textRenderer.drawWithShadow(this.getMessage(),
+					(this.x + (this.width) / 2 - textRenderer.getStringWidth(this.getMessage()) / 2),
 					this.y + (this.height - 6) / 2, color);
 		}
 
@@ -150,18 +149,11 @@ public class KeyboardWidget extends AbstractParentElement implements Drawable, T
 		public void onPress() {
 			this.playDownSound(MinecraftClient.getInstance().getSoundManager());
 			if (Screen.hasShiftDown()) {
-				Text t = this.getMessage();
-				String keyName;
-				if (t instanceof TranslatableText) {
-					keyName = I18n.translate(((TranslatableText) t).getKey());
-				} else {
-					keyName = t.asString();
-				}
-				keyWizardScreen.setSearchText("<" + keyName + ">");
+				keyWizardScreen.setSearchText("<" + this.getMessage() + ">");
 			} else {
 				KeyBinding selectedKeyBinding = keyWizardScreen.getSelectedKeyBinding();
 				if (selectedKeyBinding != null) {
-					selectedKeyBinding.setBoundKey(this.key);
+					selectedKeyBinding.setKeyCode(this.key);
 					KeyBinding.updateKeysByCode();
 				}
 			}
@@ -171,12 +163,11 @@ public class KeyboardWidget extends AbstractParentElement implements Drawable, T
 		private void updateTooltip() {
 			ArrayList<String> tooltipText = new ArrayList<>();
 			for (KeyBinding b : MinecraftClient.getInstance().options.keysAll) {
-				if (((KeyBindingAccessor) b).getBoundKey().equals(this.key)) {
-					tooltipText.add(I18n.translate(b.getTranslationKey()));
+				if (((KeyBindingAccessor) b).getKeyCode().equals(this.key)) {
+					tooltipText.add(I18n.translate(b.getId()));
 				}
 			}
-			this.tooltipText = tooltipText.stream().sorted().map(s -> new TranslatableText(s))
-					.collect(Collectors.toCollection(ArrayList<Text>::new));
+			this.tooltipText = tooltipText.stream().sorted().collect(Collectors.toCollection(ArrayList<String>::new));
 		}
 
 		@Override

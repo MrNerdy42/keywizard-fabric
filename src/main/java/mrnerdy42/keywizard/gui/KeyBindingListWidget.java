@@ -10,15 +10,14 @@ import org.jetbrains.annotations.Nullable;
 import mrnerdy42.keywizard.mixin.KeyBindingAccessor;
 import mrnerdy42.keywizard.util.KeyBindingUtil;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.screen.TickableElement;
-import net.minecraft.client.option.KeyBinding;
+import net.minecraft.client.options.KeyBinding;
 import net.minecraft.client.resource.language.I18n;
 import net.minecraft.client.util.InputUtil;
-import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
+import net.minecraft.util.Tickable;
 
-public class KeyBindingListWidget extends FreeFormListWidget<KeyBindingListWidget.BindingEntry> implements TickableElement {
+public class KeyBindingListWidget extends FreeFormListWidget<KeyBindingListWidget.BindingEntry> implements Tickable {
 	
 	public KeyWizardScreen keyWizardScreen;
 	private String currentFilterText = "";
@@ -28,7 +27,7 @@ public class KeyBindingListWidget extends FreeFormListWidget<KeyBindingListWidge
 		super(MinecraftClient.getInstance(), top, left, width, height, itemHeight);
 		this.keyWizardScreen = keyWizardScreen;
 		
-		for (KeyBinding k : this.client.options.keysAll) {
+		for (KeyBinding k : this.minecraft.options.keysAll) {
 			this.addEntry(new BindingEntry(k));
 		}
 		this.setSelected(this.children().get(0));
@@ -98,7 +97,7 @@ public class KeyBindingListWidget extends FreeFormListWidget<KeyBindingListWidge
 		KeyBinding[] bindingsFiltered = Arrays.stream(bindings).filter(binding -> {
 				boolean flag = true;
 				for (String w:words) {
-					flag = flag && I18n.translate(binding.getTranslationKey()).toLowerCase().contains(w.toLowerCase());
+					flag = flag && I18n.translate(binding.getId()).toLowerCase().contains(w.toLowerCase());
 				}
 				return flag;
 			}).toArray(KeyBinding[]::new);
@@ -107,26 +106,20 @@ public class KeyBindingListWidget extends FreeFormListWidget<KeyBindingListWidge
 	
 	private KeyBinding[] filterBindingsByKey(KeyBinding[] bindings, String keyName) {
 		return Arrays.stream(bindings).filter(b -> {
-			Text t = b.getBoundKeyLocalizedText();
-			if (t instanceof TranslatableText) {
-				return I18n.translate(((TranslatableText) t).getKey()).toLowerCase().equals(keyName.toLowerCase());
-			}
-			else {
-				return t.asString().toLowerCase().equals(keyName.toLowerCase());
-			}
+			return I18n.translate(b.getId()).toLowerCase().equals(keyName.toLowerCase());
 		}).toArray(KeyBinding[]::new);
 	}
 	
 	private KeyBinding[] getBindingsByCategory(String category) {
-		KeyBinding[] bindings = Arrays.copyOf(this.client.options.keysAll, this.client.options.keysAll.length);
+		KeyBinding[] bindings = Arrays.copyOf(this.minecraft.options.keysAll, this.minecraft.options.keysAll.length);
 		switch (category) {
 		case KeyBindingUtil.DYNAMIC_CATEGORY_ALL:
 		    return bindings;
 		case KeyBindingUtil.DYNAMIC_CATEGORY_CONFLICTS:
-			Map<InputUtil.Key, Integer> bindingCounts = KeyBindingUtil.getBindingCountsByKey();
-			return Arrays.stream(bindings).filter(b -> bindingCounts.get(((KeyBindingAccessor)b).getBoundKey()) > 1  && ((KeyBindingAccessor)b).getBoundKey().getCode() != -1).toArray(KeyBinding[]::new) ;
+			Map<InputUtil.KeyCode, Integer> bindingCounts = KeyBindingUtil.getBindingCountsByKey();
+			return Arrays.stream(bindings).filter(b -> bindingCounts.get(((KeyBindingAccessor)b).getKeyCode()) > 1  && ((KeyBindingAccessor)b).getKeyCode().getKeyCode() != -1).toArray(KeyBinding[]::new) ;
 		case KeyBindingUtil.DYNAMIC_CATEGORY_UNBOUND:
-			return Arrays.stream(bindings).filter(b -> b.isUnbound()).toArray(KeyBinding[]::new);
+			return Arrays.stream(bindings).filter(b -> b.isNotBound()).toArray(KeyBinding[]::new);
 		default:
 			return Arrays.stream(bindings).filter(b -> b.getCategory() == category).toArray(KeyBinding[]::new);
 		}
@@ -146,10 +139,10 @@ public class KeyBindingListWidget extends FreeFormListWidget<KeyBindingListWidge
 		}
 
 		@Override
-		public void render(MatrixStack matrices, int index, int y, int x, int entryWidth, int entryHeight, int mouseX, int mouseY, boolean hovered, float tickDelta) {
-			client.textRenderer.drawWithShadow(matrices, new TranslatableText(this.keyBinding.getTranslationKey()), x, y, 0xFFFFFFFF);
+		public void render(int index, int y, int x, int entryWidth, int entryHeight, int mouseX, int mouseY, boolean hovered, float tickDelta) {
+			minecraft.textRenderer.drawWithShadow(I18n.translate(keyBinding.getId()), x, y, 0xFFFFFFFF);
 			int color = 0xFF999999;
-			client.textRenderer.drawWithShadow(matrices, this.keyBinding.getBoundKeyLocalizedText(), x, y + client.textRenderer.fontHeight + 5, color);
+			minecraft.textRenderer.drawWithShadow(this.keyBinding.getLocalizedName(), x, y + minecraft.textRenderer.fontHeight + 5, color);
 		}
 
 	}

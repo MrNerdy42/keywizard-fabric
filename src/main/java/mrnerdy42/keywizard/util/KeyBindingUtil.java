@@ -8,9 +8,9 @@ import java.util.stream.Collectors;
 
 import mrnerdy42.keywizard.mixin.KeyBindingAccessor;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.option.KeyBinding;
+import net.minecraft.client.options.KeyBinding;
 import net.minecraft.client.util.InputUtil;
-import net.minecraft.client.util.InputUtil.Key;
+import net.minecraft.client.util.InputUtil.KeyCode;
 
 public class KeyBindingUtil {
 	public static final String DYNAMIC_CATEGORY_ALL = "key.categories.keywizard.all";
@@ -33,10 +33,10 @@ public class KeyBindingUtil {
 	}
 	
 	@SuppressWarnings("resource")
-	public static Map<Key, Integer> getBindingCountsByKey() {
-		HashMap<InputUtil.Key, Integer> map = new HashMap<>();
+	public static Map<KeyCode, Integer> getBindingCountsByKey() {
+		HashMap<InputUtil.KeyCode, Integer> map = new HashMap<>();
 		for (KeyBinding b : MinecraftClient.getInstance().options.keysAll) {
-			map.merge(((KeyBindingAccessor)b).getBoundKey(), 1, Integer::sum);
+			map.merge(((KeyBindingAccessor)b).getKeyCode(), 1, Integer::sum);
 		}
 		return Collections.unmodifiableMap(map);
 	}

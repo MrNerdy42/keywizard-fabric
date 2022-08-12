@@ -3,13 +3,11 @@ package mrnerdy42.keywizard.gui;
 import mrnerdy42.keywizard.util.KeyBindingUtil;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.Element;
-import net.minecraft.client.gui.screen.TickableElement;
-import net.minecraft.client.gui.widget.PressableWidget;
-import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.text.Text;
-import net.minecraft.text.TranslatableText;
+import net.minecraft.client.gui.widget.AbstractPressableButtonWidget;
+import net.minecraft.client.resource.language.I18n;
+import net.minecraft.util.Tickable;
 
-public class CategorySelectorWidget extends PressableWidget implements TickableElement {
+public class CategorySelectorWidget extends AbstractPressableButtonWidget implements Tickable {
 	
 	public KeyWizardScreen keyWizardScreen;
 	public boolean extended = false;
@@ -17,7 +15,7 @@ public class CategorySelectorWidget extends PressableWidget implements TickableE
 	public BindingCategoryListWidget categoryList;
 	
 	public CategorySelectorWidget(KeyWizardScreen keyWizardScreen, int x, int y, int width, int height) {
-		super(x, y, width, height, Text.of(""));
+		super(x, y, width, height, "");
 		this.keyWizardScreen = keyWizardScreen;
 		MinecraftClient c = MinecraftClient.getInstance();
 		int listItemHeight = c.textRenderer.fontHeight + 7;
@@ -47,14 +45,14 @@ public class CategorySelectorWidget extends PressableWidget implements TickableE
 	}
 	
 	@Override
-	public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
-		super.render(matrices, mouseX, mouseY, delta);
-		this.categoryList.render(matrices, mouseX, mouseY, delta);
+	public void render(int mouseX, int mouseY, float delta) {
+		super.render(mouseX, mouseY, delta);
+		this.categoryList.render(mouseX, mouseY, delta);
 	}
 	
 	@Override
 	public void tick() {
-		this.setMessage(new TranslatableText(this.getSelctedCategory()));
+		this.setMessage(I18n.translate(getSelctedCategory()));
     	this.categoryList.visible = this.extended;
 	}
 	
@@ -89,8 +87,8 @@ public class CategorySelectorWidget extends PressableWidget implements TickableE
 			}
 
 			@Override
-			public void render(MatrixStack matrices, int index, int y, int x, int entryWidth, int entryHeight, int mouseX, int mouseY, boolean hovered, float tickDelta) {
-				client.textRenderer.drawWithShadow(matrices, new TranslatableText(this.category), x + 3 , y + 2, 0xFFFFFFFF);
+			public void render(int index, int y, int x, int entryWidth, int entryHeight, int mouseX, int mouseY, boolean hovered, float tickDelta) {
+				minecraft.textRenderer.drawWithShadow(I18n.translate(category), x + 3 , y + 2, 0xFFFFFFFF);
 			}
 
 		}
