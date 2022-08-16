@@ -116,6 +116,7 @@ public class KeyWizardScreen extends Screen {
 		
 		this.children.add(categorySelector);
 		this.children.add(this.keyboard);
+		this.children.add(this.bindingList);
 		this.children.add(this.categorySelector);
 		this.children.add(this.categorySelector.getCategoryList());
 		this.children.add(this.screenToggleButton);
