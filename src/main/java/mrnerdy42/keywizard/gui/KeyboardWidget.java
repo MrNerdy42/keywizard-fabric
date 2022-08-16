@@ -111,7 +111,8 @@ public class KeyboardWidget extends AbstractParentElement implements Drawable, T
 			this.width = width;
 			this.height = height;
 			this.key = keyType.createFromCode(keyCode);
-			this.setMessage(this.key.getName());
+			// this has to be mixed or a translation has to be added for keys.
+			this.setMessage(InputUtil.getKeycodeName(keyCode));
 		}
 
 		@Override
