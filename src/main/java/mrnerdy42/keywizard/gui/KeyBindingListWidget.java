@@ -97,7 +97,7 @@ public class KeyBindingListWidget extends FreeFormListWidget<KeyBindingListWidge
 		KeyBinding[] bindingsFiltered = Arrays.stream(bindings).filter(binding -> {
 				boolean flag = true;
 				for (String w:words) {
-					flag = flag && I18n.translate(((KeyBindingAccessor)binding).getKeyCode().getName()).toLowerCase().contains(w.toLowerCase());
+					flag = flag && I18n.translate(binding.getId()).toLowerCase().contains(w.toLowerCase());
 				}
 				return flag;
 			}).toArray(KeyBinding[]::new);
@@ -106,7 +106,13 @@ public class KeyBindingListWidget extends FreeFormListWidget<KeyBindingListWidge
 	
 	private KeyBinding[] filterBindingsByKey(KeyBinding[] bindings, String keyName) {
 		return Arrays.stream(bindings).filter(b -> {
-			return I18n.translate(b.getId()).toLowerCase().equals(keyName.toLowerCase());
+			String otherKeyName;
+			if (I18n.hasTranslation(((KeyBindingAccessor)b).getKeyCode().getName())) {
+				otherKeyName = I18n.translate(((KeyBindingAccessor)b).getKeyCode().getName());
+			} else {
+				otherKeyName = InputUtil.getKeycodeName(((KeyBindingAccessor)b).getKeyCode().getKeyCode());
+			}
+			return I18n.translate(otherKeyName).toLowerCase().equals(keyName.toLowerCase());
 		}).toArray(KeyBinding[]::new);
 	}
 	
