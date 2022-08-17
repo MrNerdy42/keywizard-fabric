@@ -16,8 +16,6 @@ import net.minecraft.client.gui.widget.AbstractPressableButtonWidget;
 import net.minecraft.client.options.KeyBinding;
 import net.minecraft.client.resource.language.I18n;
 import net.minecraft.client.util.InputUtil;
-import net.minecraft.text.Text;
-import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Tickable;
 
 public class KeyboardWidget extends AbstractParentElement implements Drawable, Tickable {
