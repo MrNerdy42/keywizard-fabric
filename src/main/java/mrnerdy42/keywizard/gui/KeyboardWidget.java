@@ -12,7 +12,7 @@ import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.AbstractParentElement;
 import net.minecraft.client.gui.Drawable;
 import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.gui.screen.TickableElement;
+import net.minecraft.client.gui.screen.narration.NarrationMessageBuilder;
 import net.minecraft.client.gui.widget.PressableWidget;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.resource.language.I18n;
@@ -182,6 +182,12 @@ public class KeyboardWidget extends AbstractParentElement implements Drawable, T
 		@Override
 		public void tick() {
 			updateTooltip();
+		}
+
+		@Override
+		public void appendNarrations(NarrationMessageBuilder var1) {
+			// TODO Auto-generated method stub
+			
 		}
 
 	}
