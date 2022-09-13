@@ -2,7 +2,6 @@ package mrnerdy42.keywizard.gui;
 
 import mrnerdy42.keywizard.util.KeyBindingUtil;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.Element;
 import net.minecraft.client.gui.screen.narration.NarrationMessageBuilder;
 import net.minecraft.client.gui.widget.PressableWidget;
 import net.minecraft.client.util.math.MatrixStack;
@@ -65,8 +64,8 @@ public class CategorySelectorWidget extends PressableWidget implements TickableE
     	return ((BindingCategoryListWidget.CategoryEntry) this.categoryList.getSelectedOrNull()).category;
     }
 	
-	public Element getCategoryList() {
-		return (Element)this.categoryList;
+	public BindingCategoryListWidget getCategoryList() {
+		return this.categoryList;
 	}
     
 	private class BindingCategoryListWidget extends FreeFormListWidget<BindingCategoryListWidget.CategoryEntry> {

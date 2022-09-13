@@ -28,7 +28,7 @@ public class KeyWizard implements ClientModInitializer {
 		keyOpenKeyWizard = KeyBindingHelper.registerKeyBinding(new KeyBinding("key." + MODID + ".openKeyWizard", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_F7, "key.categories." + MODID + ".bindings"));
 		ClientTickEvents.END_CLIENT_TICK.register(client -> {
 		        while (keyOpenKeyWizard.wasPressed()) {
-		    	    client.openScreen(new KeyWizardScreen(client.currentScreen));
+		    	    client.setScreen(new KeyWizardScreen(client.currentScreen));
 		        }
 			});
 	}

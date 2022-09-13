@@ -8,8 +8,8 @@ import mrnerdy42.keywizard.util.KeyBindingUtil;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.Drawable;
 import net.minecraft.client.gui.Element;
+import net.minecraft.client.gui.Selectable;
 import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.gui.screen.TickableElement;
 import net.minecraft.client.gui.screen.option.ControlsOptionsScreen;
 import net.minecraft.client.gui.screen.option.GameOptionsScreen;
 import net.minecraft.client.gui.widget.ButtonWidget;
@@ -78,18 +78,18 @@ public class KeyWizardScreen extends GameOptionsScreen {
 			if (this.mouseCodeIndex >= this.mouseCodes.length ) {
 				this.mouseCodeIndex = 0;
 			}
-			this.drawables.remove(this.mouseButton);
+			this.remove(this.mouseButton);
 			this.mouseButton = KeyboardWidgetBuilder.singleKeyKeyboard(this, mouseButtonX, mouseButtonY, mouseButtonWidth, mouseButtonHeight, mouseCodes[mouseCodeIndex], InputUtil.Type.MOUSE);
-			this.children.add(this.mouseButton);
+			this.addDrawableChild(this.mouseButton);
 		});
 		this.mouseMinus = new ButtonWidget( (int)this.mouseButton.getAnchorX() - 26, (int)this.mouseButton.getAnchorY(), 25, 20, Text.of("-"), (btn) -> {
 			this.mouseCodeIndex --;
 			if (this.mouseCodeIndex < 0) {
 				this.mouseCodeIndex = this.mouseCodes.length - 1;
 			}
-			this.children.remove(this.mouseButton);
+			this.remove(this.mouseButton);
 			this.mouseButton = KeyboardWidgetBuilder.singleKeyKeyboard(this, mouseButtonX, mouseButtonY, mouseButtonWidth, mouseButtonHeight, mouseCodes[mouseCodeIndex], InputUtil.Type.MOUSE);
-			this.children.add(this.mouseButton);
+			this.addDrawableChild(this.mouseButton);
 		});
 		this.resetBinding = new ButtonWidget(bindingListWidth + 15, this.height - 23, 50, 20, new TranslatableText("controls.reset"), (btn) -> {
 			KeyBinding selectedBinding = this.getSelectedKeyBinding();
@@ -108,20 +108,21 @@ public class KeyWizardScreen extends GameOptionsScreen {
 			KeyBinding.updateKeysByCode();
 		});
 		
-		this.addChild(this.bindingList);
-		this.addChild(this.keyboard);
-		this.addChild(this.categorySelector);
-		this.addChild(this.categorySelector.getCategoryList());
-		this.addChild(this.screenToggleButton);
-		this.addChild(this.searchBar);
-		this.addChild(this.mouseButton);
-		this.addChild(this.mousePlus);
-		this.addChild(this.mouseMinus);
-		this.addChild(this.resetBinding);
-		this.addChild(this.clearBinding);
-		this.addChild(this.resetAll);
+		this.addDrawableChild(this.bindingList);
+		this.addDrawableChild(this.keyboard);
+		this.addDrawableChild(this.categorySelector);
+		this.addDrawableChild(this.categorySelector.getCategoryList());
+		this.addDrawableChild(this.screenToggleButton);
+		this.addDrawableChild(this.searchBar);
+		this.addDrawableChild(this.mouseButton);
+		this.addDrawableChild(this.mousePlus);
+		this.addDrawableChild(this.mouseMinus);
+		this.addDrawableChild(this.resetBinding);
+		this.addDrawableChild(this.clearBinding);
+		this.addDrawableChild(this.resetAll);
 	}
 	
+	/*
 	@Override
 	public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
 		this.renderBackground(matrices);
@@ -131,10 +132,11 @@ public class KeyWizardScreen extends GameOptionsScreen {
 			}
 		}
 	}
+	*/
 	
 	@Override
 	public void tick() {
-		for (Element e : this.children) {
+		for (Element e : this.children()) {
 			if (e instanceof TickableElement) {
 				((TickableElement) e).tick();
 			}
