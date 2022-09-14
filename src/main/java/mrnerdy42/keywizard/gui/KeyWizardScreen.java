@@ -134,6 +134,12 @@ public class KeyWizardScreen extends GameOptionsScreen {
 	}
 	*/
 	
+    @Override
+    public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
+    	this.renderBackground(matrices);
+    	super.render(matrices, mouseX, mouseY, delta);
+    }
+	
 	@Override
 	public void tick() {
 		for (Element e : this.children()) {
