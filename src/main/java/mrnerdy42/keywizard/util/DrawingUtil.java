@@ -13,7 +13,7 @@ import net.minecraft.util.math.Matrix4f;
 
 public class DrawingUtil {
 	public static void fill(MatrixStack matrices, float x1, float y1, float x2, float y2, int color) {
-		Matrix4f matrix = matrices.peek().getModel();
+		Matrix4f matrix = matrices.peek().getPositionMatrix();
 		float j;
 		if (x1 < x2) {
 			j = x1;

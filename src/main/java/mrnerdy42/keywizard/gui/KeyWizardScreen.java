@@ -49,7 +49,7 @@ public class KeyWizardScreen extends GameOptionsScreen {
 		int mouseButtonHeight = 20;
 		
 		int maxBindingNameWidth = 0;
-		for (KeyBinding k : this.client.options.keysAll) {
+		for (KeyBinding k : this.client.options.allKeys) {
 			int w = this.textRenderer.getWidth(new TranslatableText(k.getTranslationKey()));
 			if (w > maxBindingNameWidth)
 				maxBindingNameWidth = w;
@@ -100,7 +100,7 @@ public class KeyWizardScreen extends GameOptionsScreen {
 			KeyBinding.updateKeysByCode();
 		});
 		this.resetAll = new ButtonWidget(bindingListWidth + 117, this.height - 23, 70, 20, new TranslatableText("controls.resetAll"), (btn) -> {
-			for(KeyBinding b : this.gameOptions.keysAll) {
+			for(KeyBinding b : this.gameOptions.allKeys) {
 				b.setBoundKey(b.getDefaultKey());
 			}
 			KeyBinding.updateKeysByCode();

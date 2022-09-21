@@ -171,7 +171,7 @@ public class KeyboardWidget extends AbstractParentElement implements Drawable, T
 		@SuppressWarnings("resource")
 		private void updateTooltip() {
 			ArrayList<String> tooltipText = new ArrayList<>();
-			for (KeyBinding b : MinecraftClient.getInstance().options.keysAll) {
+			for (KeyBinding b : MinecraftClient.getInstance().options.allKeys) {
 				if (((KeyBindingAccessor) b).getBoundKey().equals(this.key)) {
 					tooltipText.add(I18n.translate(b.getTranslationKey()));
 				}
