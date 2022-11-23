@@ -23,9 +23,9 @@ public abstract class ControlsOptionsScreenInjector extends GameOptionsScreen {
 	private void init(CallbackInfo info) {
 		KeyWizard.LOGGER.info("Controls screen injector mixin loaded!");
 		TexturedButtonWidget screenToggleButton = new TexturedButtonWidget(this.width - 22, this.height - 22, 20, 20, 0, 0, 20, KeyWizard.SCREEN_TOGGLE_WIDGETS, 40, 40, (btn) -> {
-		    client.openScreen(new KeyWizardScreen(this.parent));
+		    client.setScreen(new KeyWizardScreen(this.parent));
 		});
-		this.addButton(screenToggleButton);
+		this.addDrawableChild(screenToggleButton);
 	}
 	
 }

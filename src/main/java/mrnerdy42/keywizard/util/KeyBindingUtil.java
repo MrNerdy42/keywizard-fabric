@@ -35,7 +35,7 @@ public class KeyBindingUtil {
 	@SuppressWarnings("resource")
 	public static Map<Key, Integer> getBindingCountsByKey() {
 		HashMap<InputUtil.Key, Integer> map = new HashMap<>();
-		for (KeyBinding b : MinecraftClient.getInstance().options.keysAll) {
+		for (KeyBinding b : MinecraftClient.getInstance().options.allKeys) {
 			map.merge(((KeyBindingAccessor)b).getBoundKey(), 1, Integer::sum);
 		}
 		return Collections.unmodifiableMap(map);

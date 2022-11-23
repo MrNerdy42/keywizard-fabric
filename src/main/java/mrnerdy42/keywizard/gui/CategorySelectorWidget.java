@@ -2,12 +2,11 @@ package mrnerdy42.keywizard.gui;
 
 import mrnerdy42.keywizard.util.KeyBindingUtil;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.Element;
-import net.minecraft.client.gui.screen.TickableElement;
+import net.minecraft.client.gui.screen.narration.NarrationMessageBuilder;
 import net.minecraft.client.gui.widget.PressableWidget;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.Text;
-import net.minecraft.text.TranslatableText;
+import net.minecraft.text.TranslatableTextContent;
 
 public class CategorySelectorWidget extends PressableWidget implements TickableElement {
 	
@@ -54,19 +53,19 @@ public class CategorySelectorWidget extends PressableWidget implements TickableE
 	
 	@Override
 	public void tick() {
-		this.setMessage(new TranslatableText(this.getSelctedCategory()));
+		this.setMessage(new TranslatableTextContent(this.getSelctedCategory()));
     	this.categoryList.visible = this.extended;
 	}
 	
 	public String getSelctedCategory() {
-		if (this.categoryList.getSelected() == null) {
+		if (this.categoryList.getSelectedOrNull() == null) {
 			return KeyBindingUtil.DYNAMIC_CATEGORY_ALL;
 		}
-    	return ((BindingCategoryListWidget.CategoryEntry) this.categoryList.getSelected()).category;
+    	return ((BindingCategoryListWidget.CategoryEntry) this.categoryList.getSelectedOrNull()).category;
     }
 	
-	public Element getCategoryList() {
-		return (Element)this.categoryList;
+	public BindingCategoryListWidget getCategoryList() {
+		return this.categoryList;
 	}
     
 	private class BindingCategoryListWidget extends FreeFormListWidget<BindingCategoryListWidget.CategoryEntry> {
@@ -90,10 +89,22 @@ public class CategorySelectorWidget extends PressableWidget implements TickableE
 
 			@Override
 			public void render(MatrixStack matrices, int index, int y, int x, int entryWidth, int entryHeight, int mouseX, int mouseY, boolean hovered, float tickDelta) {
-				client.textRenderer.drawWithShadow(matrices, new TranslatableText(this.category), x + 3 , y + 2, 0xFFFFFFFF);
+				client.textRenderer.drawWithShadow(matrices, new TranslatableTextContent(this.category), x + 3 , y + 2, 0xFFFFFFFF);
 			}
 
 		}
+
+		@Override
+		public void appendNarrations(NarrationMessageBuilder var1) {
+			// TODO Auto-generated method stub
+			
+		}
+	}
+
+	@Override
+	public void appendNarrations(NarrationMessageBuilder var1) {
+		// TODO Auto-generated method stub
+		
 	}
 	
 }

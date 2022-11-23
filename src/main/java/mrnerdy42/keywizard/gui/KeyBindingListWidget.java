@@ -10,13 +10,13 @@ import org.jetbrains.annotations.Nullable;
 import mrnerdy42.keywizard.mixin.KeyBindingAccessor;
 import mrnerdy42.keywizard.util.KeyBindingUtil;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.screen.TickableElement;
+import net.minecraft.client.gui.screen.narration.NarrationMessageBuilder;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.resource.language.I18n;
 import net.minecraft.client.util.InputUtil;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.Text;
-import net.minecraft.text.TranslatableText;
+import net.minecraft.text.TranslatableTextContent;
 
 public class KeyBindingListWidget extends FreeFormListWidget<KeyBindingListWidget.BindingEntry> implements TickableElement {
 	
@@ -28,7 +28,7 @@ public class KeyBindingListWidget extends FreeFormListWidget<KeyBindingListWidge
 		super(MinecraftClient.getInstance(), top, left, width, height, itemHeight);
 		this.keyWizardScreen = keyWizardScreen;
 		
-		for (KeyBinding k : this.client.options.keysAll) {
+		for (KeyBinding k : this.client.options.allKeys) {
 			this.addEntry(new BindingEntry(k));
 		}
 		this.setSelected(this.children().get(0));
@@ -36,10 +36,10 @@ public class KeyBindingListWidget extends FreeFormListWidget<KeyBindingListWidge
 	
 	@Nullable
 	public KeyBinding getSelectedKeyBinding() {
-		if (this.getSelected() == null) {
+		if (this.getSelectedOrNull() == null) {
 			return null;
 		}
-		return ((BindingEntry)this.getSelected()).keyBinding;
+		return ((BindingEntry)this.getSelectedOrNull()).keyBinding;
 	}
 	
 	private void updateList() {
@@ -108,17 +108,17 @@ public class KeyBindingListWidget extends FreeFormListWidget<KeyBindingListWidge
 	private KeyBinding[] filterBindingsByKey(KeyBinding[] bindings, String keyName) {
 		return Arrays.stream(bindings).filter(b -> {
 			Text t = b.getBoundKeyLocalizedText();
-			if (t instanceof TranslatableText) {
-				return I18n.translate(((TranslatableText) t).getKey()).toLowerCase().equals(keyName.toLowerCase());
+			if (t instanceof TranslatableTextContent) {
+				return I18n.translate(((TranslatableTextContent) t).getKey()).toLowerCase().equals(keyName.toLowerCase());
 			}
 			else {
-				return t.asString().toLowerCase().equals(keyName.toLowerCase());
+				return t.getContent().toLowerCase().equals(keyName.toLowerCase());
 			}
 		}).toArray(KeyBinding[]::new);
 	}
 	
 	private KeyBinding[] getBindingsByCategory(String category) {
-		KeyBinding[] bindings = Arrays.copyOf(this.client.options.keysAll, this.client.options.keysAll.length);
+		KeyBinding[] bindings = Arrays.copyOf(this.client.options.allKeys, this.client.options.allKeys.length);
 		switch (category) {
 		case KeyBindingUtil.DYNAMIC_CATEGORY_ALL:
 		    return bindings;
@@ -147,11 +147,17 @@ public class KeyBindingListWidget extends FreeFormListWidget<KeyBindingListWidge
 
 		@Override
 		public void render(MatrixStack matrices, int index, int y, int x, int entryWidth, int entryHeight, int mouseX, int mouseY, boolean hovered, float tickDelta) {
-			client.textRenderer.drawWithShadow(matrices, new TranslatableText(this.keyBinding.getTranslationKey()), x, y, 0xFFFFFFFF);
+			client.textRenderer.drawWithShadow(matrices, new TranslatableTextContent(this.keyBinding.getTranslationKey()), x, y, 0xFFFFFFFF);
 			int color = 0xFF999999;
 			client.textRenderer.drawWithShadow(matrices, this.keyBinding.getBoundKeyLocalizedText(), x, y + client.textRenderer.fontHeight + 5, color);
 		}
 
+	}
+
+	@Override
+	public void appendNarrations(NarrationMessageBuilder var1) {
+		// TODO Auto-generated method stub
+		
 	}
 	
 

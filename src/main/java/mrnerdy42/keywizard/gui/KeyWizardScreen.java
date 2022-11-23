@@ -6,10 +6,8 @@ import org.lwjgl.glfw.GLFW;
 import mrnerdy42.keywizard.KeyWizard;
 import mrnerdy42.keywizard.util.KeyBindingUtil;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.Drawable;
 import net.minecraft.client.gui.Element;
 import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.gui.screen.TickableElement;
 import net.minecraft.client.gui.screen.option.ControlsOptionsScreen;
 import net.minecraft.client.gui.screen.option.GameOptionsScreen;
 import net.minecraft.client.gui.widget.ButtonWidget;
@@ -19,7 +17,7 @@ import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.util.InputUtil;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.Text;
-import net.minecraft.text.TranslatableText;
+import net.minecraft.text.TranslatableTextContent;
 
 public class KeyWizardScreen extends GameOptionsScreen {
 	
@@ -51,15 +49,15 @@ public class KeyWizardScreen extends GameOptionsScreen {
 		int mouseButtonHeight = 20;
 		
 		int maxBindingNameWidth = 0;
-		for (KeyBinding k : this.client.options.keysAll) {
-			int w = this.textRenderer.getWidth(new TranslatableText(k.getTranslationKey()));
+		for (KeyBinding k : this.client.options.allKeys) {
+			int w = this.textRenderer.getWidth(new TranslatableTextContent(k.getTranslationKey()));
 			if (w > maxBindingNameWidth)
 				maxBindingNameWidth = w;
 		}
 		
 		int maxCategoryWidth = 0;
 		for (String s : KeyBindingUtil.getCategories()) {
-			int w = this.textRenderer.getWidth(new TranslatableText(s));
+			int w = this.textRenderer.getWidth(new TranslatableTextContent(s));
 			if (w > maxCategoryWidth)
 				maxCategoryWidth = w;
 		}
@@ -69,7 +67,7 @@ public class KeyWizardScreen extends GameOptionsScreen {
 		this.keyboard = KeyboardWidgetBuilder.standardKeyboard(this, bindingListWidth + 15, this.height / 2 - 90, this.width - (bindingListWidth + 15), 180);
 		this.categorySelector = new CategorySelectorWidget(this, bindingListWidth + 15, 5, maxCategoryWidth + 20, 20);
 		this.screenToggleButton = new TexturedButtonWidget(this.width - 22, this.height - 22, 20, 20, 20, 0, 20, KeyWizard.SCREEN_TOGGLE_WIDGETS, 40, 40, (btn) -> {
-			this.client.openScreen(new ControlsOptionsScreen(this.parent, this.gameOptions));
+			this.client.setScreen(new ControlsOptionsScreen(this.parent, this.gameOptions));
 		});
 		this.searchBar = new TextFieldWidget(this.textRenderer, 10, this.height - 20, bindingListWidth, 14, Text.of(""));
 		this.mouseButton = KeyboardWidgetBuilder.singleKeyKeyboard(this, mouseButtonX, mouseButtonY, mouseButtonWidth, mouseButtonHeight, mouseCodes[mouseCodeIndex], InputUtil.Type.MOUSE);
@@ -78,50 +76,51 @@ public class KeyWizardScreen extends GameOptionsScreen {
 			if (this.mouseCodeIndex >= this.mouseCodes.length ) {
 				this.mouseCodeIndex = 0;
 			}
-			this.children.remove(this.mouseButton);
+			this.remove(this.mouseButton);
 			this.mouseButton = KeyboardWidgetBuilder.singleKeyKeyboard(this, mouseButtonX, mouseButtonY, mouseButtonWidth, mouseButtonHeight, mouseCodes[mouseCodeIndex], InputUtil.Type.MOUSE);
-			this.children.add(this.mouseButton);
+			this.addDrawableChild(this.mouseButton);
 		});
 		this.mouseMinus = new ButtonWidget( (int)this.mouseButton.getAnchorX() - 26, (int)this.mouseButton.getAnchorY(), 25, 20, Text.of("-"), (btn) -> {
 			this.mouseCodeIndex --;
 			if (this.mouseCodeIndex < 0) {
 				this.mouseCodeIndex = this.mouseCodes.length - 1;
 			}
-			this.children.remove(this.mouseButton);
+			this.remove(this.mouseButton);
 			this.mouseButton = KeyboardWidgetBuilder.singleKeyKeyboard(this, mouseButtonX, mouseButtonY, mouseButtonWidth, mouseButtonHeight, mouseCodes[mouseCodeIndex], InputUtil.Type.MOUSE);
-			this.children.add(this.mouseButton);
+			this.addDrawableChild(this.mouseButton);
 		});
-		this.resetBinding = new ButtonWidget(bindingListWidth + 15, this.height - 23, 50, 20, new TranslatableText("controls.reset"), (btn) -> {
+		this.resetBinding = new ButtonWidget(bindingListWidth + 15, this.height - 23, 50, 20, new TranslatableTextContent("controls.reset"), (btn) -> {
 			KeyBinding selectedBinding = this.getSelectedKeyBinding();
 			selectedBinding.setBoundKey(selectedBinding.getDefaultKey());
 			KeyBinding.updateKeysByCode();
 		});
-		this.clearBinding = new ButtonWidget(bindingListWidth + 66, this.height - 23, 50, 20, new TranslatableText("gui.clear"), (btn) -> {
+		this.clearBinding = new ButtonWidget(bindingListWidth + 66, this.height - 23, 50, 20, new TranslatableTextContent("gui.clear"), (btn) -> {
 			KeyBinding selectedBinding = this.getSelectedKeyBinding();
 			selectedBinding.setBoundKey(InputUtil.Type.KEYSYM.createFromCode(GLFW.GLFW_KEY_UNKNOWN));
 			KeyBinding.updateKeysByCode();
 		});
-		this.resetAll = new ButtonWidget(bindingListWidth + 117, this.height - 23, 70, 20, new TranslatableText("controls.resetAll"), (btn) -> {
-			for(KeyBinding b : this.gameOptions.keysAll) {
+		this.resetAll = new ButtonWidget(bindingListWidth + 117, this.height - 23, 70, 20, new TranslatableTextContent("controls.resetAll"), (btn) -> {
+			for(KeyBinding b : this.gameOptions.allKeys) {
 				b.setBoundKey(b.getDefaultKey());
 			}
 			KeyBinding.updateKeysByCode();
 		});
 		
-		this.addChild(this.bindingList);
-		this.addChild(this.keyboard);
-		this.addChild(this.categorySelector);
-		this.addChild(this.categorySelector.getCategoryList());
-		this.addChild(this.screenToggleButton);
-		this.addChild(this.searchBar);
-		this.addChild(this.mouseButton);
-		this.addChild(this.mousePlus);
-		this.addChild(this.mouseMinus);
-		this.addChild(this.resetBinding);
-		this.addChild(this.clearBinding);
-		this.addChild(this.resetAll);
+		this.addDrawableChild(this.bindingList);
+		this.addDrawableChild(this.keyboard);
+		this.addDrawableChild(this.categorySelector);
+		this.addDrawableChild(this.categorySelector.getCategoryList());
+		this.addDrawableChild(this.screenToggleButton);
+		this.addDrawableChild(this.searchBar);
+		this.addDrawableChild(this.mouseButton);
+		this.addDrawableChild(this.mousePlus);
+		this.addDrawableChild(this.mouseMinus);
+		this.addDrawableChild(this.resetBinding);
+		this.addDrawableChild(this.clearBinding);
+		this.addDrawableChild(this.resetAll);
 	}
 	
+	/*
 	@Override
 	public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
 		this.renderBackground(matrices);
@@ -131,10 +130,17 @@ public class KeyWizardScreen extends GameOptionsScreen {
 			}
 		}
 	}
+	*/
+	
+    @Override
+    public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
+    	this.renderBackground(matrices);
+    	super.render(matrices, mouseX, mouseY, delta);
+    }
 	
 	@Override
 	public void tick() {
-		for (Element e : this.children) {
+		for (Element e : this.children()) {
 			if (e instanceof TickableElement) {
 				((TickableElement) e).tick();
 			}

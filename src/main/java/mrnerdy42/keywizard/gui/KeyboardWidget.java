@@ -11,17 +11,18 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.AbstractParentElement;
 import net.minecraft.client.gui.Drawable;
+import net.minecraft.client.gui.Selectable;
 import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.gui.screen.TickableElement;
+import net.minecraft.client.gui.screen.narration.NarrationMessageBuilder;
 import net.minecraft.client.gui.widget.PressableWidget;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.resource.language.I18n;
 import net.minecraft.client.util.InputUtil;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.Text;
-import net.minecraft.text.TranslatableText;
+import net.minecraft.text.TranslatableTextContent;
 
-public class KeyboardWidget extends AbstractParentElement implements Drawable, TickableElement {
+public class KeyboardWidget extends AbstractParentElement implements Drawable, TickableElement, Selectable {
 	public KeyWizardScreen keyWizardScreen;
 
 	private HashMap<Integer, KeyboardKeyWidget> keys = new HashMap<>();
@@ -152,10 +153,10 @@ public class KeyboardWidget extends AbstractParentElement implements Drawable, T
 			if (Screen.hasShiftDown()) {
 				Text t = this.getMessage();
 				String keyName;
-				if (t instanceof TranslatableText) {
-					keyName = I18n.translate(((TranslatableText) t).getKey());
+				if (t instanceof TranslatableTextContent) {
+					keyName = I18n.translate(((TranslatableTextContent) t).getKey());
 				} else {
-					keyName = t.asString();
+					keyName = t.getContent();
 				}
 				keyWizardScreen.setSearchText("<" + keyName + ">");
 			} else {
@@ -170,12 +171,12 @@ public class KeyboardWidget extends AbstractParentElement implements Drawable, T
 		@SuppressWarnings("resource")
 		private void updateTooltip() {
 			ArrayList<String> tooltipText = new ArrayList<>();
-			for (KeyBinding b : MinecraftClient.getInstance().options.keysAll) {
+			for (KeyBinding b : MinecraftClient.getInstance().options.allKeys) {
 				if (((KeyBindingAccessor) b).getBoundKey().equals(this.key)) {
 					tooltipText.add(I18n.translate(b.getTranslationKey()));
 				}
 			}
-			this.tooltipText = tooltipText.stream().sorted().map(s -> new TranslatableText(s))
+			this.tooltipText = tooltipText.stream().sorted().map(s -> new TranslatableTextContent(s))
 					.collect(Collectors.toCollection(ArrayList<Text>::new));
 		}
 
@@ -184,6 +185,23 @@ public class KeyboardWidget extends AbstractParentElement implements Drawable, T
 			updateTooltip();
 		}
 
+		@Override
+		public void appendNarrations(NarrationMessageBuilder var1) {
+			// TODO Auto-generated method stub
+			
+		}
+
+	}
+
+	@Override
+	public void appendNarrations(NarrationMessageBuilder var1) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public SelectionType getType() {
+		return SelectionType.NONE;
 	}
 
 }

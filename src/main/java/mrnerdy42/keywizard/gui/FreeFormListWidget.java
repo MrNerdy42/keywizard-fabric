@@ -22,8 +22,8 @@ public abstract class FreeFormListWidget<E extends FreeFormListWidget<E>.Entry> 
 		this.bottom = top + height;
 		this.right = left + width;
 
-		this.method_31322(false);
-		this.method_31323(false);
+		this.setRenderBackground(false);
+		this.setRenderHorizontalShadows(false);
 	}
 
 	@Override
@@ -52,7 +52,7 @@ public abstract class FreeFormListWidget<E extends FreeFormListWidget<E>.Entry> 
 				DrawingUtil.drawNoFillRect(matrices, this.getRowLeft()-2, this.getRowTop(i) -2, this.getRowRight() - 8, this.getRowTop(i) + this.itemHeight - 4, 0xFFFFFFFF);
 			}
 			
-			Entry entry = getEntry(i);
+			mrnerdy42.keywizard.gui.FreeFormListWidget.Entry entry = getEntry(i);
 			//this.itemHeight - 4??
 			entry.render(matrices, i, this.getRowTop(i), this.getRowLeft(), this.getRowWidth(), this.itemHeight-4, mouseX, mouseY, this.isMouseOver((double) mouseX, (double) mouseY) && Objects.equals(this.getEntryAtPosition((double) mouseX, (double) mouseY), entry), delta);
 		}

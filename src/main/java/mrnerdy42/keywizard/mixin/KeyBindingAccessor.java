@@ -13,7 +13,7 @@ public interface KeyBindingAccessor {
 	 @Accessor
 	 InputUtil.Key getBoundKey();
 	
-	 @Accessor("keyCategories")
+	 @Accessor("KEY_CATEGORIES")
 	 static Set<String> getKeyCategories() {
 		throw new AssertionError();
 	 };
