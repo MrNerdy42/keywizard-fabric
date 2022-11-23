@@ -42,7 +42,7 @@ public abstract class FreeFormListWidget<E extends FreeFormListWidget<E>.Entry> 
 	}
 	
 	@Override
-	protected void renderList(MatrixStack matrices, int x, int y, int mouseX, int mouseY, float delta) {
+	protected void renderList(MatrixStack matrices, int mouseX, int mouseY, float delta) {
 		double scaleH = this.client.getWindow().getHeight() / (double) this.client.getWindow().getScaledHeight();
 		double scaleW = this.client.getWindow().getWidth() / (double) this.client.getWindow().getScaledWidth();
 		RenderSystem.enableScissor((int)(this.left * scaleW), (int)(this.client.getWindow().getHeight() - (this.bottom * scaleH)), (int)(this.width * scaleW), (int)(this.height * scaleH));
@@ -52,7 +52,7 @@ public abstract class FreeFormListWidget<E extends FreeFormListWidget<E>.Entry> 
 				DrawingUtil.drawNoFillRect(matrices, this.getRowLeft()-2, this.getRowTop(i) -2, this.getRowRight() - 8, this.getRowTop(i) + this.itemHeight - 4, 0xFFFFFFFF);
 			}
 			
-			mrnerdy42.keywizard.gui.FreeFormListWidget.Entry entry = getEntry(i);
+			Entry entry = getEntry(i);
 			//this.itemHeight - 4??
 			entry.render(matrices, i, this.getRowTop(i), this.getRowLeft(), this.getRowWidth(), this.itemHeight-4, mouseX, mouseY, this.isMouseOver((double) mouseX, (double) mouseY) && Objects.equals(this.getEntryAtPosition((double) mouseX, (double) mouseY), entry), delta);
 		}

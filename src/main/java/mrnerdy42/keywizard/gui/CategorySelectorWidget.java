@@ -5,6 +5,7 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.narration.NarrationMessageBuilder;
 import net.minecraft.client.gui.widget.PressableWidget;
 import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableTextContent;
 
@@ -53,7 +54,7 @@ public class CategorySelectorWidget extends PressableWidget implements TickableE
 	
 	@Override
 	public void tick() {
-		this.setMessage(new TranslatableTextContent(this.getSelctedCategory()));
+		this.setMessage(MutableText.of(new TranslatableTextContent(this.getSelctedCategory())));
     	this.categoryList.visible = this.extended;
 	}
 	
@@ -89,7 +90,7 @@ public class CategorySelectorWidget extends PressableWidget implements TickableE
 
 			@Override
 			public void render(MatrixStack matrices, int index, int y, int x, int entryWidth, int entryHeight, int mouseX, int mouseY, boolean hovered, float tickDelta) {
-				client.textRenderer.drawWithShadow(matrices, new TranslatableTextContent(this.category), x + 3 , y + 2, 0xFFFFFFFF);
+				client.textRenderer.drawWithShadow(matrices, MutableText.of(new TranslatableTextContent(this.category)), x + 3 , y + 2, 0xFFFFFFFF);
 			}
 
 		}
