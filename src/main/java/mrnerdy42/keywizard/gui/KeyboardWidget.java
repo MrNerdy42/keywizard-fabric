@@ -19,6 +19,7 @@ import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.resource.language.I18n;
 import net.minecraft.client.util.InputUtil;
 import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableTextContent;
 
@@ -156,7 +157,7 @@ public class KeyboardWidget extends AbstractParentElement implements Drawable, T
 				if (t instanceof TranslatableTextContent) {
 					keyName = I18n.translate(((TranslatableTextContent) t).getKey());
 				} else {
-					keyName = t.getContent();
+					keyName = t.getString();
 				}
 				keyWizardScreen.setSearchText("<" + keyName + ">");
 			} else {
@@ -176,8 +177,7 @@ public class KeyboardWidget extends AbstractParentElement implements Drawable, T
 					tooltipText.add(I18n.translate(b.getTranslationKey()));
 				}
 			}
-			this.tooltipText = tooltipText.stream().sorted().map(s -> new TranslatableTextContent(s))
-					.collect(Collectors.toCollection(ArrayList<Text>::new));
+			this.tooltipText = tooltipText.stream().sorted().map(s -> MutableText.of(new TranslatableTextContent(s))).collect(Collectors.toCollection(ArrayList<Text>::new));
 		}
 
 		@Override

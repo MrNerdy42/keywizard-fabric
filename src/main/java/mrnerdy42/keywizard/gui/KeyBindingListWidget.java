@@ -15,6 +15,7 @@ import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.resource.language.I18n;
 import net.minecraft.client.util.InputUtil;
 import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableTextContent;
 
@@ -112,7 +113,7 @@ public class KeyBindingListWidget extends FreeFormListWidget<KeyBindingListWidge
 				return I18n.translate(((TranslatableTextContent) t).getKey()).toLowerCase().equals(keyName.toLowerCase());
 			}
 			else {
-				return t.getContent().toLowerCase().equals(keyName.toLowerCase());
+				return t.getString().toLowerCase().equals(keyName.toLowerCase());
 			}
 		}).toArray(KeyBinding[]::new);
 	}
@@ -147,7 +148,7 @@ public class KeyBindingListWidget extends FreeFormListWidget<KeyBindingListWidge
 
 		@Override
 		public void render(MatrixStack matrices, int index, int y, int x, int entryWidth, int entryHeight, int mouseX, int mouseY, boolean hovered, float tickDelta) {
-			client.textRenderer.drawWithShadow(matrices, new TranslatableTextContent(this.keyBinding.getTranslationKey()), x, y, 0xFFFFFFFF);
+			client.textRenderer.drawWithShadow(matrices, MutableText.of(new TranslatableTextContent(this.keyBinding.getTranslationKey())), x, y, 0xFFFFFFFF);
 			int color = 0xFF999999;
 			client.textRenderer.drawWithShadow(matrices, this.keyBinding.getBoundKeyLocalizedText(), x, y + client.textRenderer.fontHeight + 5, color);
 		}

@@ -16,6 +16,7 @@ import net.minecraft.client.gui.widget.TexturedButtonWidget;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.util.InputUtil;
 import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableTextContent;
 
@@ -50,14 +51,14 @@ public class KeyWizardScreen extends GameOptionsScreen {
 		
 		int maxBindingNameWidth = 0;
 		for (KeyBinding k : this.client.options.allKeys) {
-			int w = this.textRenderer.getWidth(new TranslatableTextContent(k.getTranslationKey()));
+			int w = this.textRenderer.getWidth(MutableText.of(new TranslatableTextContent(k.getTranslationKey())));
 			if (w > maxBindingNameWidth)
 				maxBindingNameWidth = w;
 		}
 		
 		int maxCategoryWidth = 0;
 		for (String s : KeyBindingUtil.getCategories()) {
-			int w = this.textRenderer.getWidth(new TranslatableTextContent(s));
+			int w = this.textRenderer.getWidth(MutableText.of(new TranslatableTextContent(s)));
 			if (w > maxCategoryWidth)
 				maxCategoryWidth = w;
 		}
@@ -89,17 +90,17 @@ public class KeyWizardScreen extends GameOptionsScreen {
 			this.mouseButton = KeyboardWidgetBuilder.singleKeyKeyboard(this, mouseButtonX, mouseButtonY, mouseButtonWidth, mouseButtonHeight, mouseCodes[mouseCodeIndex], InputUtil.Type.MOUSE);
 			this.addDrawableChild(this.mouseButton);
 		});
-		this.resetBinding = new ButtonWidget(bindingListWidth + 15, this.height - 23, 50, 20, new TranslatableTextContent("controls.reset"), (btn) -> {
+		this.resetBinding = new ButtonWidget(bindingListWidth + 15, this.height - 23, 50, 20, MutableText.of(new TranslatableTextContent("controls.reset")), (btn) -> {
 			KeyBinding selectedBinding = this.getSelectedKeyBinding();
 			selectedBinding.setBoundKey(selectedBinding.getDefaultKey());
 			KeyBinding.updateKeysByCode();
 		});
-		this.clearBinding = new ButtonWidget(bindingListWidth + 66, this.height - 23, 50, 20, new TranslatableTextContent("gui.clear"), (btn) -> {
+		this.clearBinding = new ButtonWidget(bindingListWidth + 66, this.height - 23, 50, 20, MutableText.of(new TranslatableTextContent("gui.clear")), (btn) -> {
 			KeyBinding selectedBinding = this.getSelectedKeyBinding();
 			selectedBinding.setBoundKey(InputUtil.Type.KEYSYM.createFromCode(GLFW.GLFW_KEY_UNKNOWN));
 			KeyBinding.updateKeysByCode();
 		});
-		this.resetAll = new ButtonWidget(bindingListWidth + 117, this.height - 23, 70, 20, new TranslatableTextContent("controls.resetAll"), (btn) -> {
+		this.resetAll = new ButtonWidget(bindingListWidth + 117, this.height - 23, 70, 20, MutableText.of(new TranslatableTextContent("controls.resetAll")), (btn) -> {
 			for(KeyBinding b : this.gameOptions.allKeys) {
 				b.setBoundKey(b.getDefaultKey());
 			}

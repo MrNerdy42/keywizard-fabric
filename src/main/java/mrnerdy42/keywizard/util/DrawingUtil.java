@@ -41,8 +41,7 @@ public class DrawingUtil {
 		bufferBuilder.vertex(matrix, x2, y2, 0.0F).color(g, h, k, f).next();
 		bufferBuilder.vertex(matrix, x2, y1, 0.0F).color(g, h, k, f).next();
 		bufferBuilder.vertex(matrix, x1, y1, 0.0F).color(g, h, k, f).next();
-		bufferBuilder.end();
-		BufferRenderer.draw(bufferBuilder);
+		BufferRenderer.drawWithoutShader(bufferBuilder.end());
 		RenderSystem.enableTexture();
 		RenderSystem.disableBlend();
 	}
