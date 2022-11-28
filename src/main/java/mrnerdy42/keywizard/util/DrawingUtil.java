@@ -35,8 +35,8 @@ public class DrawingUtil {
 		bufferBuilder.vertex(x2, y1, 0.0F).color(g, h, k, f).next();
 		bufferBuilder.vertex(x1, y1, 0.0F).color(g, h, k, f).next();
 		bufferBuilder.end();
-		BufferRenderer bufferRenderer = new BufferRenderer();
-		bufferRenderer.draw(bufferBuilder);
+		//BufferRenderer bufferRenderer = new BufferRenderer();
+		BufferRenderer.draw(bufferBuilder);
 		GlStateManager.enableTexture();
 		GlStateManager.disableBlend();
 	}

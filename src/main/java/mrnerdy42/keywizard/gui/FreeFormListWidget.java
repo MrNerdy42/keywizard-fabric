@@ -127,9 +127,9 @@ public abstract class FreeFormListWidget<E extends FreeFormListWidget<E>.Entry>
 
 	@Override
 	protected void renderList(int x, int y, int mouseX, int mouseY, float delta) {
-		double scaleH = this.minecraft.window.getHeight() / (double) this.minecraft.window.getScaledHeight();
-		double scaleW = this.minecraft.window.getWidth() / (double) this.minecraft.window.getScaledWidth();
-		GL11.glScissor((int) (this.left * scaleW), (int) (this.minecraft.window.getHeight() - (this.bottom * scaleH)),
+		double scaleH = this.minecraft.getWindow().getHeight() / (double) this.minecraft.getWindow().getScaledHeight();
+		double scaleW = this.minecraft.getWindow().getWidth() / (double) this.minecraft.getWindow().getScaledWidth();
+		GL11.glScissor((int) (this.left * scaleW), (int) (this.minecraft.getWindow().getHeight() - (this.bottom * scaleH)),
 				(int) (this.width * scaleW), (int) (this.height * scaleH));
 		GL11.glEnable(GL11.GL_SCISSOR_TEST);
 
