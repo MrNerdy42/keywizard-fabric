@@ -25,7 +25,7 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
 
-public class KeyWizardScreen extends GameOptionsScreen {
+public class KeyWizardScreen extends NerdyScreen {
 	
 	private final int[] mouseCodes = {GLFW.GLFW_MOUSE_BUTTON_1, GLFW.GLFW_MOUSE_BUTTON_2, GLFW.GLFW_MOUSE_BUTTON_3, GLFW.GLFW_MOUSE_BUTTON_4, GLFW.GLFW_MOUSE_BUTTON_5, GLFW.GLFW_MOUSE_BUTTON_6, GLFW.GLFW_MOUSE_BUTTON_7, GLFW.GLFW_MOUSE_BUTTON_8};
 	private int mouseCodeIndex = 0;
@@ -44,7 +44,7 @@ public class KeyWizardScreen extends GameOptionsScreen {
 
 	@SuppressWarnings("resource")
 	public KeyWizardScreen(Screen parent) {
-		super(parent, MinecraftClient.getInstance().options, Text.of(KeyWizard.MODID));
+		super(Text.of(KeyWizard.MODID), parent);
 	}
 	
 	@Override

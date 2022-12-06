@@ -5,6 +5,8 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
+import java.util.Arrays;
+
 
 import mrnerdy42.keywizard.mixin.KeyBindingAccessor;
 import net.minecraft.client.MinecraftClient;
@@ -39,5 +41,10 @@ public class KeyBindingUtil {
 			map.merge(((KeyBindingAccessor)b).getBoundKey(), 1, Integer::sum);
 		}
 		return Collections.unmodifiableMap(map);
+	}
+	
+	@SuppressWarnings("resource")
+	public static KeyBindingWrapper[] getKeyBindings() {
+		return Arrays.stream(MinecraftClient.getInstance().options.keysAll).map(KeyBindingWrapper::new).toArray(KeyBindingWrapper[]::new);
 	}
 }
