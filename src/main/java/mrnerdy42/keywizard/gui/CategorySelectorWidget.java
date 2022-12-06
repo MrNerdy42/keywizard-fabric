@@ -1,6 +1,6 @@
 package mrnerdy42.keywizard.gui;
 
-import mrnerdy42.keywizard.util.KeyBindingUtil;
+import mrnerdy42.keywizard.keybinding.KeyBindingUtil;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.Element;
 import net.minecraft.client.gui.screen.TickableElement;

@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import mrnerdy42.keywizard.mixin.KeyBindingAccessor;
-import mrnerdy42.keywizard.util.DrawingUtil;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.AbstractParentElement;

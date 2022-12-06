@@ -1,4 +1,4 @@
-package mrnerdy42.keywizard.util;
+package mrnerdy42.keywizard.keybinding;
 
 import java.util.ArrayList;
 import java.util.Collections;

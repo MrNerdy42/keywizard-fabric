@@ -1,4 +1,4 @@
-package mrnerdy42.keywizard.util;
+package mrnerdy42.keywizard.gui;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 

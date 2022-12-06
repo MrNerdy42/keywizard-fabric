@@ -4,7 +4,6 @@ import java.util.Objects;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 
-import mrnerdy42.keywizard.util.DrawingUtil;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.widget.EntryListWidget;
 import net.minecraft.client.util.math.MatrixStack;

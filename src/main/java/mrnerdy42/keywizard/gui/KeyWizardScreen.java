@@ -4,7 +4,7 @@ import org.jetbrains.annotations.Nullable;
 import org.lwjgl.glfw.GLFW;
 
 import mrnerdy42.keywizard.KeyWizard;
-import mrnerdy42.keywizard.util.KeyBindingUtil;
+import mrnerdy42.keywizard.keybinding.KeyBindingUtil;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.Drawable;
 import net.minecraft.client.gui.Element;
