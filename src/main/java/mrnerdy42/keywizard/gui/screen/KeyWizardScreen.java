@@ -1,9 +1,13 @@
-package mrnerdy42.keywizard.gui;
+package mrnerdy42.keywizard.gui.screen;
 
 import org.jetbrains.annotations.Nullable;
 import org.lwjgl.glfw.GLFW;
 
 import mrnerdy42.keywizard.KeyWizard;
+import mrnerdy42.keywizard.gui.widget.CategorySelectorWidget;
+import mrnerdy42.keywizard.gui.widget.KeyBindingListWidget;
+import mrnerdy42.keywizard.gui.widget.KeyboardWidget;
+import mrnerdy42.keywizard.gui.widget.KeyboardWidgetBuilder;
 import mrnerdy42.keywizard.keybinding.KeyBindingUtil;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.Drawable;

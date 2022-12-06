@@ -1,10 +1,12 @@
-package mrnerdy42.keywizard.gui;
+package mrnerdy42.keywizard.gui.widget;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import mrnerdy42.keywizard.gui.DrawingUtil;
+import mrnerdy42.keywizard.gui.screen.KeyWizardScreen;
 import mrnerdy42.keywizard.mixin.KeyBindingAccessor;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;

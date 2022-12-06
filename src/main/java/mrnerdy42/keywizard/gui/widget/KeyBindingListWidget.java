@@ -1,4 +1,4 @@
-package mrnerdy42.keywizard.gui;
+package mrnerdy42.keywizard.gui.widget;
 
 import java.util.Arrays;
 import java.util.Map;
@@ -7,6 +7,7 @@ import java.util.regex.Pattern;
 
 import org.jetbrains.annotations.Nullable;
 
+import mrnerdy42.keywizard.gui.screen.KeyWizardScreen;
 import mrnerdy42.keywizard.keybinding.KeyBindingUtil;
 import mrnerdy42.keywizard.mixin.KeyBindingAccessor;
 import net.minecraft.client.MinecraftClient;

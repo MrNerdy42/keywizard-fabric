@@ -1,5 +1,6 @@
-package mrnerdy42.keywizard.gui;
+package mrnerdy42.keywizard.gui.widget;
 
+import mrnerdy42.keywizard.gui.screen.KeyWizardScreen;
 import mrnerdy42.keywizard.keybinding.KeyBindingUtil;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.Element;

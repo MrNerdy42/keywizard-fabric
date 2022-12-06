@@ -1,9 +1,10 @@
-package mrnerdy42.keywizard.gui;
+package mrnerdy42.keywizard.gui.widget;
 
 import java.util.Objects;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 
+import mrnerdy42.keywizard.gui.DrawingUtil;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.widget.EntryListWidget;
 import net.minecraft.client.util.math.MatrixStack;
