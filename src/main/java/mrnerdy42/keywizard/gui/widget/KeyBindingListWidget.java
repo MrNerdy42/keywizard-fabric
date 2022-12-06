@@ -11,7 +11,7 @@ import mrnerdy42.keywizard.gui.screen.KeyWizardScreen;
 import mrnerdy42.keywizard.keybinding.KeyBindingUtil;
 import mrnerdy42.keywizard.mixin.KeyBindingAccessor;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.screen.TickableElement;
+import mrnerdy42.keywizard.gui.TickableElement;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.resource.language.I18n;
 import net.minecraft.client.util.InputUtil;
