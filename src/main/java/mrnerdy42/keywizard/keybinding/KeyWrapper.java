@@ -2,18 +2,18 @@ package mrnerdy42.keywizard.keybinding;
 
 import java.util.Objects;
 
+import mrnerdy42.keywizard.mixin.KeyAccessor;
 import net.minecraft.client.util.InputUtil;
-import net.minecraft.client.util.InputUtil.Key;
 
 public class KeyWrapper {
 	
-	private final Key key;
+	private final InputUtil.Key key;
 	
-	KeyWrapper(Key key) {
+	KeyWrapper(InputUtil.Key key) {
 		this.key = key;
 	}
 	
-	Key getKey() {
+	InputUtil.Key getKey() {
 		return this.key;
 	}
 	
@@ -41,7 +41,7 @@ public class KeyWrapper {
             return false;
         }
         KeyWrapper otherKey = (KeyWrapper)other;
-        return this.getKey().getCode() == otherKey.getKey().getCode() && this.getKey().getType() == otherKey.ty;
+        return this.getKey().getCode() == otherKey.getKey().getCode() && ((KeyAccessor)this.getKey()).getType() == ((KeyAccessor)otherKey.getKey()).getType();
     }
 
 }
