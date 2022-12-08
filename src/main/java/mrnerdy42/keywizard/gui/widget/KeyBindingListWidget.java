@@ -9,6 +9,8 @@ import org.jetbrains.annotations.Nullable;
 
 import mrnerdy42.keywizard.gui.screen.KeyWizardScreen;
 import mrnerdy42.keywizard.keybinding.KeyBindingUtil;
+import mrnerdy42.keywizard.keybinding.KeyBindingWrapper;
+import mrnerdy42.keywizard.keybinding.KeyWrapper;
 import mrnerdy42.keywizard.mixin.KeyBindingAccessor;
 import net.minecraft.client.MinecraftClient;
 import mrnerdy42.keywizard.gui.TickableElement;
@@ -29,14 +31,14 @@ public class KeyBindingListWidget extends FreeFormListWidget<KeyBindingListWidge
 		super(MinecraftClient.getInstance(), top, left, width, height, itemHeight);
 		this.keyWizardScreen = keyWizardScreen;
 		
-		for (KeyBinding k : this.client.options.keysAll) {
+		for (KeyBindingWrapper k : KeyBindingUtil.getKeyBindings()) {
 			this.addEntry(new BindingEntry(k));
 		}
 		this.setSelected(this.children().get(0));
 	}
 	
 	@Nullable
-	public KeyBinding getSelectedKeyBinding() {
+	public KeyBindingWrapper getSelectedKeyBinding() {
 		if (this.getSelected() == null) {
 			return null;
 		}
@@ -52,7 +54,7 @@ public class KeyBindingListWidget extends FreeFormListWidget<KeyBindingListWidge
 				this.currentCategory = this.keyWizardScreen.getSelectedCategory();
 			}
 			
-			KeyBinding[] bindings = getBindingsByCategory(this.currentCategory);
+			KeyBindingWrapper[] bindings = getBindingsByCategory(this.currentCategory);
 			
 			if (filterUpdate) {
 				this.currentFilterText = this.keyWizardScreen.getFilterText();		
@@ -63,7 +65,7 @@ public class KeyBindingListWidget extends FreeFormListWidget<KeyBindingListWidge
 			
 			this.children().clear();
 			if (bindings.length > 0) {
-				for (KeyBinding k : bindings) {
+				for (KeyBindingWrapper k : bindings) {
 					this.addEntry(new BindingEntry(k));
 				}
 				this.setSelected(this.children().get(0));
@@ -74,8 +76,8 @@ public class KeyBindingListWidget extends FreeFormListWidget<KeyBindingListWidge
 		}
 	}
 	
-	private KeyBinding[] filterBindings (KeyBinding[] bindings, String filterText) {
-		KeyBinding[] bindingsFiltered = bindings;
+	private KeyBindingWrapper[] filterBindings (KeyBindingWrapper[] bindings, String filterText) {
+		KeyBindingWrapper[] bindingsFiltered = bindings;
 		String keyNameRegex = "<.*>";
 		Matcher keyNameMatcher = Pattern.compile(keyNameRegex).matcher(filterText);
 		
@@ -94,42 +96,34 @@ public class KeyBindingListWidget extends FreeFormListWidget<KeyBindingListWidge
 		return bindingsFiltered;
 	}
 	
-	private KeyBinding[] filterBindingsByName(KeyBinding[] bindings, String bindingName){
+	private KeyBindingWrapper[] filterBindingsByName(KeyBindingWrapper[] bindings, String bindingName){
 		String[] words = bindingName.split("\\s+");
-		KeyBinding[] bindingsFiltered = Arrays.stream(bindings).filter(binding -> {
+		KeyBindingWrapper[] bindingsFiltered = Arrays.stream(bindings).filter(binding -> {
 				boolean flag = true;
 				for (String w:words) {
-					flag = flag && I18n.translate(binding.getTranslationKey()).toLowerCase().contains(w.toLowerCase());
+					flag = flag && I18n.translate(binding.getUnlocalizedName()).toLowerCase().contains(w.toLowerCase());
 				}
 				return flag;
-			}).toArray(KeyBinding[]::new);
+			}).toArray(KeyBindingWrapper[]::new);
 		return bindingsFiltered;
 	}
 	
-	private KeyBinding[] filterBindingsByKey(KeyBinding[] bindings, String keyName) {
-		return Arrays.stream(bindings).filter(b -> {
-			Text t = b.getBoundKeyLocalizedText();
-			if (t instanceof TranslatableText) {
-				return I18n.translate(((TranslatableText) t).getKey()).toLowerCase().equals(keyName.toLowerCase());
-			}
-			else {
-				return t.asString().toLowerCase().equals(keyName.toLowerCase());
-			}
-		}).toArray(KeyBinding[]::new);
+	private KeyBindingWrapper[] filterBindingsByKey(KeyBindingWrapper[] bindings, String keyName) {
+		return Arrays.stream(bindings).filter(b -> b.getBoundKey().getLocalizedLabel().equals(keyName.toLowerCase())).toArray(KeyBindingWrapper[]::new);
 	}
 	
-	private KeyBinding[] getBindingsByCategory(String category) {
-		KeyBinding[] bindings = Arrays.copyOf(this.client.options.keysAll, this.client.options.keysAll.length);
+	private KeyBindingWrapper[] getBindingsByCategory(String category) {
+		KeyBindingWrapper[] bindings = KeyBindingUtil.getKeyBindings();
 		switch (category) {
 		case KeyBindingUtil.DYNAMIC_CATEGORY_ALL:
 		    return bindings;
 		case KeyBindingUtil.DYNAMIC_CATEGORY_CONFLICTS:
-			Map<InputUtil.Key, Integer> bindingCounts = KeyBindingUtil.getBindingCountsByKey();
-			return Arrays.stream(bindings).filter(b -> bindingCounts.get(((KeyBindingAccessor)b).getBoundKey()) > 1  && ((KeyBindingAccessor)b).getBoundKey().getCode() != -1).toArray(KeyBinding[]::new) ;
+			Map<KeyWrapper, Integer> bindingCounts = KeyBindingUtil.getBindingCountsByKey();
+			return Arrays.stream(bindings).filter(b -> bindingCounts.get(b.getBoundKey()) > 1  && ((KeyBindingAccessor)b).getBoundKey().getCode() != -1).toArray(KeyBindingWrapper[]::new) ;
 		case KeyBindingUtil.DYNAMIC_CATEGORY_UNBOUND:
-			return Arrays.stream(bindings).filter(b -> b.isUnbound()).toArray(KeyBinding[]::new);
+			return Arrays.stream(bindings).filter(b -> !b.isBound()).toArray(KeyBindingWrapper[]::new);
 		default:
-			return Arrays.stream(bindings).filter(b -> b.getCategory() == category).toArray(KeyBinding[]::new);
+			return Arrays.stream(bindings).filter(b -> b.getCategory() == category).toArray(KeyBindingWrapper[]::new);
 		}
 	}
 
@@ -140,17 +134,17 @@ public class KeyBindingListWidget extends FreeFormListWidget<KeyBindingListWidge
 
 	public class BindingEntry extends FreeFormListWidget<KeyBindingListWidget.BindingEntry>.Entry{
 
-		private final KeyBinding keyBinding;
+		private final KeyBindingWrapper keyBinding;
 
-		public BindingEntry(KeyBinding keyBinding) {
+		public BindingEntry(KeyBindingWrapper keyBinding) {
 			this.keyBinding = keyBinding;
 		}
 
 		@Override
 		public void render(MatrixStack matrices, int index, int y, int x, int entryWidth, int entryHeight, int mouseX, int mouseY, boolean hovered, float tickDelta) {
-			client.textRenderer.drawWithShadow(matrices, new TranslatableText(this.keyBinding.getTranslationKey()), x, y, 0xFFFFFFFF);
+			client.textRenderer.drawWithShadow(matrices, new TranslatableText(this.keyBinding.getUnlocalizedName()), x, y, 0xFFFFFFFF);
 			int color = 0xFF999999;
-			client.textRenderer.drawWithShadow(matrices, this.keyBinding.getBoundKeyLocalizedText(), x, y + client.textRenderer.fontHeight + 5, color);
+			client.textRenderer.drawWithShadow(matrices, this.keyBinding.getBoundKey().getLocalizedLabel(), x, y + client.textRenderer.fontHeight + 5, color);
 		}
 
 	}

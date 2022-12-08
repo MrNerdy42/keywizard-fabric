@@ -7,13 +7,15 @@ import java.util.stream.Collectors;
 
 import mrnerdy42.keywizard.gui.DrawingUtil;
 import mrnerdy42.keywizard.gui.screen.KeyWizardScreen;
+import mrnerdy42.keywizard.keybinding.KeyBindingWrapper;
+import mrnerdy42.keywizard.keybinding.KeyWrapper;
 import mrnerdy42.keywizard.mixin.KeyBindingAccessor;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.AbstractParentElement;
 import net.minecraft.client.gui.Drawable;
 import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.gui.screen.TickableElement;
+import mrnerdy42.keywizard.gui.TickableElement;
 import net.minecraft.client.gui.widget.PressableWidget;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.resource.language.I18n;
@@ -147,6 +149,7 @@ public class KeyboardWidget extends AbstractParentElement implements Drawable, T
 					this.y + (this.height - 6) / 2, color);
 		}
 
+		// TODO: REMOVE KEY WRAPPER CONSTRUCTOR
 		@Override
 		public void onPress() {
 			this.playDownSound(MinecraftClient.getInstance().getSoundManager());
@@ -160,9 +163,9 @@ public class KeyboardWidget extends AbstractParentElement implements Drawable, T
 				}
 				keyWizardScreen.setSearchText("<" + keyName + ">");
 			} else {
-				KeyBinding selectedKeyBinding = keyWizardScreen.getSelectedKeyBinding();
+				KeyBindingWrapper selectedKeyBinding = keyWizardScreen.getSelectedKeyBinding();
 				if (selectedKeyBinding != null) {
-					selectedKeyBinding.setBoundKey(this.key);
+					selectedKeyBinding.setBoundKey(new KeyWrapper(this.key));
 					KeyBinding.updateKeysByCode();
 				}
 			}

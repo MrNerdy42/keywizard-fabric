@@ -9,6 +9,8 @@ import mrnerdy42.keywizard.gui.widget.KeyBindingListWidget;
 import mrnerdy42.keywizard.gui.widget.KeyboardWidget;
 import mrnerdy42.keywizard.gui.widget.KeyboardWidgetBuilder;
 import mrnerdy42.keywizard.keybinding.KeyBindingUtil;
+import mrnerdy42.keywizard.keybinding.KeyBindingWrapper;
+import mrnerdy42.keywizard.keybinding.KeyWrapper;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.Drawable;
 import net.minecraft.client.gui.Element;
@@ -47,6 +49,7 @@ public class KeyWizardScreen extends NerdyScreen {
 		super(Text.of(KeyWizard.MODID), parent);
 	}
 	
+	@SuppressWarnings("resource")
 	@Override
 	protected void init() {
 		int mouseButtonX = this.width - 105;
@@ -55,8 +58,8 @@ public class KeyWizardScreen extends NerdyScreen {
 		int mouseButtonHeight = 20;
 		
 		int maxBindingNameWidth = 0;
-		for (KeyBinding k : this.client.options.keysAll) {
-			int w = this.textRenderer.getWidth(new TranslatableText(k.getTranslationKey()));
+		for (KeyBindingWrapper k : KeyBindingUtil.getKeyBindings()) {
+			int w = this.textRenderer.getWidth(new TranslatableText(k.getUnlocalizedName()));
 			if (w > maxBindingNameWidth)
 				maxBindingNameWidth = w;
 		}
@@ -73,7 +76,7 @@ public class KeyWizardScreen extends NerdyScreen {
 		this.keyboard = KeyboardWidgetBuilder.standardKeyboard(this, bindingListWidth + 15, this.height / 2 - 90, this.width - (bindingListWidth + 15), 180);
 		this.categorySelector = new CategorySelectorWidget(this, bindingListWidth + 15, 5, maxCategoryWidth + 20, 20);
 		this.screenToggleButton = new TexturedButtonWidget(this.width - 22, this.height - 22, 20, 20, 20, 0, 20, KeyWizard.SCREEN_TOGGLE_WIDGETS, 40, 40, (btn) -> {
-			this.client.openScreen(new ControlsOptionsScreen(this.parent, this.gameOptions));
+			this.client.openScreen(new ControlsOptionsScreen(this.parent, MinecraftClient.getInstance().options));
 		});
 		this.searchBar = new TextFieldWidget(this.textRenderer, 10, this.height - 20, bindingListWidth, 14, Text.of(""));
 		this.mouseButton = KeyboardWidgetBuilder.singleKeyKeyboard(this, mouseButtonX, mouseButtonY, mouseButtonWidth, mouseButtonHeight, mouseCodes[mouseCodeIndex], InputUtil.Type.MOUSE);
@@ -96,17 +99,17 @@ public class KeyWizardScreen extends NerdyScreen {
 			this.children.add(this.mouseButton);
 		});
 		this.resetBinding = new ButtonWidget(bindingListWidth + 15, this.height - 23, 50, 20, new TranslatableText("controls.reset"), (btn) -> {
-			KeyBinding selectedBinding = this.getSelectedKeyBinding();
+			KeyBindingWrapper selectedBinding = this.getSelectedKeyBinding();
 			selectedBinding.setBoundKey(selectedBinding.getDefaultKey());
 			KeyBinding.updateKeysByCode();
 		});
 		this.clearBinding = new ButtonWidget(bindingListWidth + 66, this.height - 23, 50, 20, new TranslatableText("gui.clear"), (btn) -> {
-			KeyBinding selectedBinding = this.getSelectedKeyBinding();
-			selectedBinding.setBoundKey(InputUtil.Type.KEYSYM.createFromCode(GLFW.GLFW_KEY_UNKNOWN));
+			KeyBindingWrapper selectedBinding = this.getSelectedKeyBinding();
+			selectedBinding.setBoundKey(KeyWrapper.createKeyboardKeyFromCode(GLFW.GLFW_KEY_UNKNOWN));
 			KeyBinding.updateKeysByCode();
 		});
 		this.resetAll = new ButtonWidget(bindingListWidth + 117, this.height - 23, 70, 20, new TranslatableText("controls.resetAll"), (btn) -> {
-			for(KeyBinding b : this.gameOptions.keysAll) {
+			for(KeyBindingWrapper b : KeyBindingUtil.getKeyBindings()) {
 				b.setBoundKey(b.getDefaultKey());
 			}
 			KeyBinding.updateKeysByCode();
@@ -146,7 +149,7 @@ public class KeyWizardScreen extends NerdyScreen {
 	}
 	
 	@Nullable
-	public KeyBinding getSelectedKeyBinding() {
+	public KeyBindingWrapper getSelectedKeyBinding() {
 		return this.bindingList.getSelectedKeyBinding();
 	}
 	
