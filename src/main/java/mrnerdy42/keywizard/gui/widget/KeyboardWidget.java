@@ -105,17 +105,23 @@ public class KeyboardWidget extends AbstractParentElement implements Drawable, T
 		protected float width;
 		protected float height;
 
-		private InputUtil.Key key;
+		private KeyWrapper key;
 		private List<Text> tooltipText = new ArrayList<>();
 
-		protected KeyboardKeyWidget(int keyCode, float x, float y, float width, float height, InputUtil.Type keyType) {
+		protected KeyboardKeyWidget(int keyCode, float x, float y, float width, float height, boolean mouseKey) {
 			super((int) x, (int) y, (int) width, (int) height, Text.of(""));
 			this.x = x;
 			this.y = y;
 			this.width = width;
 			this.height = height;
-			this.key = keyType.createFromCode(keyCode);
-			this.setMessage(this.key.getLocalizedText());
+			if (mouseKey) {
+				this.key = KeyWrapper.createMouseKeyFromCode(keyCode);
+			}
+			else {
+				this.key = KeyWrapper.createKeyboardKeyFromCode(keyCode);
+			}
+			
+			this.setMessage(Text.of(this.key.getLocalizedLabel()));
 		}
 
 		@Override
@@ -165,7 +171,7 @@ public class KeyboardWidget extends AbstractParentElement implements Drawable, T
 			} else {
 				KeyBindingWrapper selectedKeyBinding = keyWizardScreen.getSelectedKeyBinding();
 				if (selectedKeyBinding != null) {
-					selectedKeyBinding.setBoundKey(new KeyWrapper(this.key));
+					selectedKeyBinding.setBoundKey(this.key);
 					KeyBinding.updateKeysByCode();
 				}
 			}
@@ -174,7 +180,7 @@ public class KeyboardWidget extends AbstractParentElement implements Drawable, T
 		@SuppressWarnings("resource")
 		private void updateTooltip() {
 			ArrayList<String> tooltipText = new ArrayList<>();
-			for (KeyBinding b : MinecraftClient.getInstance().options.keysAll) {
+			for (KeyBindingWrapper b : MinecraftClient.getInstance().options.keysAll) {
 				if (((KeyBindingAccessor) b).getBoundKey().equals(this.key)) {
 					tooltipText.add(I18n.translate(b.getTranslationKey()));
 				}
