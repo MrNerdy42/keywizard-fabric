@@ -25,6 +25,14 @@ public class KeyWrapper {
 		return this.key.getLocalizedText().asString();
 	}
 	
+	public InputUtil.Type getType() {
+		return ((KeyAccessor)((Object)this.key)).getType();
+	}
+	
+	public int getCode() {
+		return this.key.getCode();
+	}
+	
 	public static KeyWrapper createKeyboardKeyFromCode(int keyCode) {
 		return new KeyWrapper(InputUtil.Type.KEYSYM.createFromCode(keyCode));
 	}
@@ -41,7 +49,8 @@ public class KeyWrapper {
             return false;
         }
         KeyWrapper otherKey = (KeyWrapper)other;
-        return this.getKey().getCode() == otherKey.getKey().getCode() && ((KeyAccessor)this.getKey()).getType() == ((KeyAccessor)otherKey.getKey()).getType();
+        
+        return this.getCode() == otherKey.getCode() && this.getType() == otherKey.getType();
     }
 
 }
