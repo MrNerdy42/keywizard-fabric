@@ -3,6 +3,7 @@ package mrnerdy42.keywizard.keybinding;
 import java.util.Objects;
 
 import mrnerdy42.keywizard.mixin.KeyAccessor;
+import net.minecraft.client.resource.language.I18n;
 import net.minecraft.client.util.InputUtil;
 
 public class KeyWrapper {
@@ -22,7 +23,8 @@ public class KeyWrapper {
 	}
 	
 	public String getLocalizedLabel() {
-		return this.key.getLocalizedText().asString();
+		return I18n.translate(key.getTranslationKey());
+		//return this.key.getLocalizedText().asString();
 	}
 	
 	public InputUtil.Type getType() {

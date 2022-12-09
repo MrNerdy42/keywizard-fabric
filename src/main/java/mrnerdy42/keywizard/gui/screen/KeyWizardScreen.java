@@ -79,14 +79,14 @@ public class KeyWizardScreen extends NerdyScreen {
 			this.client.openScreen(new ControlsOptionsScreen(this.parent, MinecraftClient.getInstance().options));
 		});
 		this.searchBar = new TextFieldWidget(this.textRenderer, 10, this.height - 20, bindingListWidth, 14, Text.of(""));
-		this.mouseButton = KeyboardWidgetBuilder.singleKeyKeyboard(this, mouseButtonX, mouseButtonY, mouseButtonWidth, mouseButtonHeight, mouseCodes[mouseCodeIndex], InputUtil.Type.MOUSE);
+		this.mouseButton = KeyboardWidgetBuilder.singleKeyKeyboard(this, mouseButtonX, mouseButtonY, mouseButtonWidth, mouseButtonHeight, mouseCodes[mouseCodeIndex], true);
 		this.mousePlus = new ButtonWidget( (int)this.mouseButton.getAnchorX() + 83, (int)this.mouseButton.getAnchorY(), 25, 20, Text.of("+"), (btn) -> {
 			this.mouseCodeIndex ++;
 			if (this.mouseCodeIndex >= this.mouseCodes.length ) {
 				this.mouseCodeIndex = 0;
 			}
 			this.children.remove(this.mouseButton);
-			this.mouseButton = KeyboardWidgetBuilder.singleKeyKeyboard(this, mouseButtonX, mouseButtonY, mouseButtonWidth, mouseButtonHeight, mouseCodes[mouseCodeIndex], InputUtil.Type.MOUSE);
+			this.mouseButton = KeyboardWidgetBuilder.singleKeyKeyboard(this, mouseButtonX, mouseButtonY, mouseButtonWidth, mouseButtonHeight, mouseCodes[mouseCodeIndex], true);
 			this.children.add(this.mouseButton);
 		});
 		this.mouseMinus = new ButtonWidget( (int)this.mouseButton.getAnchorX() - 26, (int)this.mouseButton.getAnchorY(), 25, 20, Text.of("-"), (btn) -> {
@@ -95,7 +95,7 @@ public class KeyWizardScreen extends NerdyScreen {
 				this.mouseCodeIndex = this.mouseCodes.length - 1;
 			}
 			this.children.remove(this.mouseButton);
-			this.mouseButton = KeyboardWidgetBuilder.singleKeyKeyboard(this, mouseButtonX, mouseButtonY, mouseButtonWidth, mouseButtonHeight, mouseCodes[mouseCodeIndex], InputUtil.Type.MOUSE);
+			this.mouseButton = KeyboardWidgetBuilder.singleKeyKeyboard(this, mouseButtonX, mouseButtonY, mouseButtonWidth, mouseButtonHeight, mouseCodes[mouseCodeIndex], true);
 			this.children.add(this.mouseButton);
 		});
 		this.resetBinding = new ButtonWidget(bindingListWidth + 15, this.height - 23, 50, 20, new TranslatableText("controls.reset"), (btn) -> {

@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 
 import mrnerdy42.keywizard.gui.DrawingUtil;
 import mrnerdy42.keywizard.gui.screen.KeyWizardScreen;
+import mrnerdy42.keywizard.keybinding.KeyBindingUtil;
 import mrnerdy42.keywizard.keybinding.KeyBindingWrapper;
 import mrnerdy42.keywizard.keybinding.KeyWrapper;
 import mrnerdy42.keywizard.mixin.KeyBindingAccessor;
@@ -39,14 +40,14 @@ public class KeyboardWidget extends AbstractParentElement implements Drawable, T
 
 	public float addKey(float relativeX, float relativeY, float width, float height, float keySpacing, int keyCode) {
 		this.keys.put(keyCode, new KeyboardKeyWidget(keyCode, this.anchorX + relativeX, this.anchorY + relativeY, width,
-				height, InputUtil.Type.KEYSYM));
+				height, false));
 		return relativeX + width + keySpacing;
 	}
 
 	public float addKey(float relativeX, float relativeY, float width, float height, float keySpacing, int keyCode,
-			InputUtil.Type keyType) {
+			boolean isMouseKey) {
 		this.keys.put(keyCode, new KeyboardKeyWidget(keyCode, this.anchorX + relativeX, this.anchorY + relativeY, width,
-				height, keyType));
+				height, isMouseKey));
 		return relativeX + width + keySpacing;
 	}
 
@@ -108,13 +109,13 @@ public class KeyboardWidget extends AbstractParentElement implements Drawable, T
 		private KeyWrapper key;
 		private List<Text> tooltipText = new ArrayList<>();
 
-		protected KeyboardKeyWidget(int keyCode, float x, float y, float width, float height, boolean mouseKey) {
+		protected KeyboardKeyWidget(int keyCode, float x, float y, float width, float height, boolean isMouseKey) {
 			super((int) x, (int) y, (int) width, (int) height, Text.of(""));
 			this.x = x;
 			this.y = y;
 			this.width = width;
 			this.height = height;
-			if (mouseKey) {
+			if (isMouseKey) {
 				this.key = KeyWrapper.createMouseKeyFromCode(keyCode);
 			}
 			else {
@@ -177,12 +178,11 @@ public class KeyboardWidget extends AbstractParentElement implements Drawable, T
 			}
 		}
 
-		@SuppressWarnings("resource")
 		private void updateTooltip() {
 			ArrayList<String> tooltipText = new ArrayList<>();
-			for (KeyBindingWrapper b : MinecraftClient.getInstance().options.keysAll) {
-				if (((KeyBindingAccessor) b).getBoundKey().equals(this.key)) {
-					tooltipText.add(I18n.translate(b.getTranslationKey()));
+			for (KeyBindingWrapper b : KeyBindingUtil.getKeyBindings()) {
+				if (b.getBoundKey().equals(this.key)) {
+					tooltipText.add(b.getUnlocalizedName());
 				}
 			}
 			this.tooltipText = tooltipText.stream().sorted().map(s -> new TranslatableText(s))

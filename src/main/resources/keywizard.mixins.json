@@ -4,7 +4,7 @@
   "package": "mrnerdy42.keywizard.mixin",
   "compatibilityLevel": "JAVA_8",
   "mixins": [],
-  "client": ["ControlsOptionsScreenInjector", "KeyBindingAccessor"],
+  "client": ["ControlsOptionsScreenInjector", "KeyBindingAccessor", "KeyAccessor"],
   "injectors": {
     "defaultRequire": 1
   }
