@@ -14,11 +14,7 @@ import mrnerdy42.keywizard.keybinding.KeyWrapper;
 import mrnerdy42.keywizard.mixin.KeyBindingAccessor;
 import net.minecraft.client.MinecraftClient;
 import mrnerdy42.keywizard.gui.TickableElement;
-import net.minecraft.client.option.KeyBinding;
-import net.minecraft.client.resource.language.I18n;
-import net.minecraft.client.util.InputUtil;
 import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
 
 public class KeyBindingListWidget extends FreeFormListWidget<KeyBindingListWidget.BindingEntry> implements TickableElement {
@@ -101,7 +97,7 @@ public class KeyBindingListWidget extends FreeFormListWidget<KeyBindingListWidge
 		KeyBindingWrapper[] bindingsFiltered = Arrays.stream(bindings).filter(binding -> {
 				boolean flag = true;
 				for (String w:words) {
-					flag = flag && I18n.translate(binding.getUnlocalizedName()).toLowerCase().contains(w.toLowerCase());
+					flag = flag && binding.getLocalizedName().toLowerCase().contains(w.toLowerCase());
 				}
 				return flag;
 			}).toArray(KeyBindingWrapper[]::new);
@@ -109,7 +105,7 @@ public class KeyBindingListWidget extends FreeFormListWidget<KeyBindingListWidge
 	}
 	
 	private KeyBindingWrapper[] filterBindingsByKey(KeyBindingWrapper[] bindings, String keyName) {
-		return Arrays.stream(bindings).filter(b -> b.getBoundKey().getLocalizedLabel().equals(keyName.toLowerCase())).toArray(KeyBindingWrapper[]::new);
+		return Arrays.stream(bindings).filter(b -> b.getBoundKey().getLocalizedLabel().toLowerCase().equals(keyName.toLowerCase())).toArray(KeyBindingWrapper[]::new);
 	}
 	
 	private KeyBindingWrapper[] getBindingsByCategory(String category) {
