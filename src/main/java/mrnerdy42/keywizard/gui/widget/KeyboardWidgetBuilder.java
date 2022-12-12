@@ -3,7 +3,6 @@ package mrnerdy42.keywizard.gui.widget;
 import org.lwjgl.glfw.GLFW;
 
 import mrnerdy42.keywizard.gui.screen.KeyWizardScreen;
-import net.minecraft.client.util.InputUtil;
 
 public class KeyboardWidgetBuilder {
 	
