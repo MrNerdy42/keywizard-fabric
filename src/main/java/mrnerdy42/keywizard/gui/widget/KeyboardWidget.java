@@ -171,7 +171,6 @@ public class KeyboardWidget extends AbstractParentElement implements Drawable, T
 				KeyBindingWrapper selectedKeyBinding = keyWizardScreen.getSelectedKeyBinding();
 				if (selectedKeyBinding != null) {
 					selectedKeyBinding.setBoundKey(this.key);
-					KeyBinding.updateKeysByCode();
 				}
 			}
 		}
