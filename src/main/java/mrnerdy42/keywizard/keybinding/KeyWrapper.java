@@ -1,10 +1,10 @@
 package mrnerdy42.keywizard.keybinding;
 
-import java.util.Objects;
-
 import mrnerdy42.keywizard.mixin.KeyAccessor;
 import net.minecraft.client.resource.language.I18n;
 import net.minecraft.client.util.InputUtil;
+import net.minecraft.text.Text;
+import net.minecraft.text.TranslatableText;
 
 public class KeyWrapper {
 	
@@ -23,8 +23,12 @@ public class KeyWrapper {
 	}
 	
 	public String getLocalizedLabel() {
-		return I18n.translate(key.getTranslationKey());
-		//return this.key.getLocalizedText().asString();
+		Text t = this.key.getLocalizedText();
+		if (t instanceof TranslatableText) {
+			return I18n.translate(((TranslatableText) t).getKey());
+		} else {
+			return t.getString();
+		}
 	}
 	
 	public InputUtil.Type getType() {
