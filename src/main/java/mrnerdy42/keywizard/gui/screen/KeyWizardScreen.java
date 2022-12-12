@@ -41,7 +41,6 @@ public class KeyWizardScreen extends NerdyScreen {
 	private ButtonWidget resetAll;
 	private ButtonWidget clearBinding;
 
-	@SuppressWarnings("resource")
 	public KeyWizardScreen(Screen parent) {
 		super(Text.of(KeyWizard.MODID), parent);
 	}
