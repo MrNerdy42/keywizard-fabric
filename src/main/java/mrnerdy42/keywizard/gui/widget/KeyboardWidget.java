@@ -17,7 +17,6 @@ import net.minecraft.client.gui.Drawable;
 import net.minecraft.client.gui.screen.Screen;
 import mrnerdy42.keywizard.gui.TickableElement;
 import net.minecraft.client.gui.widget.PressableWidget;
-import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.resource.language.I18n;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.Text;
@@ -154,7 +153,6 @@ public class KeyboardWidget extends AbstractParentElement implements Drawable, T
 					this.y + (this.height - 6) / 2, color);
 		}
 
-		// TODO: REMOVE KEY WRAPPER CONSTRUCTOR
 		@Override
 		public void onPress() {
 			this.playDownSound(MinecraftClient.getInstance().getSoundManager());
