@@ -12,15 +12,11 @@ import mrnerdy42.keywizard.keybinding.KeyBindingUtil;
 import mrnerdy42.keywizard.keybinding.KeyBindingWrapper;
 import mrnerdy42.keywizard.keybinding.KeyWrapper;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.Drawable;
-import net.minecraft.client.gui.Element;
 import net.minecraft.client.gui.screen.Screen;
-import mrnerdy42.keywizard.gui.TickableElement;
 import net.minecraft.client.gui.screen.option.ControlsOptionsScreen;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.gui.widget.TextFieldWidget;
 import net.minecraft.client.gui.widget.TexturedButtonWidget;
-import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
 
@@ -42,7 +38,7 @@ public class KeyWizardScreen extends NerdyScreen {
 	private ButtonWidget clearBinding;
 
 	public KeyWizardScreen(Screen parent) {
-		super(Text.of(KeyWizard.MODID), parent);
+		super(KeyWizard.MODID, parent);
 	}
 	
 	@SuppressWarnings("resource")
@@ -108,38 +104,20 @@ public class KeyWizardScreen extends NerdyScreen {
 			}
 		});
 		
-		this.addChild(this.bindingList);
-		this.addChild(this.keyboard);
-		this.addChild(this.categorySelector);
-		this.addChild(this.categorySelector.getCategoryList());
-		this.addChild(this.screenToggleButton);
-		this.addChild(this.searchBar);
-		this.addChild(this.mouseButton);
-		this.addChild(this.mousePlus);
-		this.addChild(this.mouseMinus);
-		this.addChild(this.resetBinding);
-		this.addChild(this.clearBinding);
-		this.addChild(this.resetAll);
+		this.addElement(this.bindingList);
+		this.addElement(this.keyboard);
+		this.addElement(this.categorySelector);
+		this.addElement(this.categorySelector.getCategoryList());
+		this.addElement(this.screenToggleButton);
+		this.addElement(this.searchBar);
+		this.addElement(this.mouseButton);
+		this.addElement(this.mousePlus);
+		this.addElement(this.mouseMinus);
+		this.addElement(this.resetBinding);
+		this.addElement(this.clearBinding);
+		this.addElement(this.resetAll);
 	}
 	
-	@Override
-	public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
-		this.renderBackground(matrices);
-		for (Element e : this.children) {
-			if (e instanceof Drawable) {
-				((Drawable) e).render(matrices, mouseX, mouseY, delta);
-			}
-		}
-	}
-	
-	@Override
-	public void tick() {
-		for (Element e : this.children) {
-			if (e instanceof TickableElement) {
-				((TickableElement) e).tick();
-			}
-		}
-	}
 	
 	@Nullable
 	public KeyBindingWrapper getSelectedKeyBinding() {

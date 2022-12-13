@@ -108,6 +108,7 @@ public class KeyBindingListWidget extends FreeFormListWidget<KeyBindingListWidge
 		return Arrays.stream(bindings).filter(b -> b.getBoundKey().getLocalizedLabel().toLowerCase().equals(keyName.toLowerCase())).toArray(KeyBindingWrapper[]::new);
 	}
 	
+	//TODO: Fix CONFLICTS crash
 	private KeyBindingWrapper[] getBindingsByCategory(String category) {
 		KeyBindingWrapper[] bindings = KeyBindingUtil.getKeyBindings();
 		switch (category) {
@@ -115,7 +116,7 @@ public class KeyBindingListWidget extends FreeFormListWidget<KeyBindingListWidge
 		    return bindings;
 		case KeyBindingUtil.DYNAMIC_CATEGORY_CONFLICTS:
 			Map<KeyWrapper, Integer> bindingCounts = KeyBindingUtil.getBindingCountsByKey();
-			return Arrays.stream(bindings).filter(b -> bindingCounts.get(b.getBoundKey()) > 1  && ((KeyBindingAccessor)b).getBoundKey().getCode() != -1).toArray(KeyBindingWrapper[]::new) ;
+			return Arrays.stream(bindings).filter(b -> bindingCounts.get(b.getBoundKey()) > 1  && b.getBoundKey().getCode() != -1).toArray(KeyBindingWrapper[]::new) ;
 		case KeyBindingUtil.DYNAMIC_CATEGORY_UNBOUND:
 			return Arrays.stream(bindings).filter(b -> !b.isBound()).toArray(KeyBindingWrapper[]::new);
 		default:
