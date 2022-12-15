@@ -46,7 +46,8 @@ public class KeyWrapper {
 	public static KeyWrapper createMouseKeyFromCode(int keyCode) {
 		return new KeyWrapper(InputUtil.Type.MOUSE.createFromCode(keyCode));
 	}
-	
+
+	@Override
     public boolean equals(Object other) {
         if (this == other) {
             return true;
@@ -54,9 +55,12 @@ public class KeyWrapper {
         if (other == null || this.getClass() != other.getClass()) {
             return false;
         }
-        KeyWrapper otherKey = (KeyWrapper)other;
-        
-        return this.getCode() == otherKey.getCode() && this.getType() == otherKey.getType();
+        return this.key.equals(((KeyWrapper)other).key);
     }
+	
+	@Override
+	public int hashCode() {
+		return this.key.hashCode();
+	}
 
 }

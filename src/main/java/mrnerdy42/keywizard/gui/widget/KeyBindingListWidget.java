@@ -108,7 +108,6 @@ public class KeyBindingListWidget extends FreeFormListWidget<KeyBindingListWidge
 		return Arrays.stream(bindings).filter(b -> b.getBoundKey().getLocalizedLabel().toLowerCase().equals(keyName.toLowerCase())).toArray(KeyBindingWrapper[]::new);
 	}
 	
-	//TODO: Fix CONFLICTS crash
 	private KeyBindingWrapper[] getBindingsByCategory(String category) {
 		KeyBindingWrapper[] bindings = KeyBindingUtil.getKeyBindings();
 		switch (category) {
