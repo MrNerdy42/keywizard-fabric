@@ -107,7 +107,7 @@ public class KeyWizardScreen extends NerdyScreen {
 		this.addElement(this.bindingList);
 		this.addElement(this.keyboard);
 		this.addElement(this.categorySelector);
-		this.addElement(this.categorySelector.getCategoryList());
+		//this.addElement(this.categorySelector.getCategoryList());
 		this.addElement(this.screenToggleButton);
 		this.addElement(this.searchBar);
 		this.addElement(this.mouseButton);

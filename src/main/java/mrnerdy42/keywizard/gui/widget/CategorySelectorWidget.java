@@ -15,7 +15,7 @@ public class CategorySelectorWidget extends PressableWidget implements TickableE
 	public KeyWizardScreen keyWizardScreen;
 	public boolean extended = false;
 	
-	public BindingCategoryListWidget categoryList;
+	private BindingCategoryListWidget categoryList;
 	
 	public CategorySelectorWidget(KeyWizardScreen keyWizardScreen, int x, int y, int width, int height) {
 		super(x, y, width, height, Text.of(""));
@@ -42,6 +42,32 @@ public class CategorySelectorWidget extends PressableWidget implements TickableE
 	}
 	
 	@Override
+	public boolean mouseDragged(double mouseX, double mouseY, int button, double deltaX, double deltaY) {
+		return super.mouseDragged(mouseX, mouseY, button, deltaX, deltaY) || this.categoryList.mouseDragged(mouseX, mouseY, button, deltaX, deltaY);
+	}
+	
+	@Override
+	public void mouseMoved(double mouseX, double mouseY) {
+		super.mouseMoved(mouseX, mouseY);
+		this.categoryList.mouseMoved(mouseX, mouseY);
+	}
+	
+	@Override
+	public boolean mouseReleased(double mouseX, double mouseY, int button) {
+		return super.mouseReleased(mouseX, mouseY, button) || this.categoryList.mouseReleased(mouseX, mouseY, button);
+	}
+	
+	@Override
+	public boolean mouseScrolled(double mouseX, double mouseY, double amount) {
+		return super.mouseScrolled(mouseX, mouseY, amount) || this.categoryList.mouseScrolled(mouseX, mouseY, amount);
+	}
+	
+	@Override
+	public boolean isMouseOver(double mouseX, double mouseY) {
+		return super.isMouseOver(mouseX, mouseY) || this.categoryList.isMouseOver(mouseX, mouseY);
+	}
+	
+	@Override
 	public void onPress() {
 		this.playDownSound(MinecraftClient.getInstance().getSoundManager());
 		this.extended = !this.extended;
@@ -65,10 +91,6 @@ public class CategorySelectorWidget extends PressableWidget implements TickableE
 		}
     	return ((BindingCategoryListWidget.CategoryEntry) this.categoryList.getSelected()).category;
     }
-	
-	public Element getCategoryList() {
-		return (Element)this.categoryList;
-	}
     
 	private class BindingCategoryListWidget extends FreeFormListWidget<BindingCategoryListWidget.CategoryEntry> {
 
