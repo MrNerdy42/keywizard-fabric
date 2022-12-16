@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import mrnerdy42.keywizard.gui.DrawingUtil;
+import mrnerdy42.keywizard.gui.TextUtil;
 import mrnerdy42.keywizard.gui.screen.KeyWizardScreen;
 import mrnerdy42.keywizard.keybinding.KeyBindingUtil;
 import mrnerdy42.keywizard.keybinding.KeyBindingWrapper;
@@ -119,7 +120,7 @@ public class KeyboardWidget extends AbstractParentElement implements Drawable, T
 				this.key = KeyWrapper.createKeyboardKeyFromCode(keyCode);
 			}
 			
-			this.setMessage(Text.of(this.key.getLocalizedLabel()));
+			this.setMessage(TextUtil.guiTextOf(this.key.getUnlocalizedLabel()));
 		}
 
 		@Override
@@ -157,14 +158,7 @@ public class KeyboardWidget extends AbstractParentElement implements Drawable, T
 		public void onPress() {
 			this.playDownSound(MinecraftClient.getInstance().getSoundManager());
 			if (Screen.hasShiftDown()) {
-				Text t = this.getMessage();
-				String keyName;
-				if (t instanceof TranslatableText) {
-					keyName = I18n.translate(((TranslatableText) t).getKey());
-				} else {
-					keyName = t.asString();
-				}
-				keyWizardScreen.setSearchText("<" + keyName + ">");
+				keyWizardScreen.setSearchText("<" + this.key.getLocalizedLabel() + ">");
 			} else {
 				KeyBindingWrapper selectedKeyBinding = keyWizardScreen.getSelectedKeyBinding();
 				if (selectedKeyBinding != null) {
@@ -173,6 +167,8 @@ public class KeyboardWidget extends AbstractParentElement implements Drawable, T
 			}
 		}
 
+		
+		//TODO: simplify
 		private void updateTooltip() {
 			ArrayList<String> tooltipText = new ArrayList<>();
 			for (KeyBindingWrapper b : KeyBindingUtil.getKeyBindings()) {
@@ -180,7 +176,7 @@ public class KeyboardWidget extends AbstractParentElement implements Drawable, T
 					tooltipText.add(b.getUnlocalizedName());
 				}
 			}
-			this.tooltipText = tooltipText.stream().sorted().map(s -> new TranslatableText(s))
+			this.tooltipText = tooltipText.stream().sorted().map(s -> TextUtil.guiTextOf(s))
 					.collect(Collectors.toCollection(ArrayList<Text>::new));
 		}
 

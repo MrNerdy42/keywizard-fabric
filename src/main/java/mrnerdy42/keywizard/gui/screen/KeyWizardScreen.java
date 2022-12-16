@@ -4,6 +4,7 @@ import org.jetbrains.annotations.Nullable;
 import org.lwjgl.glfw.GLFW;
 
 import mrnerdy42.keywizard.KeyWizard;
+import mrnerdy42.keywizard.gui.TextUtil;
 import mrnerdy42.keywizard.gui.widget.CategorySelectorWidget;
 import mrnerdy42.keywizard.gui.widget.KeyBindingListWidget;
 import mrnerdy42.keywizard.gui.widget.KeyboardWidget;
@@ -17,8 +18,8 @@ import net.minecraft.client.gui.screen.option.ControlsOptionsScreen;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.gui.widget.TextFieldWidget;
 import net.minecraft.client.gui.widget.TexturedButtonWidget;
+import net.minecraft.client.resource.language.I18n;
 import net.minecraft.text.Text;
-import net.minecraft.text.TranslatableText;
 
 public class KeyWizardScreen extends NerdyScreen {
 	
@@ -51,14 +52,14 @@ public class KeyWizardScreen extends NerdyScreen {
 		
 		int maxBindingNameWidth = 0;
 		for (KeyBindingWrapper k : KeyBindingUtil.getKeyBindings()) {
-			int w = this.textRenderer.getWidth(new TranslatableText(k.getUnlocalizedName()));
+			int w = this.textRenderer.getWidth(k.getLocalizedName());
 			if (w > maxBindingNameWidth)
 				maxBindingNameWidth = w;
 		}
 		
 		int maxCategoryWidth = 0;
 		for (String s : KeyBindingUtil.getCategories()) {
-			int w = this.textRenderer.getWidth(new TranslatableText(s));
+			int w = this.textRenderer.getWidth(I18n.translate(s));
 			if (w > maxCategoryWidth)
 				maxCategoryWidth = w;
 		}
@@ -90,15 +91,15 @@ public class KeyWizardScreen extends NerdyScreen {
 			this.mouseButton = KeyboardWidgetBuilder.singleKeyKeyboard(this, mouseButtonX, mouseButtonY, mouseButtonWidth, mouseButtonHeight, mouseCodes[mouseCodeIndex], true);
 			this.children.add(this.mouseButton);
 		});
-		this.resetBinding = new ButtonWidget(bindingListWidth + 15, this.height - 23, 50, 20, new TranslatableText("controls.reset"), (btn) -> {
+		this.resetBinding = new ButtonWidget(bindingListWidth + 15, this.height - 23, 50, 20, TextUtil.guiTextOf("controls.reset"), (btn) -> {
 			KeyBindingWrapper selectedBinding = this.getSelectedKeyBinding();
 			selectedBinding.setBoundKey(selectedBinding.getDefaultKey());
 		});
-		this.clearBinding = new ButtonWidget(bindingListWidth + 66, this.height - 23, 50, 20, new TranslatableText("gui.clear"), (btn) -> {
+		this.clearBinding = new ButtonWidget(bindingListWidth + 66, this.height - 23, 50, 20, TextUtil.guiTextOf("gui.clear"), (btn) -> {
 			KeyBindingWrapper selectedBinding = this.getSelectedKeyBinding();
 			selectedBinding.setBoundKey(KeyWrapper.createKeyboardKeyFromCode(GLFW.GLFW_KEY_UNKNOWN));
 		});
-		this.resetAll = new ButtonWidget(bindingListWidth + 117, this.height - 23, 70, 20, new TranslatableText("controls.resetAll"), (btn) -> {
+		this.resetAll = new ButtonWidget(bindingListWidth + 117, this.height - 23, 70, 20, TextUtil.guiTextOf("controls.resetAll"), (btn) -> {
 			for(KeyBindingWrapper b : KeyBindingUtil.getKeyBindings()) {
 				b.setBoundKey(b.getDefaultKey());
 			}

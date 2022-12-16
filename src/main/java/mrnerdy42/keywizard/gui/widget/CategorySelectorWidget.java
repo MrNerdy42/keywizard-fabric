@@ -4,6 +4,7 @@ import mrnerdy42.keywizard.gui.screen.KeyWizardScreen;
 import mrnerdy42.keywizard.keybinding.KeyBindingUtil;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.Element;
+import mrnerdy42.keywizard.gui.TextUtil;
 import mrnerdy42.keywizard.gui.TickableElement;
 import net.minecraft.client.gui.widget.PressableWidget;
 import net.minecraft.client.util.math.MatrixStack;
@@ -81,7 +82,7 @@ public class CategorySelectorWidget extends PressableWidget implements TickableE
 	
 	@Override
 	public void tick() {
-		this.setMessage(new TranslatableText(this.getSelctedCategory()));
+		this.setMessage(TextUtil.guiTextOf(getSelctedCategory()));
     	this.categoryList.visible = this.extended;
 	}
 	
@@ -113,7 +114,7 @@ public class CategorySelectorWidget extends PressableWidget implements TickableE
 
 			@Override
 			public void render(MatrixStack matrices, int index, int y, int x, int entryWidth, int entryHeight, int mouseX, int mouseY, boolean hovered, float tickDelta) {
-				client.textRenderer.drawWithShadow(matrices, new TranslatableText(this.category), x + 3 , y + 2, 0xFFFFFFFF);
+				client.textRenderer.drawWithShadow(matrices, TextUtil.guiTextOf(category), x + 3 , y + 2, 0xFFFFFFFF);
 			}
 
 		}
