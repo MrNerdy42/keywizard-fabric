@@ -117,7 +117,7 @@ public class KeyboardWidget extends AbstractParentElement implements Drawable, T
 				this.key = KeyWrapper.createKeyboardKeyFromCode(keyCode);
 			}
 			
-			this.setMessage(TextUtil.translatableTextOf(this.key.getUnlocalizedLabel()));
+			this.setMessage(Text.of(this.key.getLocalizedLabel()));
 		}
 
 		@Override
