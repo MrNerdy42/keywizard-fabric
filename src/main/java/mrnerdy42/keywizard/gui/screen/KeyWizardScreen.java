@@ -39,7 +39,7 @@ public class KeyWizardScreen extends NerdyScreen {
 	private ButtonWidget clearBinding;
 
 	public KeyWizardScreen(Screen parent) {
-		super(KeyWizard.MODID, parent);
+		super(Text.of(KeyWizard.MODID), parent);
 	}
 	
 	@SuppressWarnings("resource")
@@ -91,15 +91,15 @@ public class KeyWizardScreen extends NerdyScreen {
 			this.mouseButton = KeyboardWidgetBuilder.singleKeyKeyboard(this, mouseButtonX, mouseButtonY, mouseButtonWidth, mouseButtonHeight, mouseCodes[mouseCodeIndex], true);
 			this.children.add(this.mouseButton);
 		});
-		this.resetBinding = new ButtonWidget(bindingListWidth + 15, this.height - 23, 50, 20, TextUtil.guiTextOf("controls.reset"), (btn) -> {
+		this.resetBinding = new ButtonWidget(bindingListWidth + 15, this.height - 23, 50, 20, TextUtil.translatableTextOf("controls.reset"), (btn) -> {
 			KeyBindingWrapper selectedBinding = this.getSelectedKeyBinding();
 			selectedBinding.setBoundKey(selectedBinding.getDefaultKey());
 		});
-		this.clearBinding = new ButtonWidget(bindingListWidth + 66, this.height - 23, 50, 20, TextUtil.guiTextOf("gui.clear"), (btn) -> {
+		this.clearBinding = new ButtonWidget(bindingListWidth + 66, this.height - 23, 50, 20, TextUtil.translatableTextOf("gui.clear"), (btn) -> {
 			KeyBindingWrapper selectedBinding = this.getSelectedKeyBinding();
 			selectedBinding.setBoundKey(KeyWrapper.createKeyboardKeyFromCode(GLFW.GLFW_KEY_UNKNOWN));
 		});
-		this.resetAll = new ButtonWidget(bindingListWidth + 117, this.height - 23, 70, 20, TextUtil.guiTextOf("controls.resetAll"), (btn) -> {
+		this.resetAll = new ButtonWidget(bindingListWidth + 117, this.height - 23, 70, 20, TextUtil.translatableTextOf("controls.resetAll"), (btn) -> {
 			for(KeyBindingWrapper b : KeyBindingUtil.getKeyBindings()) {
 				b.setBoundKey(b.getDefaultKey());
 			}

@@ -11,8 +11,8 @@ public abstract class NerdyScreen extends Screen {
 	
 	protected final Screen parent; 
 
-	protected NerdyScreen(String title, Screen parent) {
-		super(Text.of(title));
+	protected NerdyScreen(Text title, Screen parent) {
+		super(title);
 		this.parent = parent;
 	}
 	

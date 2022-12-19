@@ -4,7 +4,7 @@ import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
 
 public class TextUtil {
-	public static Text guiTextOf(String s) {
+	public static Text translatableTextOf(String s) {
 		return new TranslatableText(s);
 	}
 }

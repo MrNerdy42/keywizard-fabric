@@ -120,7 +120,7 @@ public class KeyboardWidget extends AbstractParentElement implements Drawable, T
 				this.key = KeyWrapper.createKeyboardKeyFromCode(keyCode);
 			}
 			
-			this.setMessage(TextUtil.guiTextOf(this.key.getUnlocalizedLabel()));
+			this.setMessage(TextUtil.translatableTextOf(this.key.getUnlocalizedLabel()));
 		}
 
 		@Override
@@ -168,16 +168,14 @@ public class KeyboardWidget extends AbstractParentElement implements Drawable, T
 		}
 
 		
-		//TODO: simplify
 		private void updateTooltip() {
-			ArrayList<String> tooltipText = new ArrayList<>();
+			ArrayList<Text> tooltipText = new ArrayList<>();
 			for (KeyBindingWrapper b : KeyBindingUtil.getKeyBindings()) {
 				if (b.getBoundKey().equals(this.key)) {
-					tooltipText.add(b.getUnlocalizedName());
+					tooltipText.add(TextUtil.translatableTextOf(b.getUnlocalizedName()));
 				}
 			}
-			this.tooltipText = tooltipText.stream().sorted().map(s -> TextUtil.guiTextOf(s))
-					.collect(Collectors.toCollection(ArrayList<Text>::new));
+			this.tooltipText = tooltipText;
 		}
 
 		@Override
