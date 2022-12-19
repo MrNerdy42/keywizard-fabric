@@ -78,18 +78,18 @@ public class KeyWizardScreen extends NerdyScreen {
 			if (this.mouseCodeIndex >= this.mouseCodes.length ) {
 				this.mouseCodeIndex = 0;
 			}
-			this.children.remove(this.mouseButton);
+			this.removeElement(this.mouseButton);
 			this.mouseButton = KeyboardWidgetBuilder.singleKeyKeyboard(this, mouseButtonX, mouseButtonY, mouseButtonWidth, mouseButtonHeight, mouseCodes[mouseCodeIndex], true);
-			this.children.add(this.mouseButton);
+			this.addElement(this.mouseButton);
 		});
 		this.mouseMinus = new ButtonWidget( (int)this.mouseButton.getAnchorX() - 26, (int)this.mouseButton.getAnchorY(), 25, 20, Text.of("-"), (btn) -> {
 			this.mouseCodeIndex --;
 			if (this.mouseCodeIndex < 0) {
 				this.mouseCodeIndex = this.mouseCodes.length - 1;
 			}
-			this.children.remove(this.mouseButton);
+			this.removeElement(this.mouseButton);
 			this.mouseButton = KeyboardWidgetBuilder.singleKeyKeyboard(this, mouseButtonX, mouseButtonY, mouseButtonWidth, mouseButtonHeight, mouseCodes[mouseCodeIndex], true);
-			this.children.add(this.mouseButton);
+			this.addElement(this.mouseButton);
 		});
 		this.resetBinding = new ButtonWidget(bindingListWidth + 15, this.height - 23, 50, 20, TextUtil.translatableTextOf("controls.reset"), (btn) -> {
 			KeyBindingWrapper selectedBinding = this.getSelectedKeyBinding();

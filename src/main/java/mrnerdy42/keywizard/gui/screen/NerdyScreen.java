@@ -20,6 +20,10 @@ public abstract class NerdyScreen extends Screen {
     protected <T extends Element> void addElement(T child) {
         this.children.add(child);
     }
+    
+    protected <T extends Element> void removeElement(T child) {
+        this.children.remove(child);
+    }
 
 	@Override
 	public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
