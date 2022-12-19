@@ -3,7 +3,6 @@ package mrnerdy42.keywizard.gui.widget;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import mrnerdy42.keywizard.gui.DrawingUtil;
 import mrnerdy42.keywizard.gui.TextUtil;
@@ -18,10 +17,8 @@ import net.minecraft.client.gui.Drawable;
 import net.minecraft.client.gui.screen.Screen;
 import mrnerdy42.keywizard.gui.TickableElement;
 import net.minecraft.client.gui.widget.PressableWidget;
-import net.minecraft.client.resource.language.I18n;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.Text;
-import net.minecraft.text.TranslatableText;
 
 public class KeyboardWidget extends AbstractParentElement implements Drawable, TickableElement {
 	public KeyWizardScreen keyWizardScreen;

@@ -11,11 +11,9 @@ import mrnerdy42.keywizard.gui.screen.KeyWizardScreen;
 import mrnerdy42.keywizard.keybinding.KeyBindingUtil;
 import mrnerdy42.keywizard.keybinding.KeyBindingWrapper;
 import mrnerdy42.keywizard.keybinding.KeyWrapper;
-import mrnerdy42.keywizard.mixin.KeyBindingAccessor;
 import net.minecraft.client.MinecraftClient;
 import mrnerdy42.keywizard.gui.TickableElement;
 import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.text.TranslatableText;
 
 public class KeyBindingListWidget extends FreeFormListWidget<KeyBindingListWidget.BindingEntry> implements TickableElement {
 	

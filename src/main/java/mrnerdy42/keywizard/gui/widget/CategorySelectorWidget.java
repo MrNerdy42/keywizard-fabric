@@ -3,13 +3,11 @@ package mrnerdy42.keywizard.gui.widget;
 import mrnerdy42.keywizard.gui.screen.KeyWizardScreen;
 import mrnerdy42.keywizard.keybinding.KeyBindingUtil;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.Element;
 import mrnerdy42.keywizard.gui.TextUtil;
 import mrnerdy42.keywizard.gui.TickableElement;
 import net.minecraft.client.gui.widget.PressableWidget;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.Text;
-import net.minecraft.text.TranslatableText;
 
 public class CategorySelectorWidget extends PressableWidget implements TickableElement {
 	
