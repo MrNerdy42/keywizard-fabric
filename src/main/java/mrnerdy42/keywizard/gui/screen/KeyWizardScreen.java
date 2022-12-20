@@ -97,7 +97,7 @@ public class KeyWizardScreen extends NerdyScreen {
 		});
 		this.clearBinding = new ButtonWidget(bindingListWidth + 66, this.height - 23, 50, 20, TextUtil.translatableTextOf("gui.clear"), (btn) -> {
 			KeyBindingWrapper selectedBinding = this.getSelectedKeyBinding();
-			selectedBinding.setBoundKey(KeyWrapper.createKeyboardKeyFromCode(GLFW.GLFW_KEY_UNKNOWN));
+			selectedBinding.setBoundKey(KeyWrapper.createKeyFromCode(GLFW.GLFW_KEY_UNKNOWN, false));
 		});
 		this.resetAll = new ButtonWidget(bindingListWidth + 117, this.height - 23, 70, 20, TextUtil.translatableTextOf("controls.resetAll"), (btn) -> {
 			for(KeyBindingWrapper b : KeyBindingUtil.getKeyBindings()) {

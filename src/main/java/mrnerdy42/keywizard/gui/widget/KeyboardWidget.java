@@ -110,13 +110,7 @@ public class KeyboardWidget extends AbstractParentElement implements Drawable, T
 			this.y = y;
 			this.width = width;
 			this.height = height;
-			if (isMouseKey) {
-				this.key = KeyWrapper.createMouseKeyFromCode(keyCode);
-			}
-			else {
-				this.key = KeyWrapper.createKeyboardKeyFromCode(keyCode);
-			}
-			
+			this.key = KeyWrapper.createKeyFromCode(keyCode, isMouseKey);
 			this.setMessage(Text.of(this.key.getLocalizedLabel()));
 		}
 

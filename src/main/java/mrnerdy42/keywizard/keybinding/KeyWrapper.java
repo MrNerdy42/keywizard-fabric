@@ -39,12 +39,12 @@ public class KeyWrapper {
 		return this.key.getCode();
 	}
 	
-	public static KeyWrapper createKeyboardKeyFromCode(int keyCode) {
-		return new KeyWrapper(InputUtil.Type.KEYSYM.createFromCode(keyCode));
-	}
-	
-	public static KeyWrapper createMouseKeyFromCode(int keyCode) {
-		return new KeyWrapper(InputUtil.Type.MOUSE.createFromCode(keyCode));
+	public static KeyWrapper createKeyFromCode(int keyCode, boolean isMouseKey) {
+		if (isMouseKey) {
+			return new KeyWrapper(InputUtil.Type.MOUSE.createFromCode(keyCode));
+		} else {
+			return new KeyWrapper(InputUtil.Type.KEYSYM.createFromCode(keyCode));
+		}
 	}
 
 	@Override
