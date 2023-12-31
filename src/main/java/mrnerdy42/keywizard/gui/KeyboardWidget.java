@@ -185,6 +185,12 @@ public class KeyboardWidget extends AbstractParentElement implements Drawable, T
 			updateTooltip();
 		}
 
+		@Override
+		public void appendNarrations(NarrationMessageBuilder var1) {
+			// TODO Auto-generated method stub
+			
+		}
+
 	}
 
 	@Override

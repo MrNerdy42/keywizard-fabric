@@ -9,7 +9,7 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.widget.EntryListWidget;
 import net.minecraft.client.util.math.MatrixStack;
 
-public abstract class FreeFormListWidget<E extends EntryListWidget.Entry<E>> extends EntryListWidget<E> {
+public abstract class FreeFormListWidget<E extends FreeFormListWidget<E>.Entry> extends EntryListWidget<FreeFormListWidget<E>.Entry> {
 	public boolean visible = true;
 
 	public FreeFormListWidget(MinecraftClient client, int top, int left, int width, int height, int itemHeight) {
